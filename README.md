@@ -80,7 +80,11 @@ Flutter 는 `.env` 파일 대신 컴파일 타임 상수(`--dart-define`)를 씁
 
 ## 디자인
 
-- 디자인 토큰은 `lib/core/theme/app_theme.dart` 의 `AppColors` 에 정의하고 `AppTheme.light` 에서 `ThemeData` 로 매핑합니다.
-- 현재는 자리표시자(잉크·헤어라인·Rausch)만 있으며, Figma Foundations 확정 후 전체 팔레트·라운드·간격을 채웁니다.
-- 위젯에서 `Color(0xFF...)` 를 직접 쓰지 않고 `Theme.of(context).colorScheme` 또는 `AppColors` 를 사용합니다.
-- Material 패턴(AppBar, BottomNavigationBar)을 따릅니다.
+- 디자인 토큰은 Figma 01 Foundations 의 Tokens 컬렉션(Light)과 1:1 로 `lib/core/theme/` 에 있습니다.
+  - `app_colors.dart` — `AppPalette`(원시 색), `AppSemantic`(의미 토큰), `AppSemanticColors`(ThemeExtension: grade·signal·chart·heat 등)
+  - `app_dimens.dart` — `AppSpacing`(4px 단위), `AppRadius`(lg 8 · xl 14 · 2xl 20 · full), `AppShadows.cardFloat`
+  - `app_text_styles.dart` — Figma 텍스트 스타일 20개 + Material `TextTheme` 매핑
+  - `app_theme.dart` — `ColorScheme` 명시 매핑과 AppBar·Card·Chip·Button·Input·BottomNav·BottomSheet·Dialog 테마
+- 서체는 `assets/fonts/` 에 번들(Noto Sans KR 400/500/700 OTF, Black Han Sans, Gaegu 400/700, 모두 OFL).
+- 위젯에서 `Color(0xFF...)` 를 직접 쓰지 않고 `Theme.of(context).colorScheme`, `extension<AppSemanticColors>()`, `AppTextStyles` 를 사용합니다.
+- 값 변경은 Figma → `디자인/디자인-원칙.md` → 이 파일들 순서로 반영합니다.

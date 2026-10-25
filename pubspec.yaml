@@ -60,6 +60,26 @@ flutter:
   assets:
     - assets/images/
 
+  # 디자인 토큰 서체 — 모두 SIL OFL (assets/fonts/OFL.txt)
+  fonts:
+    - family: Noto Sans KR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Regular.otf
+          weight: 400
+        - asset: assets/fonts/NotoSansKR-Medium.otf
+          weight: 500
+        - asset: assets/fonts/NotoSansKR-Bold.otf
+          weight: 700
+    - family: Black Han Sans
+      fonts:
+        - asset: assets/fonts/BlackHanSans-Regular.ttf
+    - family: Gaegu
+      fonts:
+        - asset: assets/fonts/Gaegu-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Gaegu-Bold.ttf
+          weight: 700
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
