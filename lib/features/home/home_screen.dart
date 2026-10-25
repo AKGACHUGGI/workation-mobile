@@ -9,7 +9,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('워케이션(가제)')),
       body: const Center(
-        child: Text('모바일 초기 구성이 완료되었습니다.\nM-01 화면부터 구현을 시작하세요.', textAlign: TextAlign.center),
+        child: Text(
+          '모바일 초기 구성이 완료되었습니다.\nM-01 화면부터 구현을 시작하세요.',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
