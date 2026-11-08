@@ -14,6 +14,9 @@ analyzer:
     - build/**
     - android/**
     - ios/**
+    # build_runner 생성 파일 (freezed · json_serializable)
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the
