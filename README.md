@@ -9,6 +9,7 @@
 - 팀 문서: [workation-docs](https://github.com/TEAM-SKPJC/workation-docs) (명세서 · 디자인 원칙 · [협업 규칙](https://github.com/TEAM-SKPJC/workation-docs/blob/main/협업/협업-규칙.md))
 - 디자인: [Figma 기업연계캡스톤](https://www.figma.com/design/QulBXJPP2qYhRhh8lGzT66)
 - 개발 가이드: [docs/개발-가이드.md](docs/개발-가이드.md)
+- 구현 플랜: [docs/plans/2026-11-08-모바일-구현-plan.md](docs/plans/2026-11-08-모바일-구현-plan.md) (범위 · 기술 구성 · 마일스톤 · 미결정 사항)
 
 ## 스택
 
@@ -65,7 +66,7 @@ test/                        위젯 테스트
 assets/
   images/                    pubspec 에 등록됨
   fonts/                     폰트 추가 시 pubspec fonts 섹션에 등록
-docs/                        프로젝트 문서
+docs/                        프로젝트 문서 (plans/ 구현 플랜)
 ```
 
 ## 환경 변수
