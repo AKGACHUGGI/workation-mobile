@@ -177,31 +177,34 @@ abstract final class AppTheme {
         ),
       ),
 
-      // 하단 탭: 선택 잉크, 비선택 tertiary, brand 색 사용 안 함
+      // 하단 탭 (Figma Mobile/BottomNav): 선택 = text/brand, 비선택 = text/tertiary, 라벨 12 Medium
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppSemantic.bgSurface,
-        selectedItemColor: AppSemantic.textPrimary,
+        selectedItemColor: AppSemantic.textBrand,
         unselectedItemColor: AppSemantic.textTertiary,
         selectedLabelStyle: AppTextStyles.captionXsMedium,
-        unselectedLabelStyle: AppTextStyles.captionXs,
+        unselectedLabelStyle: AppTextStyles.captionXsMedium,
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppSemantic.bgSurface,
         indicatorColor: Colors.transparent,
+        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
         elevation: 0,
+        height: 60,
         labelTextStyle: WidgetStateProperty.resolveWith(
-          (states) => states.contains(WidgetState.selected)
-              ? AppTextStyles.captionXsMedium
-              : AppTextStyles.captionXs.copyWith(
-                  color: AppSemantic.textTertiary,
-                ),
+          (states) => AppTextStyles.captionXsMedium.copyWith(
+            color: states.contains(WidgetState.selected)
+                ? AppSemantic.textBrand
+                : AppSemantic.textTertiary,
+          ),
         ),
         iconTheme: WidgetStateProperty.resolveWith(
           (states) => IconThemeData(
+            size: 24,
             color: states.contains(WidgetState.selected)
-                ? AppSemantic.textPrimary
+                ? AppSemantic.textBrand
                 : AppSemantic.textTertiary,
           ),
         ),

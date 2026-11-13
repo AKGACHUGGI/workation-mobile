@@ -114,6 +114,11 @@ abstract final class AppSemantic {
     AppPalette.rausch700,
   ];
 
+  // explore/fact/* — 지도 탐색 사실 점(유형 · 바닷가 · 생활권/관광지). 웹 --color-explore-fact-* 와 같음
+  static const factType = AppPalette.arches500;
+  static const factCoast = AppPalette.babu600;
+  static const factLife = AppPalette.green600;
+
   // scrim — 50% 로 사용
   static const scrim = AppPalette.black;
 }
@@ -150,6 +155,9 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
     required this.chartWeekend,
     required this.chartGrid,
     required this.heat,
+    required this.factType,
+    required this.factCoast,
+    required this.factLife,
     required this.legalLink,
   });
 
@@ -175,6 +183,9 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
     chartWeekend: AppSemantic.chartWeekend,
     chartGrid: AppSemantic.chartGrid,
     heat: AppSemantic.heat,
+    factType: AppSemantic.factType,
+    factCoast: AppSemantic.factCoast,
+    factLife: AppSemantic.factLife,
     legalLink: AppPalette.legalLink,
   );
 
@@ -199,6 +210,9 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
   final Color chartWeekend;
   final Color chartGrid;
   final List<Color> heat;
+  final Color factType;
+  final Color factCoast;
+  final Color factLife;
   final Color legalLink;
 
   /// 'S' | 'A' | 'B' | 'C' 문자열로 등급 색을 얻습니다. 그 외 값은 C 로 취급합니다.
