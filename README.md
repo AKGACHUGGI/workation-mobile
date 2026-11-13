@@ -21,6 +21,10 @@
 | 디자인 | Material 3 | `useMaterial3: true` |
 | 린트 | flutter_lints | 6.x |
 | 아이콘 | Material Icons, cupertino_icons | 1.0.8 |
+| 상태관리 | flutter_riverpod | 3.x |
+| 라우팅 | go_router (하단 4탭 `StatefulShellRoute`) | 18.x |
+| HTTP | dio (`ApiClient` 로 감쌈) | 5.x |
+| 모델 코드 생성 | freezed · json_serializable · build_runner | 4.x · 6.x · 2.x |
 
 | 식별자 | 값 |
 | --- | --- |
@@ -28,13 +32,14 @@
 | Android applicationId | `com.skpjc.workation_mobile` |
 | iOS Bundle ID | `com.skpjc.workationMobile` |
 
-인증·DB는 백엔드가 담당합니다. 앱은 `API_BASE_URL` 로 백엔드 API만 호출하며 외부 SaaS SDK를 직접 들고 있지 않습니다.
+인증·DB는 백엔드가 담당합니다. 앱은 `API_BASE_URL` 로 백엔드 API만 호출하며 외부 SaaS SDK를 직접 들고 있지 않습니다. 백엔드가 열리기 전까지는 mock 데이터로 동작합니다(`USE_MOCK`, 기본 true).
 
 ## 빠른 시작
 
 ```bash
 flutter pub get
-flutter run --dart-define=API_BASE_URL=http://localhost:8000
+flutter run                                                                  # mock 데이터
+flutter run --dart-define=USE_MOCK=false --dart-define=API_BASE_URL=http://localhost:8000   # 로컬 백엔드
 ```
 
 Android 에뮬레이터에서 호스트 PC 의 로컬 서버에 붙을 때는 `http://10.0.2.2:8000` 을 씁니다.
@@ -55,12 +60,18 @@ Android 에뮬레이터에서 호스트 PC 의 로컬 서버에 붙을 때는 `h
 ```
 lib/
   main.dart                  진입점 (runApp)
-  app/app.dart               MaterialApp, 테마·초기 화면 연결
+  app/
+    app.dart                 MaterialApp.router, 테마 연결
+    router.dart              go_router 라우트 (AppRoutes, 하단 4탭 branch)
+    app_shell.dart           하단 내비 셸 (홈 · 지도 · 즐겨찾기 · MY)
   core/
     theme/app_theme.dart     AppColors, AppTheme (디자인 토큰 → ThemeData)
-    network/api_config.dart  ApiConfig (API_BASE_URL, --dart-define 주입)
-  features/<화면>/           화면 단위 (명세서 M-01~M-05 와 1:1)
-    home/home_screen.dart    M-01
+    network/
+      api_config.dart        ApiConfig (API_BASE_URL · USE_MOCK, --dart-define 주입)
+      api_client.dart        ApiClient · dioProvider · apiClientProvider
+      api_exception.dart     ApiException (네트워크 · 401 · 404 · 서버)
+  features/<기능>/           화면 단위 (M-01~M-07, 구현 플랜 화면 표 기준)
+    home/ map/ favorites/ my/  하단 탭 화면 (M-01 · M-02 · M-05 · M-07)
   shared/widgets/            두 화면 이상에서 쓰는 공용 위젯
 test/                        위젯 테스트
 assets/
@@ -75,7 +86,8 @@ Flutter 는 `.env` 파일 대신 컴파일 타임 상수(`--dart-define`)를 씁
 
 | 키 | 설명 | 기본값 |
 | --- | --- | --- |
-| `API_BASE_URL` | workation-backend 주소 | `http://localhost:8000` |
+| `API_BASE_URL` | workation-backend 호스트. 경로는 호출부에서 `/api/...` | `http://localhost:8000` |
+| `USE_MOCK` | true 면 실제 API 대신 mock 데이터 | `true` |
 
 코드에서는 `ApiConfig.baseUrl` 로 읽습니다. 새 키를 추가하면 `lib/core/network/api_config.dart` 와 이 표를 함께 갱신합니다.
 
