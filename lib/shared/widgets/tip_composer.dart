@@ -46,7 +46,7 @@ class TipComposer extends StatelessWidget {
                 ? Row(
                     spacing: AppSpacing.s3,
                     children: [
-                      Avatar(initial, size: AvatarSize.sm),
+                      Avatar(initial: initial, size: AvatarSize.sm),
                       Expanded(
                         child: Text(
                           hint,

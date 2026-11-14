@@ -153,7 +153,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('카카오로 시작하기'), findsOneWidget);
 
-    await tester.tap(find.text('둘러보기'));
+    await tester.tap(find.text('로그인 없이 둘러보기'));
     await tester.pumpAndSettle();
     expect(find.text('한 줄 팁 남기기'), findsNothing);
     expect(find.byType(TipCard), findsNWidgets(2));
@@ -204,13 +204,17 @@ void main() {
     expect(find.text('5명 참여 · 저녁 활기 지수 검증에 반영돼요'), findsOneWidget);
   });
 
-  testWidgets('저장은 로그인 뒤에 안내만 보인다', (tester) async {
+  testWidgets('저장은 로그인 뒤에 이어서 되고 다시 누르면 풀린다', (tester) async {
     await open(tester);
 
     await tester.tap(find.widgetWithText(FilledButton, '동네 즐겨찾기'));
     await tester.pumpAndSettle();
     await signIn(tester);
 
-    expect(find.text('즐겨찾기 기능은 준비 중이에요'), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, '저장됨'), findsOneWidget);
+
+    await tester.tap(find.widgetWithText(FilledButton, '저장됨'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(FilledButton, '동네 즐겨찾기'), findsOneWidget);
   });
 }

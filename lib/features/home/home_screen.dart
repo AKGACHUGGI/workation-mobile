@@ -8,18 +8,26 @@ import '../../core/metric/format.dart';
 import '../../core/metric/metric.dart';
 import '../../core/metric/month.dart';
 import '../../core/theme/app_theme.dart';
+import '../../shared/widgets/avatar.dart';
 import '../../shared/widgets/listing_card_mobile.dart';
 import '../../shared/widgets/search_pill_mobile.dart';
+import '../auth/auth_providers.dart';
+import '../auth/login_gate.dart';
+import '../favorites/favorite_actions.dart';
+import '../favorites/favorites_providers.dart';
 import '../search/search_providers.dart';
+import '../../data/models/me.dart';
 import 'home_providers.dart';
 import 'widgets/category_strip.dart';
 import 'widgets/parsed_conditions.dart';
 import 'widgets/select_label.dart';
+import 'widgets/weights_sheet.dart';
 
 /// M-01 홈. 검색 필 · 카테고리 스트립 · "AI가 이해한 조건" 줄 · 인기 지역 12곳 카드.
 ///
 /// 검색 필을 누르면 자연어 입력(M-01b), 카드를 누르면 지역 상세(M-03)로 갑니다.
-/// 아직 없는 것: 헤더의 가중치 · 로그인 버튼과 즐겨찾기 저장(M4).
+/// 헤더에는 가중치 시트 버튼과 로그인(로그인 후에는 아바타 → MY) 버튼이 있고,
+/// 카드의 북마크는 저장합니다(비로그인이면 M-06 로그인 후 이어서 저장).
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -171,6 +179,13 @@ class HomeScreen extends ConsumerWidget {
                             ' · 조회 ${formatCount(r.viewCount)} · $month',
                         photos: [r.photoUrl],
                         badge: card.badge,
+                        saved: ref.watch(isRegionSavedProvider(r.id)),
+                        onToggleSave: () => toggleFavoriteWithLogin(
+                          context,
+                          ref,
+                          FavoriteKind.regions,
+                          r.id,
+                        ),
                         onTap: () => context.push(AppRoutes.region(r.id)),
                         grades: [
                           for (final key in const [
@@ -193,18 +208,39 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+class _HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const _HomeAppBar();
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
+    final user = ref.watch(sessionProvider);
 
     return AppBar(
       titleSpacing: AppSpacing.s4,
+      actionsPadding: const EdgeInsets.only(right: AppSpacing.s3),
+      actions: [
+        IconButton(
+          tooltip: '가중치',
+          icon: const Icon(LucideIcons.slidersHorizontal, size: 20),
+          onPressed: () => showWeightsSheet(context),
+        ),
+        if (user == null)
+          IconButton(
+            tooltip: '로그인',
+            icon: const Icon(LucideIcons.logIn, size: 22),
+            onPressed: () => ensureLoggedIn(context, ref),
+          )
+        else
+          IconButton(
+            tooltip: '내 계정',
+            icon: Avatar(initial: user.initial),
+            onPressed: () => context.go(AppRoutes.my),
+          ),
+      ],
       title: Row(
         spacing: AppSpacing.s2,
         children: [
