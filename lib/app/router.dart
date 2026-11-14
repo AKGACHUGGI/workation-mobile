@@ -15,7 +15,14 @@ import 'app_shell.dart';
 abstract final class AppRoutes {
   // 하단 탭
   static const home = '/'; // M-01
-  static const map = '/map'; // M-02
+  static const map = '/map'; // M-02 ⓪ 시군구
+
+  /// M-02 지도. [sgg] 만 있으면 ① 행정동 핀, [dong] 까지 있으면 ② 동 선택.
+  static String mapAt({String? sgg, String? dong}) {
+    if (sgg == null) return map;
+    return dong == null ? '$map?sgg=$sgg' : '$map?sgg=$sgg&dong=$dong';
+  }
+
   static const favorites = '/favorites'; // M-05
   static const my = '/my'; // M-07
 
@@ -51,7 +58,10 @@ GoRouter createRouter({String initialLocation = AppRoutes.home}) => GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.map,
-              builder: (context, state) => const MapScreen(),
+              builder: (context, state) => MapScreen(
+                sgg: state.uri.queryParameters['sgg'],
+                dong: state.uri.queryParameters['dong'],
+              ),
             ),
           ],
         ),
