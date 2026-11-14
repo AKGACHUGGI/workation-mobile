@@ -1,0 +1,121 @@
+{
+  "id": "5182025000",
+  "name": "간성읍",
+  "sigungu": {
+    "id": "51820",
+    "name": "고성군"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "고성군청"
+  ],
+  "accessNote": "고성군 · 고성군청 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.51,
+    "localLife": 65,
+    "peerShare": 60,
+    "eveningVibe": 0.28,
+    "eveningSurplus": 1.01
+  },
+  "scores": {
+    "quiet": 28,
+    "vibe": 46,
+    "peer": 60
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      29,
+      28,
+      29,
+      33,
+      39,
+      46,
+      55,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      82,
+      73,
+      64,
+      55,
+      46,
+      39,
+      33
+    ],
+    "weekend": [
+      31,
+      27,
+      26,
+      27,
+      31,
+      37,
+      45,
+      53,
+      63,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      82,
+      73,
+      63,
+      53,
+      45,
+      37
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 28
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 26
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 30,
+    "weekendTourist": 30,
+    "weekdayWork": 19,
+    "dawnResidential": 21
+  },
+  "seasonType": "second_half_rise"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5011061500",
+  "name": "봉개동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 봉개동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 봉개동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.81,
+    "localLife": 55,
+    "peerShare": 41,
+    "eveningVibe": 0.2,
+    "eveningSurplus": 0.86
+  },
+  "scores": {
+    "quiet": 78,
+    "vibe": 29,
+    "peer": 41
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      45,
+      44,
+      45,
+      48,
+      52,
+      58,
+      65,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      65,
+      58,
+      52,
+      48
+    ],
+    "weekend": [
+      46,
+      43,
+      42,
+      43,
+      46,
+      50,
+      57,
+      63,
+      71,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      71,
+      63,
+      57,
+      50
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 44
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 42
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 26,
+    "weekendTourist": 38,
+    "weekdayWork": 15,
+    "dawnResidential": 21
+  },
+  "seasonType": "flat"
+}

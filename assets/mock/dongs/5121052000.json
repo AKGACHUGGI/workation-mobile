@@ -1,0 +1,121 @@
+{
+  "id": "5121052000",
+  "name": "동명동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 동명동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 동명동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.73,
+    "localLife": 38,
+    "peerShare": 55,
+    "eveningVibe": 0.37,
+    "eveningSurplus": 1.18
+  },
+  "scores": {
+    "quiet": 12,
+    "vibe": 64,
+    "peer": 55
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      80,
+      70,
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88
+    ],
+    "weekend": [
+      95,
+      88,
+      80,
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 22,
+      "lowHour": 10,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 34,
+    "weekendTourist": 36,
+    "weekdayWork": 16,
+    "dawnResidential": 14
+  },
+  "seasonType": "summer_beach"
+}

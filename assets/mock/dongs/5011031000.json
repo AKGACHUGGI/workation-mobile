@@ -1,0 +1,121 @@
+{
+  "id": "5011031000",
+  "name": "한경면",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 한경면 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 한경면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.57,
+    "localLife": 38,
+    "peerShare": 30,
+    "eveningVibe": 0.22,
+    "eveningSurplus": 0.91
+  },
+  "scores": {
+    "quiet": 95,
+    "vibe": 34,
+    "peer": 30
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      43,
+      44,
+      47,
+      51,
+      57,
+      64,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      64,
+      57,
+      51,
+      47,
+      44
+    ],
+    "weekend": [
+      42,
+      41,
+      42,
+      45,
+      50,
+      56,
+      63,
+      70,
+      78,
+      85,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      85,
+      78,
+      70,
+      63,
+      56,
+      50,
+      45
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 43
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 41
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 27,
+    "weekendTourist": 43,
+    "weekdayWork": 14,
+    "dawnResidential": 16
+  },
+  "seasonType": "flat"
+}

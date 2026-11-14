@@ -1,0 +1,121 @@
+{
+  "id": "5182031000",
+  "name": "현내면",
+  "sigungu": {
+    "id": "51820",
+    "name": "고성군"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "화진포 · 통일전망대"
+  ],
+  "accessNote": "고성군 · 화진포 · 통일전망대 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.62,
+    "localLife": 40,
+    "peerShare": 50,
+    "eveningVibe": 0.35,
+    "eveningSurplus": 1.15
+  },
+  "scores": {
+    "quiet": 20,
+    "vibe": 61,
+    "peer": 50
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      70,
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80
+    ],
+    "weekend": [
+      88,
+      80,
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 19,
+      "lowHour": 7,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 21,
+      "lowHour": 9,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 32,
+    "weekendTourist": 37,
+    "weekdayWork": 17,
+    "dawnResidential": 14
+  },
+  "seasonType": "second_half_rise"
+}

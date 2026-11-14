@@ -1,0 +1,121 @@
+{
+  "id": "5121056000",
+  "name": "조양동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 조양동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 조양동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.62,
+    "localLife": 56,
+    "peerShare": 63,
+    "eveningVibe": 0.11,
+    "eveningSurplus": 0.7
+  },
+  "scores": {
+    "quiet": 20,
+    "vibe": 11,
+    "peer": 63
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      46,
+      49,
+      53,
+      59,
+      65,
+      72,
+      80,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      80,
+      72,
+      65,
+      59,
+      53,
+      49,
+      46,
+      45
+    ],
+    "weekend": [
+      43,
+      44,
+      47,
+      51,
+      57,
+      64,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      64,
+      57,
+      51,
+      47,
+      44
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 23,
+      "lowValue": 45
+    },
+    "weekend": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 43
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 18,
+    "weekendTourist": 38,
+    "weekdayWork": 23,
+    "dawnResidential": 21
+  },
+  "seasonType": "summer_beach"
+}

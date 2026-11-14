@@ -1,0 +1,47 @@
+{
+  "total": 23,
+  "items": [
+    {
+      "id": "n1",
+      "author": {
+        "nickname": "바다러버",
+        "initial": "바"
+      },
+      "createdAt": "2026-11-11T09:00:00+09:00",
+      "dongName": "거진읍",
+      "stayLabel": "2주 체류",
+      "visitMonth": "2025-10",
+      "body": "거진항 근처 '파도소리' 카페는 와이파이가 빠르고 평일 오전엔 거의 비어 있어요. 콘센트 자리도 넉넉합니다.",
+      "helpful": 12,
+      "replies": 2
+    },
+    {
+      "id": "n2",
+      "author": {
+        "nickname": "한달살이킴",
+        "initial": "한"
+      },
+      "createdAt": "2026-10-31T14:30:00+09:00",
+      "dongName": "간성읍",
+      "stayLabel": "한 달 살기",
+      "visitMonth": "2025-10",
+      "body": "간성읍 원룸형 숙소는 4주 이상이면 장기 할인 20~30% 해주는 곳이 많아요. 전화로 물어보세요.",
+      "helpful": 9,
+      "replies": 2
+    },
+    {
+      "id": "n3",
+      "author": {
+        "nickname": "원격근무러",
+        "initial": "원"
+      },
+      "createdAt": "2026-09-12T18:00:00+09:00",
+      "dongName": "간성읍",
+      "stayLabel": "1주 체류",
+      "visitMonth": "2025-08",
+      "body": "8월 성수기엔 간성읍도 붐빕니다. 군청 근처 도서관은 와이파이가 안정적이라 급할 때 대안으로 괜찮았어요.",
+      "helpful": 5,
+      "replies": 0
+    }
+  ]
+}

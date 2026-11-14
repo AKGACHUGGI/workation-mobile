@@ -1,0 +1,121 @@
+{
+  "id": "5011033000",
+  "name": "우도면",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 우도면 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 우도면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.64,
+    "localLife": 43,
+    "peerShare": 69,
+    "eveningVibe": 0.15,
+    "eveningSurplus": 0.79
+  },
+  "scores": {
+    "quiet": 90,
+    "vibe": 21,
+    "peer": 69
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      49,
+      50,
+      52,
+      56,
+      62,
+      68,
+      74,
+      81,
+      87,
+      93,
+      97,
+      99,
+      100,
+      99,
+      97,
+      93,
+      87,
+      81,
+      74,
+      68,
+      62,
+      56,
+      52,
+      50
+    ],
+    "weekend": [
+      48,
+      47,
+      48,
+      51,
+      55,
+      60,
+      67,
+      74,
+      80,
+      87,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      87,
+      80,
+      74,
+      67,
+      60,
+      55,
+      51
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 49
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 47
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 22,
+    "weekendTourist": 43,
+    "weekdayWork": 17,
+    "dawnResidential": 18
+  },
+  "seasonType": "flat"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5182025300",
+  "name": "거진읍",
+  "sigungu": {
+    "id": "51820",
+    "name": "고성군"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "거진항"
+  ],
+  "accessNote": "고성군 북부 · 속초 시외버스터미널에서 40분",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.79,
+    "localLife": 75,
+    "peerShare": 39,
+    "eveningVibe": 0.18,
+    "eveningSurplus": 0.85
+  },
+  "scores": {
+    "quiet": 37,
+    "vibe": 11,
+    "peer": 56
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      58,
+      53,
+      50,
+      48,
+      49,
+      53,
+      62,
+      74,
+      86,
+      94,
+      98,
+      100,
+      97,
+      95,
+      93,
+      91,
+      88,
+      84,
+      78,
+      72,
+      68,
+      65,
+      62,
+      60
+    ],
+    "weekend": [
+      55,
+      51,
+      49,
+      47,
+      48,
+      50,
+      56,
+      64,
+      74,
+      84,
+      92,
+      97,
+      99,
+      100,
+      98,
+      96,
+      93,
+      89,
+      82,
+      75,
+      69,
+      64,
+      60,
+      57
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 3,
+      "lowValue": 48
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 3,
+      "lowValue": 47
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 25,
+    "weekendTourist": 32,
+    "weekdayWork": 24,
+    "dawnResidential": 19
+  },
+  "seasonType": "second_half_rise"
+}

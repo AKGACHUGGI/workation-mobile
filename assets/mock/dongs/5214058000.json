@@ -1,0 +1,121 @@
+{
+  "id": "5214058000",
+  "name": "내장상동",
+  "sigungu": {
+    "id": "52140",
+    "name": "정읍시"
+  },
+  "province": "전북특별자치도",
+  "kind": "living",
+  "tags": [
+    "산간"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/52140.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "정읍시 내장상동 중심지"
+  ],
+  "accessNote": "정읍시 · 정읍시 내장상동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.99,
+    "localLife": 76,
+    "peerShare": 54,
+    "eveningVibe": 0.19,
+    "eveningSurplus": 0.85
+  },
+  "scores": {
+    "quiet": 65,
+    "vibe": 28,
+    "peer": 54
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      42,
+      43,
+      46,
+      50,
+      57,
+      63,
+      71,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      71,
+      63,
+      57,
+      50,
+      46,
+      43
+    ],
+    "weekend": [
+      41,
+      40,
+      41,
+      44,
+      49,
+      55,
+      62,
+      70,
+      78,
+      85,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      85,
+      78,
+      70,
+      62,
+      55,
+      49,
+      44
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 42
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 40
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 25,
+    "weekendTourist": 27,
+    "weekdayWork": 23,
+    "dawnResidential": 25
+  },
+  "seasonType": "spring_autumn"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5011059000",
+  "name": "건입동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 건입동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 건입동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.59,
+    "localLife": 78,
+    "peerShare": 68,
+    "eveningVibe": 0.43,
+    "eveningSurplus": 1.29
+  },
+  "scores": {
+    "quiet": 22,
+    "vibe": 77,
+    "peer": 68
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80,
+      70
+    ],
+    "weekend": [
+      80,
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 18,
+      "lowHour": 6,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 40,
+    "weekendTourist": 24,
+    "weekdayWork": 14,
+    "dawnResidential": 22
+  },
+  "seasonType": "flat"
+}

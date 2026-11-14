@@ -1,0 +1,121 @@
+{
+  "id": "5011025000",
+  "name": "한림읍",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 한림읍 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 한림읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.09,
+    "localLife": 54,
+    "peerShare": 70,
+    "eveningVibe": 0.32,
+    "eveningSurplus": 1.08
+  },
+  "scores": {
+    "quiet": 58,
+    "vibe": 53,
+    "peer": 70
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      34,
+      39,
+      47,
+      55,
+      64,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      64,
+      55,
+      47,
+      39,
+      34,
+      30,
+      29,
+      30
+    ],
+    "weekend": [
+      27,
+      28,
+      32,
+      38,
+      45,
+      54,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      82,
+      73,
+      64,
+      54,
+      45,
+      38,
+      32,
+      28
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 10,
+      "lowHour": 22,
+      "lowValue": 29
+    },
+    "weekend": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 27
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 33,
+    "weekendTourist": 34,
+    "weekdayWork": 14,
+    "dawnResidential": 19
+  },
+  "seasonType": "flat"
+}

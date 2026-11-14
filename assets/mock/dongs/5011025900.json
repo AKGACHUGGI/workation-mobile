@@ -1,0 +1,121 @@
+{
+  "id": "5011025900",
+  "name": "구좌읍",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 구좌읍 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 구좌읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.0,
+    "localLife": 35,
+    "peerShare": 41,
+    "eveningVibe": 0.24,
+    "eveningSurplus": 0.94
+  },
+  "scores": {
+    "quiet": 64,
+    "vibe": 38,
+    "peer": 41
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      41,
+      46,
+      53,
+      60,
+      68,
+      77,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      77,
+      68,
+      60,
+      53,
+      46,
+      41,
+      38,
+      37,
+      38
+    ],
+    "weekend": [
+      35,
+      36,
+      39,
+      45,
+      51,
+      59,
+      68,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      68,
+      59,
+      51,
+      45,
+      39,
+      36
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 10,
+      "lowHour": 22,
+      "lowValue": 37
+    },
+    "weekend": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 35
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 28,
+    "weekendTourist": 43,
+    "weekdayWork": 14,
+    "dawnResidential": 15
+  },
+  "seasonType": "flat"
+}

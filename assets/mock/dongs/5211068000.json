@@ -1,0 +1,121 @@
+{
+  "id": "5211068000",
+  "name": "송천1동",
+  "sigungu": {
+    "id": "52110",
+    "name": "전주시"
+  },
+  "province": "전북특별자치도",
+  "kind": "living",
+  "tags": [
+    "도시"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/52110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "전주시 송천1동 중심지"
+  ],
+  "accessNote": "전주시 · 전주시 송천1동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.06,
+    "localLife": 65,
+    "peerShare": 69,
+    "eveningVibe": 0.29,
+    "eveningSurplus": 1.04
+  },
+  "scores": {
+    "quiet": 60,
+    "vibe": 49,
+    "peer": 69
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      32,
+      36,
+      41,
+      48,
+      57,
+      66,
+      74,
+      83,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      83,
+      74,
+      66,
+      57,
+      48,
+      41,
+      36,
+      32,
+      31
+    ],
+    "weekend": [
+      30,
+      29,
+      30,
+      34,
+      39,
+      47,
+      55,
+      64,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      64,
+      55,
+      47,
+      39,
+      34
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 23,
+      "lowValue": 31
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 29
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 31,
+    "weekendTourist": 29,
+    "weekdayWork": 19,
+    "dawnResidential": 21
+  },
+  "seasonType": "spring_autumn"
+}
