@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:workation_mobile/app/app.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
+import 'package:workation_mobile/shared/widgets/listing_card_mobile.dart';
+
+import 'helpers.dart';
 
 void main() {
   testWidgets('앱이 홈 화면을 렌더링한다', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: WorkationApp()));
-    await tester.pumpAndSettle();
+    await pumpApp(tester);
     expect(find.text('워케이션맵'), findsOneWidget);
-    expect(find.byType(FilledButton), findsOneWidget);
+    expect(find.text('인기 지역 3곳'), findsOneWidget);
+    expect(find.byType(ListingCardMobile), findsWidgets);
   });
 
   testWidgets('테마에 디자인 토큰이 매핑되어 있다', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: WorkationApp()));
-    await tester.pumpAndSettle();
+    await pumpApp(tester);
     final context = tester.element(find.byType(NavigationBar));
     final theme = Theme.of(context);
 

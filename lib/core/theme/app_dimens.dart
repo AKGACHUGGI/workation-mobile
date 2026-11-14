@@ -31,12 +31,17 @@ abstract final class AppRadius {
   static final BorderRadius fullAll = BorderRadius.circular(full);
 }
 
-/// 그림자 — Figma shadow/card-float. 유일하게 허용되는 그림자.
+/// 그림자 — Figma shadow/card-float. 떠 있는 면에 허용되는 유일한 그림자.
 /// 검색바, 카드 pressed, 드롭다운, 바텀시트, 고정 계획 카드에만 사용합니다.
 abstract final class AppShadows {
   static const cardFloat = [
     BoxShadow(color: Color(0x05000000), spreadRadius: 1), // 0 0 0 1px .02
     BoxShadow(color: Color(0x0A000000), offset: Offset(0, 2), blurRadius: 6),
     BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 8),
+  ];
+
+  /// 세그먼트 탭의 선택 칸 전용 (Figma Mobile/SegmentedTabs 0 1 2 .06).
+  static const segment = [
+    BoxShadow(color: Color(0x0F000000), offset: Offset(0, 1), blurRadius: 2),
   ];
 }

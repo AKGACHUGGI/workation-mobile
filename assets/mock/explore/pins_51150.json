@@ -1,0 +1,784 @@
+{
+  "sigunguId": "51150",
+  "dongs": [
+    {
+      "id": "5115025000",
+      "name": "주문진읍",
+      "center": {
+        "lat": 37.88818,
+        "lng": 128.75354
+      },
+      "tags": [
+        "coast",
+        "cafe",
+        "long_stay",
+        "beach",
+        "market"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": true,
+      "life": "생활권",
+      "grades": {
+        "quiet": "B",
+        "evening": "A"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "로컬살이형",
+          "score": 60
+        },
+        {
+          "name": "네트워킹형",
+          "score": 50
+        },
+        {
+          "name": "몰입형",
+          "score": 36
+        }
+      ]
+    },
+    {
+      "id": "5115031000",
+      "name": "성산면",
+      "center": {
+        "lat": 37.73257,
+        "lng": 128.79699
+      },
+      "tags": [
+        "mountain"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": false,
+      "life": "관광지",
+      "grades": {
+        "quiet": "B",
+        "evening": "C"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "네트워킹형",
+          "score": 57
+        },
+        {
+          "name": "몰입형",
+          "score": 35
+        },
+        {
+          "name": "로컬살이형",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "id": "5115032000",
+      "name": "왕산면",
+      "center": {
+        "lat": 37.60032,
+        "lng": 128.80148
+      },
+      "tags": [
+        "resort",
+        "mountain"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": false,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "C"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "네트워킹형",
+          "score": 58
+        },
+        {
+          "name": "로컬살이형",
+          "score": 42
+        },
+        {
+          "name": "몰입형",
+          "score": 39
+        }
+      ]
+    },
+    {
+      "id": "5115033000",
+      "name": "구정면",
+      "center": {
+        "lat": 37.69463,
+        "lng": 128.8889
+      },
+      "tags": [],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": false,
+      "life": "관광지",
+      "grades": {
+        "quiet": "B",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "몰입형",
+          "score": 48
+        },
+        {
+          "name": "네트워킹형",
+          "score": 37
+        },
+        {
+          "name": "로컬살이형",
+          "score": 21
+        }
+      ]
+    },
+    {
+      "id": "5115034000",
+      "name": "강동면",
+      "center": {
+        "lat": 37.68649,
+        "lng": 128.98054
+      },
+      "tags": [],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "네트워킹형",
+          "score": 58
+        },
+        {
+          "name": "몰입형",
+          "score": 43
+        },
+        {
+          "name": "로컬살이형",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "id": "5115035000",
+      "name": "옥계면",
+      "center": {
+        "lat": 37.59855,
+        "lng": 128.97322
+      },
+      "tags": [
+        "coast",
+        "mountain"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "B",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "로컬살이형",
+          "score": 42
+        },
+        {
+          "name": "몰입형",
+          "score": 30
+        },
+        {
+          "name": "네트워킹형",
+          "score": 23
+        }
+      ]
+    },
+    {
+      "id": "5115036000",
+      "name": "사천면",
+      "center": {
+        "lat": 37.79713,
+        "lng": 128.80942
+      },
+      "tags": [
+        "coast",
+        "long_stay"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "로컬살이형",
+          "score": 57
+        },
+        {
+          "name": "네트워킹형",
+          "score": 50
+        },
+        {
+          "name": "몰입형",
+          "score": 26
+        }
+      ]
+    },
+    {
+      "id": "5115037000",
+      "name": "연곡면",
+      "center": {
+        "lat": 37.82861,
+        "lng": 128.68712
+      },
+      "tags": [
+        "coast",
+        "park"
+      ],
+      "topType": "장기체류형",
+      "topScore": 61,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "A",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "장기체류형",
+          "score": 61
+        },
+        {
+          "name": "몰입형",
+          "score": 41
+        },
+        {
+          "name": "로컬살이형",
+          "score": 34
+        },
+        {
+          "name": "네트워킹형",
+          "score": 29
+        }
+      ]
+    },
+    {
+      "id": "5115051000",
+      "name": "홍제동",
+      "center": {
+        "lat": 37.75098,
+        "lng": 128.87137
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 88,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "A",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 88
+        },
+        {
+          "name": "장기체류형",
+          "score": 83
+        },
+        {
+          "name": "몰입형",
+          "score": 78
+        },
+        {
+          "name": "네트워킹형",
+          "score": 75
+        }
+      ]
+    },
+    {
+      "id": "5115052000",
+      "name": "중앙동",
+      "center": {
+        "lat": 37.75337,
+        "lng": 128.89635
+      },
+      "tags": [
+        "city",
+        "cafe",
+        "library",
+        "market"
+      ],
+      "topType": "네트워킹형",
+      "topScore": 71,
+      "coastal": false,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "A"
+      },
+      "types": [
+        {
+          "name": "네트워킹형",
+          "score": 71
+        },
+        {
+          "name": "몰입형",
+          "score": 63
+        },
+        {
+          "name": "장기체류형",
+          "score": 63
+        },
+        {
+          "name": "로컬살이형",
+          "score": 41
+        }
+      ]
+    },
+    {
+      "id": "5115054000",
+      "name": "옥천동",
+      "center": {
+        "lat": 37.75899,
+        "lng": 128.90104
+      },
+      "tags": [],
+      "topType": "네트워킹형",
+      "topScore": 64,
+      "coastal": false,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "네트워킹형",
+          "score": 64
+        },
+        {
+          "name": "로컬살이형",
+          "score": 55
+        },
+        {
+          "name": "장기체류형",
+          "score": 36
+        },
+        {
+          "name": "몰입형",
+          "score": 24
+        }
+      ]
+    },
+    {
+      "id": "5115055000",
+      "name": "교1동",
+      "center": {
+        "lat": 37.76606,
+        "lng": 128.88253
+      },
+      "tags": [
+        "city",
+        "cafe",
+        "library"
+      ],
+      "topType": "로컬살이형",
+      "topScore": 85,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "A",
+        "evening": "A"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 85
+        },
+        {
+          "name": "네트워킹형",
+          "score": 72
+        },
+        {
+          "name": "장기체류형",
+          "score": 65
+        },
+        {
+          "name": "몰입형",
+          "score": 56
+        }
+      ]
+    },
+    {
+      "id": "5115056000",
+      "name": "교2동",
+      "center": {
+        "lat": 37.77072,
+        "lng": 128.8963
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 64,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "B",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 64
+        },
+        {
+          "name": "네트워킹형",
+          "score": 56
+        },
+        {
+          "name": "몰입형",
+          "score": 49
+        },
+        {
+          "name": "장기체류형",
+          "score": 33
+        }
+      ]
+    },
+    {
+      "id": "5115057100",
+      "name": "포남1동",
+      "center": {
+        "lat": 37.76446,
+        "lng": 128.9065
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 89,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "S",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 89
+        },
+        {
+          "name": "몰입형",
+          "score": 72
+        },
+        {
+          "name": "장기체류형",
+          "score": 66
+        },
+        {
+          "name": "네트워킹형",
+          "score": 53
+        }
+      ]
+    },
+    {
+      "id": "5115057200",
+      "name": "포남2동",
+      "center": {
+        "lat": 37.77828,
+        "lng": 128.90736
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 87,
+      "coastal": true,
+      "life": "생활권",
+      "grades": {
+        "quiet": "A",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 87
+        },
+        {
+          "name": "네트워킹형",
+          "score": 55
+        },
+        {
+          "name": "몰입형",
+          "score": 53
+        },
+        {
+          "name": "장기체류형",
+          "score": 49
+        }
+      ]
+    },
+    {
+      "id": "5115058000",
+      "name": "초당동",
+      "center": {
+        "lat": 37.79111,
+        "lng": 128.91514
+      },
+      "tags": [
+        "long_stay",
+        "park"
+      ],
+      "topType": "네트워킹형",
+      "topScore": 64,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "네트워킹형",
+          "score": 64
+        },
+        {
+          "name": "로컬살이형",
+          "score": 58
+        },
+        {
+          "name": "몰입형",
+          "score": 48
+        },
+        {
+          "name": "장기체류형",
+          "score": 47
+        }
+      ]
+    },
+    {
+      "id": "5115059000",
+      "name": "송정동",
+      "center": {
+        "lat": 37.77828,
+        "lng": 128.92909
+      },
+      "tags": [
+        "coast",
+        "cafe",
+        "long_stay",
+        "beach"
+      ],
+      "topType": "몰입형",
+      "topScore": 63,
+      "coastal": true,
+      "life": "생활권",
+      "grades": {
+        "quiet": "A",
+        "evening": "C"
+      },
+      "types": [
+        {
+          "name": "몰입형",
+          "score": 63
+        },
+        {
+          "name": "장기체류형",
+          "score": 54
+        },
+        {
+          "name": "로컬살이형",
+          "score": 40
+        },
+        {
+          "name": "네트워킹형",
+          "score": 27
+        }
+      ]
+    },
+    {
+      "id": "5115060000",
+      "name": "내곡동",
+      "center": {
+        "lat": 37.73816,
+        "lng": 128.87373
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 97,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "S",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 97
+        },
+        {
+          "name": "장기체류형",
+          "score": 94
+        },
+        {
+          "name": "네트워킹형",
+          "score": 79
+        },
+        {
+          "name": "몰입형",
+          "score": 62
+        }
+      ]
+    },
+    {
+      "id": "5115061500",
+      "name": "강남동",
+      "center": {
+        "lat": 37.73269,
+        "lng": 128.91771
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 90,
+      "coastal": false,
+      "life": "생활권",
+      "grades": {
+        "quiet": "S",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 90
+        },
+        {
+          "name": "장기체류형",
+          "score": 72
+        },
+        {
+          "name": "몰입형",
+          "score": 63
+        },
+        {
+          "name": "네트워킹형",
+          "score": 52
+        }
+      ]
+    },
+    {
+      "id": "5115064500",
+      "name": "성덕동",
+      "center": {
+        "lat": 37.75572,
+        "lng": 128.93577
+      },
+      "tags": [],
+      "topType": "로컬살이형",
+      "topScore": 96,
+      "coastal": true,
+      "life": "생활권",
+      "grades": {
+        "quiet": "S",
+        "evening": "B"
+      },
+      "types": [
+        {
+          "name": "로컬살이형",
+          "score": 96
+        },
+        {
+          "name": "네트워킹형",
+          "score": 85
+        },
+        {
+          "name": "몰입형",
+          "score": 83
+        },
+        {
+          "name": "장기체류형",
+          "score": 67
+        }
+      ]
+    },
+    {
+      "id": "5115066500",
+      "name": "경포동",
+      "center": {
+        "lat": 37.78925,
+        "lng": 128.87346
+      },
+      "tags": [
+        "coast",
+        "cafe",
+        "long_stay",
+        "resort",
+        "beach",
+        "park"
+      ],
+      "topType": "네트워킹형",
+      "topScore": 74,
+      "coastal": true,
+      "life": "관광지",
+      "grades": {
+        "quiet": "C",
+        "evening": "A"
+      },
+      "types": [
+        {
+          "name": "네트워킹형",
+          "score": 74
+        },
+        {
+          "name": "로컬살이형",
+          "score": 55
+        },
+        {
+          "name": "몰입형",
+          "score": 46
+        },
+        {
+          "name": "장기체류형",
+          "score": 38
+        }
+      ]
+    }
+  ]
+}

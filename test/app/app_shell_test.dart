@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:workation_mobile/app/app.dart';
+
+import '../helpers.dart';
 
 void main() {
-  Future<void> pumpApp(WidgetTester tester) async {
-    await tester.pumpWidget(const ProviderScope(child: WorkationApp()));
-    await tester.pumpAndSettle();
-  }
-
   Finder tab(String label) => find.descendant(
     of: find.byType(NavigationBar),
     matching: find.text(label),

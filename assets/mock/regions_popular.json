@@ -1,0 +1,273 @@
+{
+  "month": "2025-10",
+  "asOf": "2025-12-31T00:00:00Z",
+  "items": [
+    {
+      "id": "51820",
+      "name": "고성군",
+      "province": "강원특별자치도",
+      "photoUrl": "assets/mock-photos/51820.jpg",
+      "tags": [
+        "해안",
+        "속초시 인접"
+      ],
+      "terrain": [
+        "coast"
+      ],
+      "scores": {
+        "quiet": 55,
+        "crowd": 37,
+        "peer": 48,
+        "overnight": 76,
+        "vibe": 30
+      },
+      "favoriteCount": 1284,
+      "viewCount": 8200
+    },
+    {
+      "id": "51210",
+      "name": "속초시",
+      "province": "강원특별자치도",
+      "photoUrl": "assets/mock-photos/51210.jpg",
+      "tags": [
+        "해안",
+        "도시"
+      ],
+      "terrain": [
+        "coast",
+        "city"
+      ],
+      "scores": {
+        "quiet": 30,
+        "crowd": 43,
+        "peer": 21,
+        "overnight": 80,
+        "vibe": 82
+      },
+      "favoriteCount": 873,
+      "viewCount": 6800
+    },
+    {
+      "id": "51830",
+      "name": "양양군",
+      "province": "강원특별자치도",
+      "photoUrl": "assets/mock-photos/51830.jpg",
+      "tags": [
+        "해안",
+        "서핑"
+      ],
+      "terrain": [
+        "coast"
+      ],
+      "scores": {
+        "quiet": 70,
+        "crowd": 41,
+        "peer": 9,
+        "overnight": 90,
+        "vibe": 46
+      },
+      "favoriteCount": 1172,
+      "viewCount": 7900
+    },
+    {
+      "id": "51150",
+      "name": "강릉시",
+      "province": "강원특별자치도",
+      "photoUrl": "assets/mock-photos/51150.jpg",
+      "tags": [
+        "해안",
+        "도시"
+      ],
+      "terrain": [
+        "coast",
+        "city"
+      ],
+      "scores": {
+        "quiet": 12,
+        "crowd": 10,
+        "peer": 80,
+        "overnight": 86,
+        "vibe": 25
+      },
+      "favoriteCount": 988,
+      "viewCount": 11200
+    },
+    {
+      "id": "51170",
+      "name": "동해시",
+      "province": "강원특별자치도",
+      "photoUrl": "assets/mock-photos/51170.jpg",
+      "tags": [
+        "해안"
+      ],
+      "terrain": [
+        "coast"
+      ],
+      "scores": {
+        "quiet": 10,
+        "crowd": 18,
+        "peer": 6,
+        "overnight": 78,
+        "vibe": 70
+      },
+      "favoriteCount": 377,
+      "viewCount": 2800
+    },
+    {
+      "id": "52110",
+      "name": "전주시",
+      "province": "전북특별자치도",
+      "photoUrl": "assets/mock-photos/52110.jpg",
+      "tags": [
+        "도시",
+        "한옥마을"
+      ],
+      "terrain": [
+        "city"
+      ],
+      "scores": {
+        "quiet": 60,
+        "crowd": 45,
+        "peer": 100,
+        "overnight": 1,
+        "vibe": 94
+      },
+      "favoriteCount": 652,
+      "viewCount": 7100
+    },
+    {
+      "id": "52140",
+      "name": "정읍시",
+      "province": "전북특별자치도",
+      "photoUrl": "assets/mock-photos/52140.jpg",
+      "tags": [
+        "산간",
+        "내장산"
+      ],
+      "terrain": [
+        "mountain"
+      ],
+      "scores": {
+        "quiet": 18,
+        "crowd": 25,
+        "peer": 35,
+        "overnight": 20,
+        "vibe": 48
+      },
+      "favoriteCount": 221,
+      "viewCount": 1900
+    },
+    {
+      "id": "52800",
+      "name": "부안군",
+      "province": "전북특별자치도",
+      "photoUrl": "assets/mock-photos/52800.jpg",
+      "tags": [
+        "해안",
+        "변산반도"
+      ],
+      "terrain": [
+        "coast"
+      ],
+      "scores": {
+        "quiet": 20,
+        "crowd": 27,
+        "peer": 13,
+        "overnight": 70,
+        "vibe": 54
+      },
+      "favoriteCount": 305,
+      "viewCount": 2400
+    },
+    {
+      "id": "46150",
+      "name": "순천시",
+      "province": "전라남도",
+      "photoUrl": "assets/mock-photos/46150.jpg",
+      "tags": [
+        "도시",
+        "순천만"
+      ],
+      "terrain": [
+        "city"
+      ],
+      "scores": {
+        "quiet": 45,
+        "crowd": 40,
+        "peer": 92,
+        "overnight": 5,
+        "vibe": 56
+      },
+      "favoriteCount": 418,
+      "viewCount": 3900
+    },
+    {
+      "id": "46770",
+      "name": "고흥군",
+      "province": "전라남도",
+      "photoUrl": "assets/mock-photos/46770.jpg",
+      "tags": [
+        "해안",
+        "우주센터"
+      ],
+      "terrain": [
+        "coast"
+      ],
+      "scores": {
+        "quiet": 14,
+        "crowd": 10,
+        "peer": 4,
+        "overnight": 60,
+        "vibe": 4
+      },
+      "favoriteCount": 164,
+      "viewCount": 1300
+    },
+    {
+      "id": "50110",
+      "name": "제주시",
+      "province": "제주특별자치도",
+      "photoUrl": "assets/mock-photos/50110.jpg",
+      "tags": [
+        "해안",
+        "도시"
+      ],
+      "terrain": [
+        "coast",
+        "city"
+      ],
+      "scores": {
+        "quiet": 40,
+        "crowd": 46,
+        "peer": 76,
+        "overnight": 10,
+        "vibe": 94
+      },
+      "favoriteCount": 941,
+      "viewCount": 12600
+    },
+    {
+      "id": "50130",
+      "name": "서귀포시",
+      "province": "제주특별자치도",
+      "photoUrl": "assets/mock-photos/50130.jpg",
+      "tags": [
+        "해안",
+        "한라산 남쪽"
+      ],
+      "terrain": [
+        "coast",
+        "mountain"
+      ],
+      "scores": {
+        "quiet": 76,
+        "crowd": 13,
+        "peer": 84,
+        "overnight": 25,
+        "vibe": 80
+      },
+      "favoriteCount": 1036,
+      "viewCount": 9400
+    }
+  ]
+}
