@@ -11,8 +11,13 @@ import 'package:workation_mobile/data/models/search_intent.dart';
 import 'package:workation_mobile/data/repositories/community_repository.dart';
 import 'package:workation_mobile/data/repositories/dong_repository.dart';
 import 'package:workation_mobile/data/repositories/explore_repository.dart';
+import 'package:workation_mobile/data/repositories/favorites_repository.dart';
+import 'package:workation_mobile/data/repositories/me_repository.dart';
 import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/data/repositories/search_repository.dart';
+import 'package:workation_mobile/features/auth/auth_providers.dart';
+
+import 'fakes/account.dart';
 
 import 'fakes/community.dart';
 import 'fakes/dong.dart';
@@ -38,6 +43,9 @@ Future<void> pumpApp(
   DongRepository? dongs,
   ExploreRepository? explore,
   CommunityRepository? community,
+  FavoritesRepository? favorites,
+  MeRepository? me,
+  bool loggedIn = false,
 }) async {
   tester.view.physicalSize = const Size(390, 2400);
   tester.view.devicePixelRatio = 1;
@@ -61,6 +69,11 @@ Future<void> pumpApp(
         communityRepositoryProvider.overrideWithValue(
           community ?? FakeCommunityRepository(),
         ),
+        favoritesRepositoryProvider.overrideWithValue(
+          favorites ?? FakeFavoritesRepository(),
+        ),
+        meRepositoryProvider.overrideWithValue(me ?? FakeMeRepository()),
+        if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
       ],
       child: const WorkationApp(),
     ),

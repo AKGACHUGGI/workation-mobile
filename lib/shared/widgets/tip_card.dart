@@ -48,7 +48,7 @@ class TipCard extends StatelessWidget {
           Row(
             spacing: 10,
             children: [
-              Avatar(tip.author.initial),
+              Avatar(initial: tip.author.initial),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

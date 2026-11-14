@@ -51,7 +51,7 @@ class UserPhotoTile extends StatelessWidget {
                     spacing: AppSpacing.s1,
                     children: [
                       Avatar(
-                        author.isEmpty
+                        initial: author.isEmpty
                             ? '?'
                             : String.fromCharCode(author.runes.first),
                         size: AvatarSize.sm,

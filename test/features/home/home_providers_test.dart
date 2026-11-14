@@ -74,4 +74,24 @@ void main() {
     // 조용한 곳 프리셋: (80×3 + 80×3) ÷ 8
     expect(byId['b']!.score, 60);
   });
+
+  test('직접 설정 프리셋은 맞춘 가중치로 점수를 매긴다', () {
+    const w = Weights(quiet: 0, crowd: 0, peer: 0, overnight: 0, vibe: 1);
+    final custom = const HomeFilter().copyWith(
+      preset: PresetKey.custom,
+      customWeights: w,
+    );
+
+    expect(custom.weights, same(w));
+    expect(const HomeFilter().weights, same(Weights.quietPreset));
+    expect(
+      const HomeFilter(preset: PresetKey.lively).weights,
+      same(Weights.livelyPreset),
+    );
+    // 활기 점수만 보면 모두 0 점
+    expect(
+      buildPopularCards(items, custom).map((c) => c.score),
+      everyElement(0),
+    );
+  });
 }

@@ -2,37 +2,45 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme.dart';
 
-enum AvatarSize { sm, md }
+enum AvatarSize {
+  sm(24),
+  md(32),
+  lg(56);
 
-/// 사용자 아바타 (Figma Avatar). 프로필 사진이 없으면 닉네임 첫 글자를 브랜드 색 원 안에 둡니다.
+  const AvatarSize(this.dimension);
+
+  final double dimension;
+}
+
+/// 사용자 아바타 (Figma Avatar). 프로필 사진이 없으면 닉네임 첫 글자를 보여줍니다.
 class Avatar extends StatelessWidget {
-  const Avatar(this.initial, {super.key, this.size = AvatarSize.md});
+  const Avatar({super.key, required this.initial, this.size = AvatarSize.md});
 
   final String initial;
   final AvatarSize size;
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppSemanticColors>()!;
     final scheme = Theme.of(context).colorScheme;
-    final md = size == AvatarSize.md;
+    final brandBorder = Theme.of(context)
+        .extension<AppSemanticColors>()!
+        .brandSoftBorder;
+    final style = switch (size) {
+      AvatarSize.sm => AppTextStyles.captionXsBold,
+      AvatarSize.md => AppTextStyles.bodySmBold,
+      AvatarSize.lg => AppTextStyles.headingXl,
+    };
 
-    return ExcludeSemantics(
-      child: Container(
-        width: md ? 32 : 24,
-        height: md ? 32 : 24,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: colors.brandSoft,
-          shape: BoxShape.circle,
-          border: Border.all(color: colors.brandSoftBorder),
-        ),
-        child: Text(
-          initial,
-          style: (md ? AppTextStyles.bodySmBold : AppTextStyles.captionXsBold)
-              .copyWith(color: scheme.primary),
-        ),
+    return Container(
+      width: size.dimension,
+      height: size.dimension,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: scheme.primaryContainer,
+        shape: BoxShape.circle,
+        border: Border.all(color: brandBorder),
       ),
+      child: Text(initial, style: style.copyWith(color: scheme.primary)),
     );
   }
 }

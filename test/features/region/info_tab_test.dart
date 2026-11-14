@@ -67,7 +67,7 @@ void main() {
       await tester.tap(target);
       await tester.pumpAndSettle();
       expect(find.text('카카오로 시작하기'), findsOneWidget);
-      await tester.tap(find.text('둘러보기'));
+      await tester.tap(find.text('로그인 없이 둘러보기'));
       await tester.pumpAndSettle();
     }
 

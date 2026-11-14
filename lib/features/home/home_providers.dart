@@ -27,6 +27,7 @@ class HomeFilter {
     this.preset = PresetKey.quiet,
     this.sort = PopularSort.favorites,
     this.terrain,
+    this.customWeights = Weights.quietPreset,
   });
 
   final String month;
@@ -36,19 +37,27 @@ class HomeFilter {
   /// null 이면 지형으로 거르지 않습니다.
   final Terrain? terrain;
 
-  Weights get weights =>
-      preset == PresetKey.lively ? Weights.livelyPreset : Weights.quietPreset;
+  /// 가중치 시트(헤더 슬라이더 버튼)에서 직접 맞춘 값. [preset] 이 `custom` 일 때 씁니다.
+  final Weights customWeights;
+
+  Weights get weights => switch (preset) {
+    PresetKey.lively => Weights.livelyPreset,
+    PresetKey.custom => customWeights,
+    PresetKey.quiet => Weights.quietPreset,
+  };
 
   HomeFilter copyWith({
     String? month,
     PresetKey? preset,
     PopularSort? sort,
     Terrain? Function()? terrain,
+    Weights? customWeights,
   }) => HomeFilter(
     month: month ?? this.month,
     preset: preset ?? this.preset,
     sort: sort ?? this.sort,
     terrain: terrain == null ? this.terrain : terrain(),
+    customWeights: customWeights ?? this.customWeights,
   );
 }
 
@@ -59,6 +68,10 @@ class HomeFilterNotifier extends Notifier<HomeFilter> {
   void setPreset(PresetKey preset) => state = state.copyWith(preset: preset);
 
   void setSort(PopularSort sort) => state = state.copyWith(sort: sort);
+
+  /// 지표별 가중치를 직접 맞추고 프리셋을 `직접 설정` 으로 바꿉니다.
+  void setCustomWeights(Weights weights) =>
+      state = state.copyWith(preset: PresetKey.custom, customWeights: weights);
 
   /// 자연어 검색이 읽어낸 조건을 반영합니다. 문장에 없던 축은 그대로 둡니다
   /// (웹 `applyIntentToParams` 와 같음). 기간 · 또래는 태그로만 보여줍니다.
