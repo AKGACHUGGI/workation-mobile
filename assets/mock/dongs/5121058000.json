@@ -1,0 +1,121 @@
+{
+  "id": "5121058000",
+  "name": "대포동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 대포동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 대포동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.06,
+    "localLife": 58,
+    "peerShare": 59,
+    "eveningVibe": 0.28,
+    "eveningSurplus": 1.01
+  },
+  "scores": {
+    "quiet": 60,
+    "vibe": 46,
+    "peer": 59
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      32,
+      33,
+      37,
+      42,
+      49,
+      57,
+      66,
+      75,
+      83,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      83,
+      75,
+      66,
+      57,
+      49,
+      42,
+      37,
+      33
+    ],
+    "weekend": [
+      31,
+      30,
+      31,
+      35,
+      40,
+      48,
+      56,
+      65,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      65,
+      56,
+      48,
+      40,
+      35
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 32
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 30
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 31,
+    "weekendTourist": 33,
+    "weekdayWork": 16,
+    "dawnResidential": 20
+  },
+  "seasonType": "summer_beach"
+}

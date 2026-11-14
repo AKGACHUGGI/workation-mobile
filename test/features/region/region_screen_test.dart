@@ -64,7 +64,8 @@ void main() {
 
     await tester.tap(find.text('토성면'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('M-04 동네 프로필'), findsOneWidget);
+    // 가짜 동네 저장소에는 주문진읍만 있어, 동네 프로필 화면이 열리고 없는 동네 안내가 보입니다.
+    expect(find.text('없는 동네예요'), findsOneWidget);
   });
 
   testWidgets('없는 지역은 안내 문구를, 연결 실패는 다시 시도를 보여준다', (tester) async {

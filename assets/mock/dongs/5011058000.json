@@ -1,0 +1,121 @@
+{
+  "id": "5011058000",
+  "name": "용담2동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 용담2동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 용담2동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.37,
+    "localLife": 53,
+    "peerShare": 68,
+    "eveningVibe": 0.26,
+    "eveningSurplus": 0.98
+  },
+  "scores": {
+    "quiet": 38,
+    "vibe": 42,
+    "peer": 68
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      37,
+      42,
+      49,
+      57,
+      66,
+      75,
+      83,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      83,
+      75,
+      66,
+      57,
+      49,
+      42,
+      37,
+      33,
+      32,
+      33
+    ],
+    "weekend": [
+      31,
+      35,
+      40,
+      48,
+      56,
+      65,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      65,
+      56,
+      48,
+      40,
+      35,
+      31,
+      30
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 10,
+      "lowHour": 22,
+      "lowValue": 32
+    },
+    "weekend": {
+      "peakHour": 11,
+      "lowHour": 23,
+      "lowValue": 30
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 30,
+    "weekendTourist": 36,
+    "weekdayWork": 15,
+    "dawnResidential": 19
+  },
+  "seasonType": "flat"
+}

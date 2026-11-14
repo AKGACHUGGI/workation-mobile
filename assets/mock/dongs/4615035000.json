@@ -1,0 +1,121 @@
+{
+  "id": "4615035000",
+  "name": "낙안면",
+  "sigungu": {
+    "id": "46150",
+    "name": "순천시"
+  },
+  "province": "전라남도",
+  "kind": "living",
+  "tags": [
+    "도시"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/46150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "순천시 낙안면 중심지"
+  ],
+  "accessNote": "순천시 · 순천시 낙안면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.72,
+    "localLife": 65,
+    "peerShare": 44,
+    "eveningVibe": 0.39,
+    "eveningSurplus": 1.2
+  },
+  "scores": {
+    "quiet": 84,
+    "vibe": 67,
+    "peer": 44
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      72,
+      62,
+      53,
+      44,
+      36,
+      30,
+      26,
+      25,
+      26,
+      30,
+      36,
+      44,
+      53,
+      62,
+      72,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      81
+    ],
+    "weekend": [
+      89,
+      81,
+      71,
+      62,
+      52,
+      42,
+      34,
+      28,
+      24,
+      23,
+      24,
+      28,
+      34,
+      42,
+      52,
+      62,
+      71,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 19,
+      "lowHour": 7,
+      "lowValue": 25
+    },
+    "weekend": {
+      "peakHour": 21,
+      "lowHour": 9,
+      "lowValue": 23
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 38,
+    "weekendTourist": 29,
+    "weekdayWork": 12,
+    "dawnResidential": 21
+  },
+  "seasonType": "spring_autumn"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5214036000",
+  "name": "산내면",
+  "sigungu": {
+    "id": "52140",
+    "name": "정읍시"
+  },
+  "province": "전북특별자치도",
+  "kind": "living",
+  "tags": [
+    "산간"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/52140.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "정읍시 산내면 중심지"
+  ],
+  "accessNote": "정읍시 · 정읍시 산내면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.67,
+    "localLife": 77,
+    "peerShare": 59,
+    "eveningVibe": 0.21,
+    "eveningSurplus": 0.88
+  },
+  "scores": {
+    "quiet": 88,
+    "vibe": 31,
+    "peer": 59
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      45,
+      44,
+      45,
+      48,
+      52,
+      58,
+      65,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      65,
+      58,
+      52,
+      48
+    ],
+    "weekend": [
+      46,
+      43,
+      42,
+      43,
+      46,
+      50,
+      57,
+      63,
+      71,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      71,
+      63,
+      57,
+      50
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 44
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 42
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 28,
+    "weekendTourist": 30,
+    "weekdayWork": 15,
+    "dawnResidential": 27
+  },
+  "seasonType": "spring_autumn"
+}

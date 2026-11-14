@@ -1,0 +1,121 @@
+{
+  "id": "5121055000",
+  "name": "노학동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 노학동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 노학동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.27,
+    "localLife": 80,
+    "peerShare": 48,
+    "eveningVibe": 0.15,
+    "eveningSurplus": 0.79
+  },
+  "scores": {
+    "quiet": 45,
+    "vibe": 21,
+    "peer": 48
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      45,
+      44,
+      45,
+      48,
+      52,
+      58,
+      65,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      65,
+      58,
+      52,
+      48
+    ],
+    "weekend": [
+      50,
+      46,
+      43,
+      42,
+      43,
+      46,
+      50,
+      57,
+      63,
+      71,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      71,
+      63,
+      57
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 44
+    },
+    "weekend": {
+      "peakHour": 15,
+      "lowHour": 3,
+      "lowValue": 42
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 23,
+    "weekendTourist": 27,
+    "weekdayWork": 23,
+    "dawnResidential": 27
+  },
+  "seasonType": "summer_beach"
+}

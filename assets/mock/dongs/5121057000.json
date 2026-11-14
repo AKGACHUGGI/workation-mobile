@@ -1,0 +1,121 @@
+{
+  "id": "5121057000",
+  "name": "청호동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 청호동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 청호동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.79,
+    "localLife": 65,
+    "peerShare": 44,
+    "eveningVibe": 0.18,
+    "eveningSurplus": 0.83
+  },
+  "scores": {
+    "quiet": 8,
+    "vibe": 26,
+    "peer": 44
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      37,
+      36,
+      37,
+      40,
+      45,
+      52,
+      60,
+      68,
+      76,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      76,
+      68,
+      60,
+      52,
+      45,
+      40
+    ],
+    "weekend": [
+      44,
+      38,
+      35,
+      34,
+      35,
+      38,
+      44,
+      51,
+      58,
+      67,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      67,
+      58,
+      51
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 36
+    },
+    "weekend": {
+      "peakHour": 15,
+      "lowHour": 3,
+      "lowValue": 34
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 24,
+    "weekendTourist": 32,
+    "weekdayWork": 21,
+    "dawnResidential": 23
+  },
+  "seasonType": "summer_beach"
+}

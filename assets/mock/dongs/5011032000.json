@@ -1,0 +1,121 @@
+{
+  "id": "5011032000",
+  "name": "추자면",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 추자면 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 추자면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.61,
+    "localLife": 70,
+    "peerShare": 37,
+    "eveningVibe": 0.35,
+    "eveningSurplus": 1.14
+  },
+  "scores": {
+    "quiet": 92,
+    "vibe": 60,
+    "peer": 37
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      82,
+      74,
+      64,
+      55,
+      47,
+      39,
+      34,
+      30,
+      29,
+      30,
+      34,
+      39,
+      47,
+      55,
+      64,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90
+    ],
+    "weekend": [
+      95,
+      89,
+      82,
+      73,
+      64,
+      54,
+      45,
+      38,
+      32,
+      28,
+      27,
+      28,
+      32,
+      38,
+      45,
+      54,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 29
+    },
+    "weekend": {
+      "peakHour": 22,
+      "lowHour": 10,
+      "lowValue": 27
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 36,
+    "weekendTourist": 28,
+    "weekdayWork": 15,
+    "dawnResidential": 21
+  },
+  "seasonType": "flat"
+}

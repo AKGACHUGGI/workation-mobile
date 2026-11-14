@@ -1,0 +1,121 @@
+{
+  "id": "5117057000",
+  "name": "삼화동",
+  "sigungu": {
+    "id": "51170",
+    "name": "동해시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51170.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "동해시 삼화동 중심지"
+  ],
+  "accessNote": "동해시 · 동해시 삼화동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.89,
+    "localLife": 69,
+    "peerShare": 45,
+    "eveningVibe": 0.16,
+    "eveningSurplus": 0.8
+  },
+  "scores": {
+    "quiet": 72,
+    "vibe": 22,
+    "peer": 45
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      46,
+      47,
+      50,
+      54,
+      60,
+      66,
+      73,
+      80,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      80,
+      73,
+      66,
+      60,
+      54,
+      50,
+      47
+    ],
+    "weekend": [
+      45,
+      44,
+      45,
+      48,
+      52,
+      58,
+      65,
+      72,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      72,
+      65,
+      58,
+      52,
+      48
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 46
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 44
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 22,
+    "weekendTourist": 31,
+    "weekdayWork": 24,
+    "dawnResidential": 23
+  },
+  "seasonType": "summer_beach"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5115057000",
+  "name": "교1동",
+  "sigungu": {
+    "id": "51150",
+    "name": "강릉시"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "강릉시 교1동 중심지"
+  ],
+  "accessNote": "강릉시 · 강릉시 교1동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.69,
+    "localLife": 57,
+    "peerShare": 35,
+    "eveningVibe": 0.4,
+    "eveningSurplus": 1.23
+  },
+  "scores": {
+    "quiet": 15,
+    "vibe": 70,
+    "peer": 35
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80,
+      70
+    ],
+    "weekend": [
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 18,
+      "lowHour": 6,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 19,
+      "lowHour": 7,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 38,
+    "weekendTourist": 32,
+    "weekdayWork": 12,
+    "dawnResidential": 18
+  },
+  "seasonType": "summer_beach"
+}

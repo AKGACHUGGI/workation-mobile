@@ -1,0 +1,121 @@
+{
+  "id": "5115062000",
+  "name": "경포동",
+  "sigungu": {
+    "id": "51150",
+    "name": "강릉시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "강릉시 경포동 중심지"
+  ],
+  "accessNote": "강릉시 · 강릉시 경포동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.76,
+    "localLife": 66,
+    "peerShare": 51,
+    "eveningVibe": 0.17,
+    "eveningSurplus": 0.82
+  },
+  "scores": {
+    "quiet": 10,
+    "vibe": 24,
+    "peer": 51
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      37,
+      38,
+      41,
+      46,
+      53,
+      60,
+      68,
+      77,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      77,
+      68,
+      60,
+      53,
+      46,
+      41,
+      38
+    ],
+    "weekend": [
+      39,
+      36,
+      35,
+      36,
+      39,
+      45,
+      51,
+      59,
+      68,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      68,
+      59,
+      51,
+      45
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 37
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 35
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 25,
+    "weekendTourist": 34,
+    "weekdayWork": 17,
+    "dawnResidential": 24
+  },
+  "seasonType": "summer_beach"
+}
