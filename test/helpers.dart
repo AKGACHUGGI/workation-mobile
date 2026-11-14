@@ -8,8 +8,13 @@ import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/data/models/popular_region.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
 import 'package:workation_mobile/data/models/search_intent.dart';
+import 'package:workation_mobile/data/repositories/favorites_repository.dart';
+import 'package:workation_mobile/data/repositories/me_repository.dart';
 import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/data/repositories/search_repository.dart';
+import 'package:workation_mobile/features/auth/auth_providers.dart';
+
+import 'fakes/account.dart';
 
 /// 위젯 하나를 앱 테마 안에서 띄웁니다.
 Future<void> pumpInTheme(WidgetTester tester, Widget child) {
@@ -29,6 +34,9 @@ Future<void> pumpApp(
   String location = AppRoutes.home,
   RegionRepository? regions,
   SearchRepository? search,
+  FavoritesRepository? favorites,
+  MeRepository? me,
+  bool loggedIn = false,
 }) async {
   tester.view.physicalSize = const Size(390, 2400);
   tester.view.devicePixelRatio = 1;
@@ -45,6 +53,11 @@ Future<void> pumpApp(
         searchRepositoryProvider.overrideWithValue(
           search ?? FakeSearchRepository(),
         ),
+        favoritesRepositoryProvider.overrideWithValue(
+          favorites ?? FakeFavoritesRepository(),
+        ),
+        meRepositoryProvider.overrideWithValue(me ?? FakeMeRepository()),
+        if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
       ],
       child: const WorkationApp(),
     ),

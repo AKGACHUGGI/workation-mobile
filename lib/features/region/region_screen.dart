@@ -8,12 +8,15 @@ import '../../core/metric/metric.dart';
 import '../../core/metric/month.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/theme/app_theme.dart';
+import '../../data/models/me.dart';
 import '../../data/models/region_detail.dart';
 import '../../shared/widgets/mobile_sticky_bar.dart';
 import '../../shared/widgets/photo_header.dart';
 import '../../shared/widgets/score_display.dart';
 import '../../shared/widgets/segmented_tabs.dart';
 import '../../shared/widgets/tag.dart';
+import '../favorites/favorite_actions.dart';
+import '../favorites/favorites_providers.dart';
 import '../home/home_providers.dart';
 import 'region_providers.dart';
 import 'widgets/dongs_tab.dart';
@@ -97,6 +100,9 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
     }
     final month = Months.label(d.month);
     final preset = filter.preset.label;
+    final saved = ref.watch(isRegionSavedProvider(d.id));
+    void toggleSave() =>
+        toggleFavoriteWithLogin(context, ref, FavoriteKind.regions, d.id);
 
     return Scaffold(
       body: SafeArea(
@@ -108,7 +114,8 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
                 photos: [for (final p in d.photos) p.url],
                 onBack: _back,
                 onShare: () => _comingSoon('공유'),
-                onToggleSave: () => _comingSoon('즐겨찾기'),
+                saved: saved,
+                onToggleSave: toggleSave,
               ),
             ),
             SliverToBoxAdapter(
@@ -166,8 +173,8 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
         score: rank.score,
         scoreSuffix: '점 · $month',
         sub: '$preset · ${rank.label}',
-        actionLabel: '즐겨찾기',
-        onAction: () => _comingSoon('즐겨찾기'),
+        actionLabel: saved ? '저장됨' : '즐겨찾기',
+        onAction: toggleSave,
       ),
     );
   }
