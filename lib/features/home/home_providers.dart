@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/metric/metric.dart';
 import '../../core/metric/month.dart';
 import '../../data/models/popular_region.dart';
+import '../../data/models/search_intent.dart';
 import '../../data/repositories/region_repository.dart';
 
 /// 인기 지역 정렬 기준 (웹 W-01 과 같음).
@@ -39,11 +40,12 @@ class HomeFilter {
       preset == PresetKey.lively ? Weights.livelyPreset : Weights.quietPreset;
 
   HomeFilter copyWith({
+    String? month,
     PresetKey? preset,
     PopularSort? sort,
     Terrain? Function()? terrain,
   }) => HomeFilter(
-    month: month,
+    month: month ?? this.month,
     preset: preset ?? this.preset,
     sort: sort ?? this.sort,
     terrain: terrain == null ? this.terrain : terrain(),
@@ -57,6 +59,21 @@ class HomeFilterNotifier extends Notifier<HomeFilter> {
   void setPreset(PresetKey preset) => state = state.copyWith(preset: preset);
 
   void setSort(PopularSort sort) => state = state.copyWith(sort: sort);
+
+  /// 자연어 검색이 읽어낸 조건을 반영합니다. 문장에 없던 축은 그대로 둡니다
+  /// (웹 `applyIntentToParams` 와 같음). 기간 · 또래는 태그로만 보여줍니다.
+  void applyIntent(SearchIntent intent) {
+    final preset = intent.preset;
+    final terrain = intent.terrain;
+    state = state.copyWith(
+      month: intent.month,
+      preset: preset == PresetKey.custom ? null : preset,
+      terrain: terrain == null || terrain.isEmpty ? null : () => terrain.first,
+    );
+  }
+
+  /// 월 · 프리셋 · 정렬 · 지형을 처음 값으로 되돌립니다.
+  void reset() => state = const HomeFilter();
 
   /// 같은 지형을 다시 누르면 해제합니다.
   void toggleTerrain(Terrain terrain) => state = state.copyWith(

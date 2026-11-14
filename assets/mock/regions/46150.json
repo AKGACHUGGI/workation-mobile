@@ -1,0 +1,135 @@
+{
+  "id": "46150",
+  "name": "순천시",
+  "province": "전라남도",
+  "tags": [
+    "도시",
+    "순천만"
+  ],
+  "seasonType": "spring_autumn",
+  "photos": [
+    {
+      "url": "assets/mock-photos/46150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 100,
+    "dayInflow": 1.29,
+    "quietRank": 10,
+    "peerShare": 32,
+    "overnightCoef": 0.78,
+    "weekendRatio": 0.93
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 45
+    },
+    {
+      "month": 2,
+      "crowd": 48
+    },
+    {
+      "month": 3,
+      "crowd": 71
+    },
+    {
+      "month": 4,
+      "crowd": 97
+    },
+    {
+      "month": 5,
+      "crowd": 87
+    },
+    {
+      "month": 6,
+      "crowd": 63
+    },
+    {
+      "month": 7,
+      "crowd": 57
+    },
+    {
+      "month": 8,
+      "crowd": 62
+    },
+    {
+      "month": 9,
+      "crowd": 68
+    },
+    {
+      "month": 10,
+      "crowd": 100
+    },
+    {
+      "month": 11,
+      "crowd": 83
+    },
+    {
+      "month": 12,
+      "crowd": 50
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    4,
+    10
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "4615035000",
+      "name": "낙안면",
+      "kind": "living",
+      "landmark": "순천시 낙안면 중심지",
+      "quietScore": 84,
+      "peakMonth": 10,
+      "crowdOfPeak": 96
+    },
+    {
+      "id": "4615062000",
+      "name": "조례동",
+      "kind": "tourist",
+      "landmark": "순천시 조례동 중심지",
+      "quietScore": 65,
+      "peakMonth": 10,
+      "crowdOfPeak": 85
+    },
+    {
+      "id": "4615051000",
+      "name": "향동",
+      "kind": "living",
+      "landmark": "순천시 향동 중심지",
+      "quietScore": 30,
+      "peakMonth": 10,
+      "crowdOfPeak": 85
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "support",
+      "title": "순천 워케이션",
+      "url": "https://www.suncheon.go.kr"
+    }
+  ]
+}
