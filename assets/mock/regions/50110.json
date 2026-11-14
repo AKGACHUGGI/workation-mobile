@@ -1,0 +1,342 @@
+{
+  "id": "50110",
+  "name": "제주시",
+  "province": "제주특별자치도",
+  "tags": [
+    "해안",
+    "도시"
+  ],
+  "seasonType": "flat",
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 90,
+    "dayInflow": 0.82,
+    "quietRank": 6,
+    "peerShare": 51,
+    "overnightCoef": 0.68,
+    "weekendRatio": 1.02
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 78
+    },
+    {
+      "month": 2,
+      "crowd": 77
+    },
+    {
+      "month": 3,
+      "crowd": 85
+    },
+    {
+      "month": 4,
+      "crowd": 92
+    },
+    {
+      "month": 5,
+      "crowd": 92
+    },
+    {
+      "month": 6,
+      "crowd": 88
+    },
+    {
+      "month": 7,
+      "crowd": 93
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 90
+    },
+    {
+      "month": 10,
+      "crowd": 90
+    },
+    {
+      "month": 11,
+      "crowd": 87
+    },
+    {
+      "month": 12,
+      "crowd": 81
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5011031000",
+      "name": "한경면",
+      "kind": "tourist",
+      "landmark": "제주시 한경면 중심지",
+      "quietScore": 95,
+      "peakMonth": 8,
+      "crowdOfPeak": 81
+    },
+    {
+      "id": "5011032000",
+      "name": "추자면",
+      "kind": "living",
+      "landmark": "제주시 추자면 중심지",
+      "quietScore": 92,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5011033000",
+      "name": "우도면",
+      "kind": "tourist",
+      "landmark": "제주시 우도면 중심지",
+      "quietScore": 90,
+      "peakMonth": 8,
+      "crowdOfPeak": 89
+    },
+    {
+      "id": "5011062000",
+      "name": "연동",
+      "kind": "living",
+      "landmark": "제주시 연동 중심지",
+      "quietScore": 85,
+      "peakMonth": 8,
+      "crowdOfPeak": 77
+    },
+    {
+      "id": "5011063500",
+      "name": "아라동",
+      "kind": "living",
+      "landmark": "제주시 아라동 중심지",
+      "quietScore": 82,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011063000",
+      "name": "노형동",
+      "kind": "tourist",
+      "landmark": "제주시 노형동 중심지",
+      "quietScore": 80,
+      "peakMonth": 8,
+      "crowdOfPeak": 89
+    },
+    {
+      "id": "5011061500",
+      "name": "봉개동",
+      "kind": "tourist",
+      "landmark": "제주시 봉개동 중심지",
+      "quietScore": 78,
+      "peakMonth": 8,
+      "crowdOfPeak": 85
+    },
+    {
+      "id": "5011064000",
+      "name": "오라동",
+      "kind": "tourist",
+      "landmark": "제주시 오라동 중심지",
+      "quietScore": 76,
+      "peakMonth": 8,
+      "crowdOfPeak": 81
+    },
+    {
+      "id": "5011061000",
+      "name": "삼양동",
+      "kind": "living",
+      "landmark": "제주시 삼양동 중심지",
+      "quietScore": 74,
+      "peakMonth": 8,
+      "crowdOfPeak": 76
+    },
+    {
+      "id": "5011060000",
+      "name": "화북동",
+      "kind": "tourist",
+      "landmark": "제주시 화북동 중심지",
+      "quietScore": 70,
+      "peakMonth": 8,
+      "crowdOfPeak": 84
+    },
+    {
+      "id": "5011026000",
+      "name": "조천읍",
+      "kind": "living",
+      "landmark": "제주시 조천읍 중심지",
+      "quietScore": 68,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011065000",
+      "name": "외도동",
+      "kind": "living",
+      "landmark": "제주시 외도동 중심지",
+      "quietScore": 66,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5011025900",
+      "name": "구좌읍",
+      "kind": "tourist",
+      "landmark": "제주시 구좌읍 중심지",
+      "quietScore": 64,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5011054000",
+      "name": "이도2동",
+      "kind": "tourist",
+      "landmark": "제주시 이도2동 중심지",
+      "quietScore": 62,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011025000",
+      "name": "한림읍",
+      "kind": "tourist",
+      "landmark": "제주시 한림읍 중심지",
+      "quietScore": 58,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011025300",
+      "name": "애월읍",
+      "kind": "living",
+      "landmark": "제주시 애월읍 중심지",
+      "quietScore": 54,
+      "peakMonth": 8,
+      "crowdOfPeak": 75
+    },
+    {
+      "id": "5011066000",
+      "name": "이호동",
+      "kind": "tourist",
+      "landmark": "제주시 이호동 중심지",
+      "quietScore": 50,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5011052000",
+      "name": "일도2동",
+      "kind": "tourist",
+      "landmark": "제주시 일도2동 중심지",
+      "quietScore": 48,
+      "peakMonth": 8,
+      "crowdOfPeak": 83
+    },
+    {
+      "id": "5011067000",
+      "name": "도두동",
+      "kind": "living",
+      "landmark": "제주시 도두동 중심지",
+      "quietScore": 44,
+      "peakMonth": 8,
+      "crowdOfPeak": 83
+    },
+    {
+      "id": "5011057000",
+      "name": "용담1동",
+      "kind": "living",
+      "landmark": "제주시 용담1동 중심지",
+      "quietScore": 42,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011051000",
+      "name": "일도1동",
+      "kind": "living",
+      "landmark": "제주시 일도1동 중심지",
+      "quietScore": 40,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5011058000",
+      "name": "용담2동",
+      "kind": "tourist",
+      "landmark": "제주시 용담2동 중심지",
+      "quietScore": 38,
+      "peakMonth": 8,
+      "crowdOfPeak": 82
+    },
+    {
+      "id": "5011053000",
+      "name": "이도1동",
+      "kind": "living",
+      "landmark": "제주시 이도1동 중심지",
+      "quietScore": 35,
+      "peakMonth": 8,
+      "crowdOfPeak": 82
+    },
+    {
+      "id": "5011056000",
+      "name": "삼도2동",
+      "kind": "tourist",
+      "landmark": "제주시 삼도2동 중심지",
+      "quietScore": 33,
+      "peakMonth": 8,
+      "crowdOfPeak": 85
+    },
+    {
+      "id": "5011055000",
+      "name": "삼도1동",
+      "kind": "living",
+      "landmark": "제주시 삼도1동 중심지",
+      "quietScore": 30,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5011059000",
+      "name": "건입동",
+      "kind": "living",
+      "landmark": "제주시 건입동 중심지",
+      "quietScore": 22,
+      "peakMonth": 8,
+      "crowdOfPeak": 80
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "support",
+      "title": "제주 워케이션",
+      "url": "https://www.jeju.go.kr"
+    }
+  ]
+}

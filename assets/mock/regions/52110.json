@@ -1,0 +1,135 @@
+{
+  "id": "52110",
+  "name": "전주시",
+  "province": "전북특별자치도",
+  "tags": [
+    "도시",
+    "한옥마을"
+  ],
+  "seasonType": "spring_autumn",
+  "photos": [
+    {
+      "url": "assets/mock-photos/52110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52110-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 100,
+    "dayInflow": 1.03,
+    "quietRank": 2,
+    "peerShare": 31,
+    "overnightCoef": 0.64,
+    "weekendRatio": 0.92
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 43
+    },
+    {
+      "month": 2,
+      "crowd": 52
+    },
+    {
+      "month": 3,
+      "crowd": 73
+    },
+    {
+      "month": 4,
+      "crowd": 95
+    },
+    {
+      "month": 5,
+      "crowd": 85
+    },
+    {
+      "month": 6,
+      "crowd": 62
+    },
+    {
+      "month": 7,
+      "crowd": 56
+    },
+    {
+      "month": 8,
+      "crowd": 61
+    },
+    {
+      "month": 9,
+      "crowd": 68
+    },
+    {
+      "month": 10,
+      "crowd": 100
+    },
+    {
+      "month": 11,
+      "crowd": 81
+    },
+    {
+      "month": 12,
+      "crowd": 54
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    4,
+    10
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5211063000",
+      "name": "효자4동",
+      "kind": "tourist",
+      "landmark": "전주시 효자4동 중심지",
+      "quietScore": 70,
+      "peakMonth": 10,
+      "crowdOfPeak": 93
+    },
+    {
+      "id": "5211068000",
+      "name": "송천1동",
+      "kind": "living",
+      "landmark": "전주시 송천1동 중심지",
+      "quietScore": 60,
+      "peakMonth": 10,
+      "crowdOfPeak": 90
+    },
+    {
+      "id": "5211052000",
+      "name": "풍남동",
+      "kind": "living",
+      "landmark": "전주시 풍남동 중심지",
+      "quietScore": 25,
+      "peakMonth": 10,
+      "crowdOfPeak": 88
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "support",
+      "title": "전주 한 달 살기",
+      "url": "https://www.jeonju.go.kr"
+    }
+  ]
+}

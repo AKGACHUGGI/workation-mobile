@@ -1,0 +1,135 @@
+{
+  "id": "51830",
+  "name": "양양군",
+  "province": "강원특별자치도",
+  "tags": [
+    "해안",
+    "서핑"
+  ],
+  "seasonType": "summer_beach",
+  "photos": [
+    {
+      "url": "assets/mock-photos/51830.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 54,
+    "dayInflow": 0.67,
+    "quietRank": 4,
+    "peerShare": 55,
+    "overnightCoef": 0.7,
+    "weekendRatio": 0.86
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 42
+    },
+    {
+      "month": 2,
+      "crowd": 35
+    },
+    {
+      "month": 3,
+      "crowd": 42
+    },
+    {
+      "month": 4,
+      "crowd": 48
+    },
+    {
+      "month": 5,
+      "crowd": 63
+    },
+    {
+      "month": 6,
+      "crowd": 68
+    },
+    {
+      "month": 7,
+      "crowd": 98
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 62
+    },
+    {
+      "month": 10,
+      "crowd": 54
+    },
+    {
+      "month": 11,
+      "crowd": 44
+    },
+    {
+      "month": 12,
+      "crowd": 44
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5183031000",
+      "name": "현북면",
+      "kind": "tourist",
+      "landmark": "양양군 현북면 중심지",
+      "quietScore": 80,
+      "peakMonth": 8,
+      "crowdOfPeak": 52
+    },
+    {
+      "id": "5183033000",
+      "name": "손양면",
+      "kind": "living",
+      "landmark": "양양군 손양면 중심지",
+      "quietScore": 75,
+      "peakMonth": 8,
+      "crowdOfPeak": 49
+    },
+    {
+      "id": "5183025000",
+      "name": "양양읍",
+      "kind": "living",
+      "landmark": "양양군 양양읍 중심지",
+      "quietScore": 50,
+      "peakMonth": 8,
+      "crowdOfPeak": 51
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "tour",
+      "title": "양양 관광",
+      "url": "https://www.yangyang.go.kr"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "id": "51150",
+  "name": "강릉시",
+  "province": "강원특별자치도",
+  "tags": [
+    "해안",
+    "도시"
+  ],
+  "seasonType": "summer_beach",
+  "photos": [
+    {
+      "url": "assets/mock-photos/51150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 53,
+    "dayInflow": 0.75,
+    "quietRank": 7,
+    "peerShare": 39,
+    "overnightCoef": 0.81,
+    "weekendRatio": 1.04
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 39
+    },
+    {
+      "month": 2,
+      "crowd": 37
+    },
+    {
+      "month": 3,
+      "crowd": 40
+    },
+    {
+      "month": 4,
+      "crowd": 48
+    },
+    {
+      "month": 5,
+      "crowd": 61
+    },
+    {
+      "month": 6,
+      "crowd": 67
+    },
+    {
+      "month": 7,
+      "crowd": 97
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 59
+    },
+    {
+      "month": 10,
+      "crowd": 53
+    },
+    {
+      "month": 11,
+      "crowd": 48
+    },
+    {
+      "month": 12,
+      "crowd": 42
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5115025000",
+      "name": "주문진읍",
+      "kind": "living",
+      "landmark": "강릉시 주문진읍 중심지",
+      "quietScore": 30,
+      "peakMonth": 8,
+      "crowdOfPeak": 49
+    },
+    {
+      "id": "5115057000",
+      "name": "교1동",
+      "kind": "tourist",
+      "landmark": "강릉시 교1동 중심지",
+      "quietScore": 15,
+      "peakMonth": 8,
+      "crowdOfPeak": 52
+    },
+    {
+      "id": "5115062000",
+      "name": "경포동",
+      "kind": "living",
+      "landmark": "강릉시 경포동 중심지",
+      "quietScore": 10,
+      "peakMonth": 8,
+      "crowdOfPeak": 49
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "support",
+      "title": "강릉 워케이션",
+      "url": "https://www.gn.go.kr"
+    }
+  ]
+}
