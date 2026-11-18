@@ -135,6 +135,26 @@ class MapCamera {
     return GeoBounds(west: nw.lng, south: se.lat, east: se.lng, north: nw.lat);
   }
 
+  /// Google Maps 카메라(가운데 위경도 · 줌)로 만듭니다. 회전 · 기울기는 없다고 봅니다.
+  factory MapCamera.fromZoom(Size size, GeoPoint target, double zoom) =>
+      MapCamera(
+        size: size,
+        center: MapProjection.toWorld(target),
+        scale: scaleForZoom(zoom),
+      );
+
+  /// 줌 0 에서 세계 한 바퀴(2π 라디안)가 256 논리 px 인 Google Maps 줌 ↔ 배율.
+  static double scaleForZoom(double zoom) =>
+      256 * math.pow(2, zoom) / (2 * math.pi);
+
+  static double zoomForScale(double scale) =>
+      math.log(scale * 2 * math.pi / 256) / math.ln2;
+
+  /// 화면 가운데 위경도
+  GeoPoint get target => MapProjection.toGeo(center);
+
+  double get zoom => zoomForScale(scale);
+
   MapCamera copyWith({Size? size, Offset? center, double? scale}) => MapCamera(
     size: size ?? this.size,
     center: center ?? this.center,

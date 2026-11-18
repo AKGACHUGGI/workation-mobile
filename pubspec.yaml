@@ -43,6 +43,8 @@ dependencies:
   flutter_svg: ^2.4.0
   supabase_flutter: ^2.18.3
   url_launcher: ^6.3.3
+  google_maps_flutter: ^2.19.0
+  google_maps_flutter_ios_sdk10: ^2.19.0
 
 dev_dependencies:
   flutter_test:

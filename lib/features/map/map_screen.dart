@@ -283,7 +283,9 @@ class _SigunguMap extends ConsumerWidget {
     }
 
     final shapes = <MapShape>[
-      MapShape.fromPoints('sea', kSeaPolygon, fill: semantic.mapSea),
+      // 바다 · 이웃 지역 이름은 타일이 그려 주므로 직접 그리는 지도에서만 넣습니다.
+      if (!MapCanvas.usesTiles)
+        MapShape.fromPoints('sea', kSeaPolygon, fill: semantic.mapSea),
       for (final a in areas)
         if (a.id != selected)
           MapShape.fromArea(
@@ -329,7 +331,8 @@ class _SigunguMap extends ConsumerWidget {
         ),
         Positioned(
           left: AppSpacing.s4,
-          bottom: AppSpacing.s4,
+          // 타일 지도면 왼쪽 아래 Google 로고를 가리지 않게 올립니다.
+          bottom: MapCanvas.usesTiles ? AppSpacing.s10 : AppSpacing.s4,
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: scheme.surface,
@@ -465,7 +468,7 @@ class _SigunguLabels extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        if (zoomedIn)
+        if (zoomedIn && !MapCanvas.usesTiles)
           for (final c in kContextLabels)
             if (viewport.contains(camera.toScreen(c.at)))
               MapAnchored(
@@ -542,7 +545,9 @@ class _DongMap extends ConsumerWidget {
     final bounds = GeoBounds.of(sigungu.points)!;
 
     final shapes = <MapShape>[
-      MapShape.fromPoints('sea', kSeaPolygon, fill: semantic.mapSea),
+      // 바다 · 이웃 지역 이름은 타일이 그려 주므로 직접 그리는 지도에서만 넣습니다.
+      if (!MapCanvas.usesTiles)
+        MapShape.fromPoints('sea', kSeaPolygon, fill: semantic.mapSea),
       MapShape.fromArea(
         sigungu,
         fill: semantic.mapLand,
@@ -620,8 +625,8 @@ class _PinLayer extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // 이웃 시군구 · 동해 이름
-        for (final a in areas)
+        // 이웃 시군구 · 동해 이름(타일 지도면 타일의 지명으로 충분)
+        for (final a in MapCanvas.usesTiles ? const <GeoArea>[] : areas)
           if (a.id != sigungu.id &&
               a.label != null &&
               viewport.contains(camera.toScreen(a.label!)))
@@ -629,7 +634,8 @@ class _PinLayer extends StatelessWidget {
               at: camera.toScreen(a.label!),
               child: Text(a.name, style: mutedStyle),
             ),
-        for (final c in kContextLabels)
+        for (final c
+            in MapCanvas.usesTiles ? const <MapContextLabel>[] : kContextLabels)
           if (viewport.contains(camera.toScreen(c.at)))
             MapAnchored(
               at: camera.toScreen(c.at),

@@ -9,6 +9,7 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/models/community.dart';
 import '../../data/models/dong_detail.dart';
+import '../../data/models/explore.dart';
 import '../../data/models/me.dart';
 import '../../shared/widgets/metric_card.dart';
 import '../../shared/widgets/mobile_sticky_bar.dart';
@@ -19,6 +20,8 @@ import '../community/widgets/tips_section.dart';
 import '../favorites/favorite_actions.dart';
 import '../favorites/favorites_providers.dart';
 import '../home/home_providers.dart';
+import '../map/map_providers.dart';
+import '../map/widgets/map_canvas.dart';
 import 'dong_copy.dart';
 import 'dong_providers.dart';
 import 'widgets/dong_fallback.dart';
@@ -84,6 +87,14 @@ class _DongScreenState extends ConsumerState<DongScreen> {
     final vibeGrade = scores == null ? null : metricGrade(scores.vibe);
     final dominant = dominantActivity(d.activityMix);
     final target = CommunityTarget.dong(d.id);
+    // 미니맵 위치는 지도 탭과 같은 핀 응답에서 찾습니다(타일 지도를 쓸 때만 읽음).
+    GeoPoint? center;
+    if (MapCanvas.usesTiles) {
+      final pins = ref.watch(pinsProvider(d.sigungu.id)).value?.dongs;
+      for (final p in pins ?? const <PinDong>[]) {
+        if (p.id == d.id) center = p.center;
+      }
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -183,6 +194,7 @@ class _DongScreenState extends ConsumerState<DongScreen> {
                     ),
                     LocationCard(
                       dongName: d.name,
+                      center: center,
                       accessNote: d.accessNote,
                       sigunguName: d.sigungu.name,
                       onOtherDongs: () => context.push(

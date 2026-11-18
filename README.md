@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | 프레임워크 | Flutter (stable) | 3.47 |
 | 언어 | Dart | 3.13 (`sdk: ^3.13.3`) |
-| 플랫폼 | Android / iOS | minSdk 24 (Android 7.0) / iOS 15.0 |
+| 플랫폼 | Android / iOS | minSdk 24 (Android 7.0) / iOS 16.0 (Google Maps SDK 10) |
 | 디자인 | Material 3 | `useMaterial3: true` |
 | 린트 | flutter_lints | 6.x |
 | 아이콘 | Material Icons, cupertino_icons | 1.0.8 |
@@ -92,6 +92,7 @@ Flutter 는 `.env` 파일 대신 컴파일 타임 상수(`--dart-define`)를 씁
 | `USE_MOCK` | true 면 실제 API 대신 mock 데이터 · mock 로그인 | `true` |
 | `SUPABASE_URL` | Supabase 프로젝트 주소(로그인용) | 없음 → 로그인 불가 |
 | `SUPABASE_ANON_KEY` | Supabase anon(publishable) 키. 공개 키지만 커밋하지 않고 `env.json` 으로 넣음 | 없음 → 로그인 불가 |
+| `GOOGLE_MAPS_API_KEY` | Maps SDK for Android · iOS 키. Android Gradle · iOS AppDelegate 도 같은 값을 읽음 | 없음 → 경계를 직접 그린 지도 |
 
 코드에서는 `ApiConfig.baseUrl` 로 읽습니다. 새 키를 추가하면 `lib/core/network/api_config.dart` 와 이 표를 함께 갱신합니다.
 
