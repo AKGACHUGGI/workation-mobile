@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/api_client.dart';
 import '../../core/network/api_config.dart';
 import '../models/popular_region.dart';
+import '../models/region_detail.dart';
 import 'mock_assets.dart';
 
 /// 지역(시군구) 데이터.
 abstract class RegionRepository {
   /// `GET /api/regions/popular?month=` — 인기 지역 12곳(정렬 없음).
   Future<PopularResponse> popular(String month);
+
+  /// `GET /api/regions/{id}?month=` — 지역 상세(월별 혼잡 · 행정동 목록 포함).
+  Future<RegionDetail> detail(String id, String month);
 }
 
 class ApiRegionRepository implements RegionRepository {
@@ -23,6 +27,12 @@ class ApiRegionRepository implements RegionRepository {
       query: {'month': month},
     );
     return PopularResponse.fromJson(json as Map<String, dynamic>);
+  }
+
+  @override
+  Future<RegionDetail> detail(String id, String month) async {
+    final json = await _client.get('/api/regions/$id', query: {'month': month});
+    return RegionDetail.fromJson(json as Map<String, dynamic>);
   }
 }
 
@@ -39,6 +49,17 @@ class MockRegionRepository implements RegionRepository {
       path: '/api/regions/popular',
     );
     return PopularResponse.fromJson(json as Map<String, dynamic>)
+        .copyWith(month: month);
+  }
+
+  /// 12곳(`regions/<id>.json`)만 있습니다. 그 밖은 404 입니다.
+  @override
+  Future<RegionDetail> detail(String id, String month) async {
+    final json = await _assets.read(
+      'regions/$id.json',
+      path: '/api/regions/$id',
+    );
+    return RegionDetail.fromJson(json as Map<String, dynamic>)
         .copyWith(month: month);
   }
 }

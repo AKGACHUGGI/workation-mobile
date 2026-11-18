@@ -1,0 +1,144 @@
+{
+  "id": "50130",
+  "name": "서귀포시",
+  "province": "제주특별자치도",
+  "tags": [
+    "해안",
+    "중문"
+  ],
+  "seasonType": "flat",
+  "photos": [
+    {
+      "url": "assets/mock-photos/50130.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 93,
+    "dayInflow": 1.04,
+    "quietRank": 8,
+    "peerShare": 45,
+    "overnightCoef": 0.93,
+    "weekendRatio": 1
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 79
+    },
+    {
+      "month": 2,
+      "crowd": 82
+    },
+    {
+      "month": 3,
+      "crowd": 86
+    },
+    {
+      "month": 4,
+      "crowd": 92
+    },
+    {
+      "month": 5,
+      "crowd": 92
+    },
+    {
+      "month": 6,
+      "crowd": 90
+    },
+    {
+      "month": 7,
+      "crowd": 96
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 92
+    },
+    {
+      "month": 10,
+      "crowd": 93
+    },
+    {
+      "month": 11,
+      "crowd": 88
+    },
+    {
+      "month": 12,
+      "crowd": 85
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5013025000",
+      "name": "대정읍",
+      "kind": "tourist",
+      "landmark": "서귀포시 대정읍 중심지",
+      "quietScore": 78,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5013061000",
+      "name": "중문동",
+      "kind": "living",
+      "landmark": "서귀포시 중문동 중심지",
+      "quietScore": 72,
+      "peakMonth": 8,
+      "crowdOfPeak": 86
+    },
+    {
+      "id": "5013027000",
+      "name": "성산읍",
+      "kind": "living",
+      "landmark": "서귀포시 성산읍 중심지",
+      "quietScore": 66,
+      "peakMonth": 8,
+      "crowdOfPeak": 78
+    },
+    {
+      "id": "5013052000",
+      "name": "서귀동",
+      "kind": "tourist",
+      "landmark": "서귀포시 서귀동 중심지",
+      "quietScore": 40,
+      "peakMonth": 8,
+      "crowdOfPeak": 90
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "support",
+      "title": "서귀포 워케이션",
+      "url": "https://www.seogwipo.go.kr"
+    }
+  ]
+}

@@ -72,6 +72,7 @@ flutter:
     - assets/icons/
     - assets/mock/
     - assets/mock/explore/
+    - assets/mock/regions/
     # 시안 사진 — 파일은 커밋하지 않습니다 (assets/mock-photos/README.md)
     - assets/mock-photos/
 

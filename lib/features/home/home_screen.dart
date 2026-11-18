@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../app/router.dart';
 import '../../core/metric/format.dart';
 import '../../core/metric/metric.dart';
 import '../../core/metric/month.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/listing_card_mobile.dart';
 import '../../shared/widgets/search_pill_mobile.dart';
+import '../search/search_providers.dart';
 import 'home_providers.dart';
 import 'widgets/category_strip.dart';
+import 'widgets/parsed_conditions.dart';
 import 'widgets/select_label.dart';
 
-/// M-01 홈. 검색 필 · 카테고리 스트립 · 인기 지역 12곳 카드.
+/// M-01 홈. 검색 필 · 카테고리 스트립 · "AI가 이해한 조건" 줄 · 인기 지역 12곳 카드.
 ///
-/// 아직 없는 것(M2): 자연어 검색 입력(M-01b)과 "AI가 이해한 조건" 줄,
-/// 카드 → 지역 상세(M-03) 이동, 즐겨찾기 저장(M4).
+/// 검색 필을 누르면 자연어 입력(M-01b), 카드를 누르면 지역 상세(M-03)로 갑니다.
+/// 아직 없는 것: 헤더의 가중치 · 로그인 버튼과 즐겨찾기 저장(M4).
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -24,19 +28,29 @@ class HomeScreen extends ConsumerWidget {
     final filter = ref.watch(homeFilterProvider);
     final notifier = ref.read(homeFilterProvider.notifier);
     final popular = ref.watch(popularRegionsProvider(filter.month));
+    final search = ref.watch(appliedSearchProvider);
+    void openSearch() => context.push(AppRoutes.search);
 
     return Scaffold(
       appBar: const _HomeAppBar(),
       body: CustomScrollView(
         slivers: [
-          const SliverPadding(
-            padding: EdgeInsets.fromLTRB(
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
               AppSpacing.s4,
               AppSpacing.s3,
               AppSpacing.s4,
               AppSpacing.s4,
             ),
-            sliver: SliverToBoxAdapter(child: SearchPillMobile()),
+            sliver: SliverToBoxAdapter(
+              child: search == null
+                  ? SearchPillMobile(onTap: openSearch)
+                  : SearchPillMobile(
+                      title: search.query,
+                      sub: search.summary,
+                      onTap: openSearch,
+                    ),
+            ),
           ),
           SliverToBoxAdapter(
             child: CategoryStrip(
@@ -49,6 +63,22 @@ class HomeScreen extends ConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.s4),
             sliver: SliverToBoxAdapter(child: Divider()),
           ),
+          if (search != null)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.s4,
+                AppSpacing.s3,
+                AppSpacing.s4,
+                0,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: ParsedConditions(
+                  tags: [for (final t in search.intent.tags) t.label],
+                  onEdit: openSearch,
+                  onClear: ref.read(appliedSearchProvider.notifier).clear,
+                ),
+              ),
+            ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.s4,
@@ -141,6 +171,7 @@ class HomeScreen extends ConsumerWidget {
                             ' · 조회 ${formatCount(r.viewCount)} · $month',
                         photos: [r.photoUrl],
                         badge: card.badge,
+                        onTap: () => context.push(AppRoutes.region(r.id)),
                         grades: [
                           for (final key in const [
                             MetricKey.quiet,

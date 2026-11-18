@@ -1,0 +1,180 @@
+{
+  "id": "51210",
+  "name": "속초시",
+  "province": "강원특별자치도",
+  "tags": [
+    "해안",
+    "도시"
+  ],
+  "seasonType": "summer_beach",
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 54,
+    "dayInflow": 1.02,
+    "quietRank": 10,
+    "peerShare": 53,
+    "overnightCoef": 0.9,
+    "weekendRatio": 0.91
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 38
+    },
+    {
+      "month": 2,
+      "crowd": 36
+    },
+    {
+      "month": 3,
+      "crowd": 43
+    },
+    {
+      "month": 4,
+      "crowd": 51
+    },
+    {
+      "month": 5,
+      "crowd": 61
+    },
+    {
+      "month": 6,
+      "crowd": 70
+    },
+    {
+      "month": 7,
+      "crowd": 98
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 61
+    },
+    {
+      "month": 10,
+      "crowd": 54
+    },
+    {
+      "month": 11,
+      "crowd": 43
+    },
+    {
+      "month": 12,
+      "crowd": 39
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5121058000",
+      "name": "대포동",
+      "kind": "tourist",
+      "landmark": "속초시 대포동 중심지",
+      "quietScore": 60,
+      "peakMonth": 8,
+      "crowdOfPeak": 41
+    },
+    {
+      "id": "5121055000",
+      "name": "노학동",
+      "kind": "living",
+      "landmark": "속초시 노학동 중심지",
+      "quietScore": 45,
+      "peakMonth": 8,
+      "crowdOfPeak": 42
+    },
+    {
+      "id": "5121051000",
+      "name": "영랑동",
+      "kind": "living",
+      "landmark": "속초시 영랑동 중심지",
+      "quietScore": 30,
+      "peakMonth": 8,
+      "crowdOfPeak": 51
+    },
+    {
+      "id": "5121054000",
+      "name": "교동",
+      "kind": "tourist",
+      "landmark": "속초시 교동 중심지",
+      "quietScore": 25,
+      "peakMonth": 8,
+      "crowdOfPeak": 41
+    },
+    {
+      "id": "5121056000",
+      "name": "조양동",
+      "kind": "tourist",
+      "landmark": "속초시 조양동 중심지",
+      "quietScore": 20,
+      "peakMonth": 8,
+      "crowdOfPeak": 45
+    },
+    {
+      "id": "5121052000",
+      "name": "동명동",
+      "kind": "tourist",
+      "landmark": "속초시 동명동 중심지",
+      "quietScore": 12,
+      "peakMonth": 8,
+      "crowdOfPeak": 42
+    },
+    {
+      "id": "5121057000",
+      "name": "청호동",
+      "kind": "living",
+      "landmark": "속초시 청호동 중심지",
+      "quietScore": 8,
+      "peakMonth": 8,
+      "crowdOfPeak": 49
+    },
+    {
+      "id": "5121053500",
+      "name": "금호동",
+      "kind": "living",
+      "landmark": "속초시 금호동 중심지",
+      "quietScore": 3,
+      "peakMonth": 8,
+      "crowdOfPeak": 50
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "tour",
+      "title": "속초 관광",
+      "url": "https://www.sokcho.go.kr"
+    }
+  ]
+}

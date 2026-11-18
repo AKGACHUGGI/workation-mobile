@@ -1,0 +1,168 @@
+{
+  "id": "51820",
+  "name": "고성군",
+  "province": "강원특별자치도",
+  "tags": [
+    "해안",
+    "속초시 인접"
+  ],
+  "seasonType": "second_half_rise",
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 68,
+    "dayInflow": 0.76,
+    "quietRank": 6,
+    "peerShare": 41,
+    "overnightCoef": 0.98,
+    "weekendRatio": 1.05
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 53
+    },
+    {
+      "month": 2,
+      "crowd": 41
+    },
+    {
+      "month": 3,
+      "crowd": 41
+    },
+    {
+      "month": 4,
+      "crowd": 46
+    },
+    {
+      "month": 5,
+      "crowd": 60
+    },
+    {
+      "month": 6,
+      "crowd": 60
+    },
+    {
+      "month": 7,
+      "crowd": 80
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 52
+    },
+    {
+      "month": 10,
+      "crowd": 68
+    },
+    {
+      "month": 11,
+      "crowd": 52
+    },
+    {
+      "month": 12,
+      "crowd": 47
+    }
+  ],
+  "bestMonths": [
+    2,
+    3
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    12,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5182034000",
+      "name": "토성면",
+      "kind": "tourist",
+      "landmark": "송지호 해안",
+      "quietScore": 68,
+      "peakMonth": 8,
+      "crowdOfPeak": 61
+    },
+    {
+      "id": "5182033000",
+      "name": "죽왕면",
+      "kind": "tourist",
+      "landmark": "송지호 · 왕곡마을",
+      "quietScore": 55,
+      "peakMonth": 8,
+      "crowdOfPeak": 58
+    },
+    {
+      "id": "5182025300",
+      "name": "거진읍",
+      "kind": "living",
+      "landmark": "거진항",
+      "quietScore": 37,
+      "peakMonth": 8,
+      "crowdOfPeak": 72
+    },
+    {
+      "id": "5182025000",
+      "name": "간성읍",
+      "kind": "living",
+      "landmark": "고성군청",
+      "quietScore": 28,
+      "peakMonth": 10,
+      "crowdOfPeak": 100
+    },
+    {
+      "id": "5182031000",
+      "name": "현내면",
+      "kind": "tourist",
+      "landmark": "화진포 · 통일전망대",
+      "quietScore": 20,
+      "peakMonth": 8,
+      "crowdOfPeak": 55
+    }
+  ],
+  "excludedDongs": [
+    {
+      "name": "수동면",
+      "reason": "special_facility"
+    }
+  ],
+  "links": [
+    {
+      "kind": "support",
+      "title": "고성군 워케이션 체류 지원사업",
+      "url": "https://www.gwgs.go.kr"
+    },
+    {
+      "kind": "stay",
+      "title": "고성군 숙박 안내",
+      "url": "https://www.gwgs.go.kr/tour"
+    },
+    {
+      "kind": "tour",
+      "title": "화진포 · 송지호",
+      "url": "https://www.gwgs.go.kr/tour"
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "id": "52140",
+  "name": "정읍시",
+  "province": "전북특별자치도",
+  "tags": [
+    "산간",
+    "내장산"
+  ],
+  "seasonType": "spring_autumn",
+  "photos": [
+    {
+      "url": "assets/mock-photos/52140.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52140-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 100,
+    "dayInflow": 0.84,
+    "quietRank": 2,
+    "peerShare": 40,
+    "overnightCoef": 0.98,
+    "weekendRatio": 1.14
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 47
+    },
+    {
+      "month": 2,
+      "crowd": 48
+    },
+    {
+      "month": 3,
+      "crowd": 68
+    },
+    {
+      "month": 4,
+      "crowd": 97
+    },
+    {
+      "month": 5,
+      "crowd": 85
+    },
+    {
+      "month": 6,
+      "crowd": 59
+    },
+    {
+      "month": 7,
+      "crowd": 56
+    },
+    {
+      "month": 8,
+      "crowd": 61
+    },
+    {
+      "month": 9,
+      "crowd": 71
+    },
+    {
+      "month": 10,
+      "crowd": 100
+    },
+    {
+      "month": 11,
+      "crowd": 78
+    },
+    {
+      "month": 12,
+      "crowd": 51
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    4,
+    10
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "5214036000",
+      "name": "산내면",
+      "kind": "living",
+      "landmark": "정읍시 산내면 중심지",
+      "quietScore": 88,
+      "peakMonth": 10,
+      "crowdOfPeak": 99
+    },
+    {
+      "id": "5214058000",
+      "name": "내장상동",
+      "kind": "living",
+      "landmark": "정읍시 내장상동 중심지",
+      "quietScore": 65,
+      "peakMonth": 10,
+      "crowdOfPeak": 91
+    },
+    {
+      "id": "5214052000",
+      "name": "수성동",
+      "kind": "tourist",
+      "landmark": "정읍시 수성동 중심지",
+      "quietScore": 40,
+      "peakMonth": 10,
+      "crowdOfPeak": 100
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "tour",
+      "title": "정읍 관광",
+      "url": "https://www.jeongeup.go.kr"
+    }
+  ]
+}

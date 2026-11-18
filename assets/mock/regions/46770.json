@@ -1,0 +1,135 @@
+{
+  "id": "46770",
+  "name": "고흥군",
+  "province": "전라남도",
+  "tags": [
+    "해안",
+    "산간"
+  ],
+  "seasonType": "flat",
+  "photos": [
+    {
+      "url": "assets/mock-photos/46770.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-4.jpg"
+    }
+  ],
+  "month": "2025-10",
+  "stats": {
+    "crowdIndex": 92,
+    "dayInflow": 0.84,
+    "quietRank": 8,
+    "peerShare": 47,
+    "overnightCoef": 0.79,
+    "weekendRatio": 1.14
+  },
+  "months": [
+    {
+      "month": 1,
+      "crowd": 83
+    },
+    {
+      "month": 2,
+      "crowd": 80
+    },
+    {
+      "month": 3,
+      "crowd": 89
+    },
+    {
+      "month": 4,
+      "crowd": 95
+    },
+    {
+      "month": 5,
+      "crowd": 91
+    },
+    {
+      "month": 6,
+      "crowd": 89
+    },
+    {
+      "month": 7,
+      "crowd": 99
+    },
+    {
+      "month": 8,
+      "crowd": 100
+    },
+    {
+      "month": 9,
+      "crowd": 92
+    },
+    {
+      "month": 10,
+      "crowd": 92
+    },
+    {
+      "month": 11,
+      "crowd": 87
+    },
+    {
+      "month": 12,
+      "crowd": 84
+    }
+  ],
+  "bestMonths": [
+    1,
+    2
+  ],
+  "avoidMonths": [
+    7,
+    8
+  ],
+  "peerOffpeakMonths": [
+    1,
+    2
+  ],
+  "dongs": [
+    {
+      "id": "4677036000",
+      "name": "봉래면",
+      "kind": "living",
+      "landmark": "고흥군 봉래면 중심지",
+      "quietScore": 86,
+      "peakMonth": 8,
+      "crowdOfPeak": 82
+    },
+    {
+      "id": "4677026000",
+      "name": "도양읍",
+      "kind": "living",
+      "landmark": "고흥군 도양읍 중심지",
+      "quietScore": 60,
+      "peakMonth": 8,
+      "crowdOfPeak": 88
+    },
+    {
+      "id": "4677025000",
+      "name": "고흥읍",
+      "kind": "tourist",
+      "landmark": "고흥군 고흥읍 중심지",
+      "quietScore": 50,
+      "peakMonth": 8,
+      "crowdOfPeak": 79
+    }
+  ],
+  "excludedDongs": [],
+  "links": [
+    {
+      "kind": "tour",
+      "title": "고흥 관광",
+      "url": "https://www.goheung.go.kr"
+    }
+  ]
+}
