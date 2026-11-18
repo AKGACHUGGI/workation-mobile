@@ -110,7 +110,7 @@ class DongScoreRow extends StatelessWidget {
   /// 유형 점수. 없으면 점수 칸을 비웁니다.
   final double? score;
 
-  /// 점수 아래 유형 이름. 예: `장기체류형`
+  /// 점수 아래 유형 이름. 예: `로컬살이형`
   final String? scoreLabel;
   final bool showDivider;
   final VoidCallback? onTap;
