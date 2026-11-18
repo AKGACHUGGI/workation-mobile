@@ -1,9 +1,7 @@
 import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/data/models/dong_detail.dart';
-import 'package:workation_mobile/data/models/explore.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
 import 'package:workation_mobile/data/repositories/dong_repository.dart';
-import 'package:workation_mobile/data/repositories/explore_repository.dart';
 
 const jumunjinId = '5115025000';
 
@@ -65,40 +63,4 @@ class FakeDongRepository implements DongRepository {
     months.add(month);
     return fakeJumunjin(month: month);
   }
-}
-
-/// 동 요약은 주문진읍만 있고 그 밖은 404 입니다(실제 mock 과 같음). [fail] 이면 연결 실패.
-class FakeExploreRepository implements ExploreRepository {
-  FakeExploreRepository({this.fail = false});
-
-  bool fail;
-
-  @override
-  Future<ExploreDong> dong(String dongId) async {
-    if (fail) throw NetworkException('/api/explore/dongs/$dongId');
-    if (dongId != jumunjinId) {
-      throw NotFoundException('/api/explore/dongs/$dongId');
-    }
-    return const ExploreDong(
-      id: jumunjinId,
-      name: '주문진읍',
-      sigungu: SigunguRef(id: '51150', name: '강릉시'),
-      sido: '강원특별자치도',
-      coastKm: 0,
-      types: [
-        TypeScore(
-          name: '장기체류형',
-          score: 61,
-          reason: '숙박 성향 64 · 한산한 달 7개(성수기보다 20% 이상 적은 달)',
-        ),
-        TypeScore(name: '로컬살이형', score: 60, reason: '생활권 지수 0.74'),
-        TypeScore(name: '네트워킹형', score: 50, reason: '또래 밀도 39 · 저녁 활기 62'),
-        TypeScore(name: '몰입형', score: 36, reason: '조용함 31 · 오전 한산 44'),
-      ],
-    );
-  }
-
-  @override
-  Future<PinsResponse> pins(String sigunguId) =>
-      throw UnimplementedError('이 테스트는 핀을 쓰지 않습니다');
 }

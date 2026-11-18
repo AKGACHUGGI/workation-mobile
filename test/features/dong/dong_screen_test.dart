@@ -9,6 +9,7 @@ import 'package:workation_mobile/shared/widgets/type_bar.dart';
 
 import '../../fakes/community.dart';
 import '../../fakes/dong.dart';
+import '../../fakes/explore.dart';
 import '../../helpers.dart';
 
 void main() {
@@ -107,7 +108,7 @@ void main() {
   });
 
   testWidgets('유형 카드 요청이 실패해도 유형 카드만 숨기고 나머지는 보여준다', (tester) async {
-    await open(tester, explore: FakeExploreRepository(fail: true));
+    await open(tester, explore: FakeExploreRepository(failDong: true));
 
     expect(find.text('워케이션 유형'), findsNothing);
     expect(find.byType(TypeBar), findsNothing);

@@ -119,6 +119,11 @@ abstract final class AppSemantic {
   static const factCoast = AppPalette.babu600;
   static const factLife = AppPalette.green600;
 
+  // explore/map/* — 지도 땅 · 바다 색 (원시 색에 없어 따로 둠. 땅은 웹 --color-explore-map-land*)
+  static const mapLand = Color(0xFFF4F2ED);
+  static const mapLandAlt = Color(0xFFECEAE3);
+  static const mapSea = Color(0xFFD5E6F0);
+
   // scrim — 50% 로 사용
   static const scrim = AppPalette.black;
 }
@@ -159,6 +164,9 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
     required this.factCoast,
     required this.factLife,
     required this.legalLink,
+    required this.mapLand,
+    required this.mapLandAlt,
+    required this.mapSea,
   });
 
   static const light = AppSemanticColors(
@@ -187,6 +195,9 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
     factCoast: AppSemantic.factCoast,
     factLife: AppSemantic.factLife,
     legalLink: AppPalette.legalLink,
+    mapLand: AppSemantic.mapLand,
+    mapLandAlt: AppSemantic.mapLandAlt,
+    mapSea: AppSemantic.mapSea,
   );
 
   final Color textTertiary;
@@ -214,6 +225,11 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
   final Color factCoast;
   final Color factLife;
   final Color legalLink;
+
+  /// 지도 바탕(서비스 구역 밖 땅 · 안 땅 · 바다)
+  final Color mapLand;
+  final Color mapLandAlt;
+  final Color mapSea;
 
   /// 'S' | 'A' | 'B' | 'C' 문자열로 등급 색을 얻습니다. 그 외 값은 C 로 취급합니다.
   GradeColors gradeOf(String grade) => switch (grade.toUpperCase()) {

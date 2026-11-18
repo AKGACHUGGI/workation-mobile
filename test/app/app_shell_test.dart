@@ -25,7 +25,7 @@ void main() {
 
     await tester.tap(tab('지도'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('M-02 지도'), findsOneWidget);
+    expect(find.text('지도에서 시군구를 눌러 보세요'), findsOneWidget); // M-02 ⓪
     expect(
       tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex,
       1,

@@ -13,6 +13,7 @@ import 'package:workation_mobile/data/repositories/dong_repository.dart';
 import 'package:workation_mobile/data/repositories/explore_repository.dart';
 import 'package:workation_mobile/data/repositories/favorites_repository.dart';
 import 'package:workation_mobile/data/repositories/me_repository.dart';
+import 'package:workation_mobile/data/repositories/geo_repository.dart';
 import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/data/repositories/search_repository.dart';
 import 'package:workation_mobile/features/auth/auth_providers.dart';
@@ -21,6 +22,9 @@ import 'fakes/account.dart';
 
 import 'fakes/community.dart';
 import 'fakes/dong.dart';
+
+import 'fakes/explore.dart';
+import 'fakes/geo.dart';
 
 /// 위젯 하나를 앱 테마 안에서 띄웁니다.
 Future<void> pumpInTheme(WidgetTester tester, Widget child) {
@@ -46,8 +50,10 @@ Future<void> pumpApp(
   FavoritesRepository? favorites,
   MeRepository? me,
   bool loggedIn = false,
+  bool settle = true,
+  Size size = const Size(390, 2400),
 }) async {
-  tester.view.physicalSize = const Size(390, 2400);
+  tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
   final router = createRouter(initialLocation: location);
@@ -74,11 +80,19 @@ Future<void> pumpApp(
         ),
         meRepositoryProvider.overrideWithValue(me ?? FakeMeRepository()),
         if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
+        geoRepositoryProvider.overrideWithValue(FakeGeoRepository()),
       ],
       child: const WorkationApp(),
     ),
   );
-  await tester.pumpAndSettle();
+  // 스켈레톤처럼 끝없이 도는 애니메이션이 있는 화면은 settle: false 로 몇 프레임만 돌립니다.
+  if (settle) {
+    await tester.pumpAndSettle();
+  } else {
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+  }
 }
 
 /// 고성군 · 양양군 · 정읍시 3곳을 돌려주는 가짜. [fail] 이면 연결 실패를 던집니다.

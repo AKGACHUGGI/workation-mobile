@@ -40,6 +40,11 @@ abstract final class AppShadows {
     BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 8),
   ];
 
+  /// 지도 위 행정동 핀 전용 (Figma DongPin 0 2 8 .16).
+  static const pin = [
+    BoxShadow(color: Color(0x29000000), offset: Offset(0, 2), blurRadius: 8),
+  ];
+
   /// 세그먼트 탭의 선택 칸 전용 (Figma Mobile/SegmentedTabs 0 1 2 .06).
   static const segment = [
     BoxShadow(color: Color(0x0F000000), offset: Offset(0, 1), blurRadius: 2),
