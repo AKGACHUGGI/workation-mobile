@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,14 +11,17 @@ import '../../shared/widgets/app_button.dart';
 import '../../shared/widgets/app_photo.dart';
 import '../../shared/widgets/social_login_button.dart';
 import 'auth_providers.dart';
+import 'onboarding_screen.dart';
 
-/// mock 로그인이 끝나기까지 보이는 짧은 로딩.
-const loginMockDelay = Duration(milliseconds: 600);
+/// 브라우저에서 앱으로 돌아온 뒤 이만큼 기다려도 로그인되지 않으면(브라우저를 닫음 · 취소)
+/// 버튼의 진행 표시를 거둡니다. 딥링크 복귀면 그 사이 세션 교환이 끝납니다.
+const loginResumeGrace = Duration(seconds: 3);
 
 /// M-06 로그인. 로그인하면 `pop(true)`, 닫거나 둘러보기를 고르면 `pop(false)` 입니다.
 ///
-/// 실제 OAuth(인앱 브라우저 · 딥링크)는 아직 없습니다. 버튼을 누르면 짧게 기다린 뒤
-/// mock 사용자 "두이" 로 로그인합니다(구현 플랜 결정 1: 세션 전달 방식 합의 전).
+/// 버튼을 누르면 Supabase OAuth(카카오 · Google) 페이지를 열고, 딥링크로 돌아오면
+/// [SessionNotifier] 가 `/api/me` 를 읽습니다. 첫 로그인이면 [OnboardingScreen] 을 거칩니다.
+/// mock 모드(`USE_MOCK=true`)는 짧게 기다린 뒤 mock 사용자 "두이" 로 로그인합니다.
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -24,23 +29,88 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with WidgetsBindingObserver {
   /// 로그인 중인 제공자. null 이면 대기 중.
   AuthProviderKind? _signingIn;
+
+  /// 온보딩 화면이 위에 떠 있는 동안은 로그인 완료로 닫지 않고 온보딩 결과를 기다립니다.
+  bool _onboarding = false;
+
+  Timer? _resumeTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _resumeTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || _signingIn == null) return;
+    _resumeTimer?.cancel();
+    _resumeTimer = Timer(loginResumeGrace, () {
+      if (!mounted || _onboarding) return;
+      if (ref.read(sessionProvider) == null) setState(() => _signingIn = null);
+    });
+  }
 
   Future<void> _signIn(AuthProviderKind kind) async {
     if (_signingIn != null) return;
     setState(() => _signingIn = kind);
-    await Future<void>.delayed(loginMockDelay);
-    if (!mounted) return;
-    ref.read(sessionProvider.notifier).signInMock(kind);
-    context.pop(true);
+    try {
+      await ref.read(sessionProvider.notifier).signIn(kind);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _signingIn = null);
+      _snack('로그인을 시작하지 못했어요. 잠시 후 다시 시도해 주세요');
+    }
   }
+
+  Future<void> _openOnboarding(AuthUser user) async {
+    _onboarding = true;
+    final ok = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => OnboardingScreen(user: user),
+      ),
+    );
+    _onboarding = false;
+    if (!mounted) return;
+    if (ok == true) {
+      context.pop(true);
+    } else {
+      setState(() => _signingIn = null);
+    }
+  }
+
+  void _snack(String text) => ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(text)));
 
   void _close() => context.pop(false);
 
   @override
   Widget build(BuildContext context) {
+    ref
+      ..listen(sessionProvider, (_, next) {
+        if (next != null && !_onboarding) context.pop(true);
+      })
+      ..listen(pendingOnboardingProvider, (_, next) {
+        if (next != null && !_onboarding) _openOnboarding(next);
+      })
+      ..listen(loginFailureProvider, (_, _) {
+        setState(() => _signingIn = null);
+        _snack('로그인하지 못했어요. 다시 시도해 주세요');
+      });
+
     final scheme = Theme.of(context).colorScheme;
     final tertiary = Theme.of(context)
         .extension<AppSemanticColors>()!

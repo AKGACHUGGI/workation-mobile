@@ -93,3 +93,6 @@ app.*.map.json
 # 시안 사진 (저작권 확인 전 커밋 금지)
 assets/mock-photos/*
 !assets/mock-photos/README.md
+
+# 로그인(Supabase) 실행 값 — env.example.json 을 복사해 씁니다
+env.json

@@ -12,6 +12,20 @@ abstract final class ApiConfig {
   /// 백엔드 엔드포인트가 열리기 전까지 기본값은 true 입니다.
   static const useMock = bool.fromEnvironment('USE_MOCK', defaultValue: true);
 
+  /// Supabase 프로젝트 주소. 로그인(Supabase Auth)에만 씁니다. 예: `https://<ref>.supabase.co`
+  static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+
+  /// Supabase anon(publishable) 키. 공개 키라 앱에 들어가도 되지만, 값은 커밋하지 않고
+  /// `--dart-define-from-file=env.json` 으로 넣습니다. service_role 키는 절대 넣지 않습니다.
+  static const supabaseKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+
+  /// 실제 로그인을 쓸 수 있는지. mock 모드이거나 Supabase 값이 없으면 false 입니다.
+  static const authEnabled = !useMock && supabaseUrl != '' && supabaseKey != '';
+
+  /// OAuth 를 마치고 앱으로 돌아오는 딥링크. iOS Info.plist · Android 매니페스트의 스킴과,
+  /// Supabase 대시보드 Authentication → URL Configuration 의 Redirect URLs 에 같은 값이 있어야 합니다.
+  static const authRedirectUrl = 'com.skpjc.workationmobile://login-callback';
+
   static const connectTimeout = Duration(seconds: 10);
 
   /// 자연어 검색(LLM)은 응답에 수 초가 걸려 여유를 둡니다.

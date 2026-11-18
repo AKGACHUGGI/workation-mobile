@@ -50,7 +50,7 @@ void main() {
 
   tearDown(() => container.dispose());
 
-  test('200 응답이면 디코딩된 JSON 을 돌려주고 공통 헤더를 붙인다', () async {
+  test('200 응답이면 디코딩된 JSON 을 돌려준다', () async {
     setUpWith((_) async => _json(200, {'items': []}));
 
     final data = await client.get('/api/regions/popular', query: {'month': 10});
@@ -58,10 +58,26 @@ void main() {
     expect(data, {'items': []});
     expect(adapter.lastRequest!.path, '/api/regions/popular');
     expect(adapter.lastRequest!.queryParameters, {'month': 10});
-    expect(
-      adapter.lastRequest!.headers['X-Requested-With'],
-      'workation-mobile',
+    // 로그인하지 않았으면 토큰을 붙이지 않는다. CSRF 헤더는 웹처럼 뺐다(Bearer 방식).
+    expect(adapter.lastRequest!.headers['Authorization'], isNull);
+    expect(adapter.lastRequest!.headers['X-Requested-With'], isNull);
+  });
+
+  test('로그인 세션이 있으면 요청마다 그때의 토큰을 Bearer 로 붙인다', () async {
+    var token = 'jwt-1';
+    adapter = _FakeAdapter((_) async => _json(200, {}));
+    container = ProviderContainer(
+      overrides: [accessTokenProvider.overrideWithValue(() => token)],
     );
+    container.read(dioProvider).httpClientAdapter = adapter;
+    client = container.read(apiClientProvider);
+
+    await client.get('/api/me');
+    expect(adapter.lastRequest!.headers['Authorization'], 'Bearer jwt-1');
+
+    token = 'jwt-2'; // supabase 가 갱신한 토큰
+    await client.get('/api/me');
+    expect(adapter.lastRequest!.headers['Authorization'], 'Bearer jwt-2');
   });
 
   test('401 은 UnauthorizedException', () async {
