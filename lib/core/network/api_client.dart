@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
 
 import 'api_config.dart';
 import 'api_exception.dart';
@@ -42,19 +43,38 @@ class ApiClient {
   }
 }
 
+/// 지금 로그인 세션의 access token(Supabase JWT). 로그인하지 않았으면 null.
+/// supabase_flutter 가 만료 전에 알아서 갱신하므로 요청마다 새로 읽습니다.
+final accessTokenProvider = Provider<String? Function()>(
+  (ref) => ApiConfig.authEnabled
+      ? () => Supabase.instance.client.auth.currentSession?.accessToken
+      : () => null,
+);
+
 /// 앱 전체에서 하나만 쓰는 Dio. 테스트에서는 override 합니다.
+///
+/// 세션이 있으면 모든 요청에 `Authorization: Bearer <token>` 을 붙입니다(웹 `api()` 와 같음).
 final dioProvider = Provider<Dio>((ref) {
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: ApiConfig.baseUrl,
-      connectTimeout: ApiConfig.connectTimeout,
-      receiveTimeout: ApiConfig.receiveTimeout,
-      contentType: Headers.jsonContentType,
-      responseType: ResponseType.json,
-      // 웹(workation-web src/lib/api.ts)과 같이 쓰기 요청 CSRF 확인용 헤더를 붙입니다.
-      headers: {'X-Requested-With': 'workation-mobile'},
-    ),
-  );
+  final token = ref.watch(accessTokenProvider);
+  final dio =
+      Dio(
+          BaseOptions(
+            baseUrl: ApiConfig.baseUrl,
+            connectTimeout: ApiConfig.connectTimeout,
+            receiveTimeout: ApiConfig.receiveTimeout,
+            contentType: Headers.jsonContentType,
+            responseType: ResponseType.json,
+          ),
+        )
+        ..interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) {
+              final t = token();
+              if (t != null) options.headers['Authorization'] = 'Bearer $t';
+              handler.next(options);
+            },
+          ),
+        );
   ref.onDispose(dio.close);
   return dio;
 });

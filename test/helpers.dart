@@ -8,6 +8,7 @@ import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/data/models/popular_region.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
 import 'package:workation_mobile/data/models/search_intent.dart';
+import 'package:workation_mobile/data/repositories/auth_repository.dart';
 import 'package:workation_mobile/data/repositories/community_repository.dart';
 import 'package:workation_mobile/data/repositories/dong_repository.dart';
 import 'package:workation_mobile/data/repositories/explore_repository.dart';
@@ -49,6 +50,7 @@ Future<void> pumpApp(
   CommunityRepository? community,
   FavoritesRepository? favorites,
   MeRepository? me,
+  AuthRepository? auth,
   bool loggedIn = false,
   bool settle = true,
   Size size = const Size(390, 2400),
@@ -79,6 +81,7 @@ Future<void> pumpApp(
           favorites ?? FakeFavoritesRepository(),
         ),
         meRepositoryProvider.overrideWithValue(me ?? FakeMeRepository()),
+        if (auth != null) authRepositoryProvider.overrideWithValue(auth),
         if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
         geoRepositoryProvider.overrideWithValue(FakeGeoRepository()),
       ],

@@ -41,6 +41,8 @@ dependencies:
   json_annotation: ^4.12.0
   lucide_icons_flutter: ^4.0.3
   flutter_svg: ^2.4.0
+  supabase_flutter: ^2.18.3
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

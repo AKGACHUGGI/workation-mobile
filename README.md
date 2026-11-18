@@ -32,14 +32,16 @@
 | Android applicationId | `com.skpjc.workation_mobile` |
 | iOS Bundle ID | `com.skpjc.workationMobile` |
 
-인증·DB는 백엔드가 담당합니다. 앱은 `API_BASE_URL` 로 백엔드 API만 호출하며 외부 SaaS SDK를 직접 들고 있지 않습니다. 백엔드가 열리기 전까지는 mock 데이터로 동작합니다(`USE_MOCK`, 기본 true).
+데이터는 `API_BASE_URL` 의 백엔드 API 로 받습니다. 로그인(카카오 · Google)만 웹과 같이 Supabase Auth SDK(`supabase_flutter`)를 쓰고, 백엔드는 `Authorization: Bearer` 로 받은 Supabase JWT 를 검증합니다. 백엔드가 열리기 전까지는 mock 데이터 · mock 로그인으로 동작합니다(`USE_MOCK`, 기본 true).
 
 ## 빠른 시작
 
 ```bash
 flutter pub get
 flutter run                                                                  # mock 데이터
-flutter run --dart-define=USE_MOCK=false --dart-define=API_BASE_URL=http://localhost:8000   # 로컬 백엔드
+flutter run --dart-define=USE_MOCK=false --dart-define=API_BASE_URL=http://localhost:8000   # 로컬 백엔드(로그인 없이)
+cp env.example.json env.json   # 값 채우기, 커밋하지 않음
+flutter run --dart-define-from-file=env.json                                  # 로컬 백엔드 + 실제 로그인
 ```
 
 Android 에뮬레이터에서 호스트 PC 의 로컬 서버에 붙을 때는 `http://10.0.2.2:8000` 을 씁니다.
@@ -87,7 +89,9 @@ Flutter 는 `.env` 파일 대신 컴파일 타임 상수(`--dart-define`)를 씁
 | 키 | 설명 | 기본값 |
 | --- | --- | --- |
 | `API_BASE_URL` | workation-backend 호스트. 경로는 호출부에서 `/api/...` | `http://localhost:8000` |
-| `USE_MOCK` | true 면 실제 API 대신 mock 데이터 | `true` |
+| `USE_MOCK` | true 면 실제 API 대신 mock 데이터 · mock 로그인 | `true` |
+| `SUPABASE_URL` | Supabase 프로젝트 주소(로그인용) | 없음 → 로그인 불가 |
+| `SUPABASE_ANON_KEY` | Supabase anon(publishable) 키. 공개 키지만 커밋하지 않고 `env.json` 으로 넣음 | 없음 → 로그인 불가 |
 
 코드에서는 `ApiConfig.baseUrl` 로 읽습니다. 새 키를 추가하면 `lib/core/network/api_config.dart` 와 이 표를 함께 갱신합니다.
 
