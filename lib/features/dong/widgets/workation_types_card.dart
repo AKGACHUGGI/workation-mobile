@@ -4,7 +4,8 @@ import '../../../data/models/explore.dart';
 import '../../../shared/widgets/type_bar.dart';
 import '../../region/widgets/section_card.dart';
 
-/// 워케이션 유형 카드 (Figma WorkationTypes). 4종 막대 · 점수 · 근거 문구, 1위만 브랜드 색.
+/// 워케이션 유형 카드 (Figma WorkationTypes). 3종 막대 · 점수 · 근거 문구.
+/// 1위만 브랜드 색이고, 1위도 대표 유형 기준([WorkationTypes.min]) 미만이면 강조하지 않습니다.
 class WorkationTypesCard extends StatelessWidget {
   const WorkationTypesCard({super.key, required this.types});
 
@@ -25,7 +26,7 @@ class WorkationTypesCard extends StatelessWidget {
           TypeBar(
             name: t.name,
             score: t.score,
-            highlight: i == 0,
+            highlight: i == 0 && t.score >= WorkationTypes.min,
             reason: t.reason == null ? null : shortReason(t.reason!),
           ),
       ],

@@ -269,8 +269,8 @@ void main() {
       pin(
         '1',
         '다동',
-        scores: {'몰입형': 30, '장기체류형': 70},
-        topType: '장기체류형',
+        scores: {'몰입형': 30, '로컬살이형': 70},
+        topType: '로컬살이형',
         topScore: 70,
         coastal: true,
         life: '관광지',
@@ -278,7 +278,7 @@ void main() {
       pin(
         '2',
         '가동',
-        scores: {'몰입형': 80, '장기체류형': 20},
+        scores: {'몰입형': 80, '로컬살이형': 20},
         topType: '몰입형',
         topScore: 80,
         life: '생활권',
@@ -286,13 +286,13 @@ void main() {
       pin(
         '3',
         '나동',
-        scores: {'몰입형': 50, '장기체류형': 50},
+        scores: {'몰입형': 50, '로컬살이형': 50},
         topType: '몰입형',
         topScore: 50,
         coastal: true,
         life: '생활권',
       ),
-      pin('4', '라동', topType: '장기체류형', topScore: 40, life: '관광지'),
+      pin('4', '라동', topType: '로컬살이형', topScore: 40, life: '관광지'),
     ];
     List<String> names(PinFilter f) => [
       for (final d in filterAndSortPins(dongs, f)) d.name,
@@ -304,12 +304,12 @@ void main() {
 
     test('유형 칩은 그 유형 점수 높은 순, 점수가 같으면 이름순', () {
       expect(names(const PinFilter(type: '몰입형')).take(3), ['가동', '나동', '다동']);
-      expect(names(const PinFilter(type: '장기체류형')).first, '다동');
+      expect(names(const PinFilter(type: '로컬살이형')).first, '다동');
     });
 
     test('types 가 없는 동은 1위 유형일 때만 점수가 있고, 점수 없는 동은 맨 뒤', () {
-      // 라동은 types 없이 1위 유형(장기체류형 40)만 있다.
-      expect(names(const PinFilter(type: '장기체류형')), ['다동', '나동', '라동', '가동']);
+      // 라동은 types 없이 1위 유형(로컬살이형 40)만 있다.
+      expect(names(const PinFilter(type: '로컬살이형')), ['다동', '나동', '라동', '가동']);
       expect(names(const PinFilter(type: '몰입형')).last, '라동');
     });
 
@@ -332,9 +332,9 @@ void main() {
     test('toggleType: 하나만 고르고 다시 누르면 풀린다 · toggleAttr 는 겹쳐 고른다', () {
       var f = const PinFilter();
       expect(f.isAll, isTrue);
-      f = f.toggleType('몰입형').toggleType('장기체류형');
-      expect(f.type, '장기체류형');
-      f = f.toggleType('장기체류형');
+      f = f.toggleType('몰입형').toggleType('로컬살이형');
+      expect(f.type, '로컬살이형');
+      f = f.toggleType('로컬살이형');
       expect(f.type, isNull);
       f = f.toggleAttr(PinAttr.coast).toggleAttr(PinAttr.life);
       expect(f.attrs, {PinAttr.coast, PinAttr.life});
@@ -349,13 +349,13 @@ void main() {
 
     test('rowScore: 유형 칩이면 그 유형, 아니면 1위 유형', () {
       final d = dongs[0];
-      expect(rowScore(d, const PinFilter())!.type, '장기체류형');
+      expect(rowScore(d, const PinFilter())!.type, '로컬살이형');
       expect(rowScore(d, const PinFilter())!.score, 70);
       expect(rowScore(d, const PinFilter(type: '몰입형'))!.score, 30);
       expect(rowScore(dongs[3], const PinFilter(type: '몰입형')), isNull);
     });
 
-    test('강릉시 mock: 장기체류형 칩 정렬이 점수 내림차순', () {
+    test('강릉시 mock: 로컬살이형 칩 정렬이 점수 내림차순', () {
       final res = PinsResponse.fromJson(
         jsonDecode(
           File('assets/mock/explore/pins_51150.json').readAsStringSync(),
@@ -363,14 +363,14 @@ void main() {
       );
       final sorted = filterAndSortPins(
         res.dongs,
-        const PinFilter(type: '장기체류형'),
+        const PinFilter(type: '로컬살이형'),
       );
       expect(sorted, hasLength(21));
-      final scores = [for (final d in sorted) d.scoreOf('장기체류형') ?? -1];
+      final scores = [for (final d in sorted) d.scoreOf('로컬살이형') ?? -1];
       for (var i = 1; i < scores.length; i++) {
         expect(scores[i], lessThanOrEqualTo(scores[i - 1]));
       }
-      expect(sorted.first.scoreOf('장기체류형'), isNotNull);
+      expect(sorted.first.scoreOf('로컬살이형'), isNotNull);
     });
   });
 

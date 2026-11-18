@@ -91,7 +91,12 @@ class _Loaded extends StatelessWidget {
           onClose: onClose,
         ),
         if (top != null)
-          TypeBar(name: top.name, score: top.score, highlight: true),
+          TypeBar(
+            name: top.name,
+            score: top.score,
+            // 1위도 대표 유형 기준 미만이면 강조하지 않는다(유형 카드와 같음)
+            highlight: top.score >= WorkationTypes.min,
+          ),
         if (brief != null) Text(brief, style: AppTextStyles.bodySm),
         FilledButton(onPressed: onOpen, child: const Text('이 동네 더보기')),
       ],

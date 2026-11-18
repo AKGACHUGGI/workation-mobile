@@ -10,7 +10,7 @@ abstract class ExploreRepository {
   /// `GET /api/explore/sigungu/{id}/pins` — 시군구의 행정동 핀 목록.
   Future<PinsResponse> pins(String sigunguId);
 
-  /// `GET /api/explore/dongs/{id}` — 동 요약(유형 4종 · 브리핑).
+  /// `GET /api/explore/dongs/{id}` — 동 요약(유형 3종 · 브리핑).
   Future<ExploreDong> dong(String dongId);
 }
 

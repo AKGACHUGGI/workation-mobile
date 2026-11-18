@@ -12,7 +12,7 @@ import '../map_logic.dart';
 import '../map_providers.dart';
 import 'map_sheet.dart';
 
-/// ① 시트: 칩(전체 · 유형 4종 · 바닷가 · 생활권 · 관광지) + 동 목록.
+/// ① 시트: 칩(전체 · 유형 3종 · 바닷가 · 생활권 · 관광지) + 동 목록.
 /// 제목 줄은 두지 않습니다. 고른 칩이 정렬 기준을 보여 줍니다.
 class DongListSheet extends ConsumerWidget {
   const DongListSheet({

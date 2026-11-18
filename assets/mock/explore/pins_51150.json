@@ -15,8 +15,8 @@
         "beach",
         "market"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": "로컬살이형",
+      "topScore": 60,
       "coastal": true,
       "life": "생활권",
       "grades": {
@@ -24,10 +24,6 @@
         "evening": "A"
       },
       "types": [
-        {
-          "name": "장기체류형",
-          "score": 61
-        },
         {
           "name": "로컬살이형",
           "score": 60
@@ -52,8 +48,8 @@
       "tags": [
         "mountain"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": null,
+      "topScore": null,
       "coastal": false,
       "life": "관광지",
       "grades": {
@@ -62,12 +58,8 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "네트워킹형",
-          "score": 57
+          "score": 38
         },
         {
           "name": "몰입형",
@@ -90,8 +82,8 @@
         "resort",
         "mountain"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": null,
+      "topScore": null,
       "coastal": false,
       "life": "관광지",
       "grades": {
@@ -100,20 +92,16 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "네트워킹형",
-          "score": 58
+          "score": 23
         },
         {
           "name": "로컬살이형",
-          "score": 42
+          "score": 20
         },
         {
           "name": "몰입형",
-          "score": 39
+          "score": 17
         }
       ]
     },
@@ -125,8 +113,8 @@
         "lng": 128.8889
       },
       "tags": [],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": "로컬살이형",
+      "topScore": 46,
       "coastal": false,
       "life": "관광지",
       "grades": {
@@ -135,20 +123,16 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
+          "name": "로컬살이형",
+          "score": 46
         },
         {
           "name": "몰입형",
-          "score": 48
+          "score": 43
         },
         {
           "name": "네트워킹형",
           "score": 37
-        },
-        {
-          "name": "로컬살이형",
-          "score": 21
         }
       ]
     },
@@ -160,8 +144,8 @@
         "lng": 128.98054
       },
       "tags": [],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": null,
+      "topScore": null,
       "coastal": true,
       "life": "관광지",
       "grades": {
@@ -170,20 +154,16 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "네트워킹형",
-          "score": 58
+          "score": 32
         },
         {
           "name": "몰입형",
-          "score": 43
+          "score": 29
         },
         {
           "name": "로컬살이형",
-          "score": 31
+          "score": 26
         }
       ]
     },
@@ -198,8 +178,8 @@
         "coast",
         "mountain"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": null,
+      "topScore": null,
       "coastal": true,
       "life": "관광지",
       "grades": {
@@ -208,12 +188,8 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "로컬살이형",
-          "score": 42
+          "score": 34
         },
         {
           "name": "몰입형",
@@ -236,8 +212,8 @@
         "coast",
         "long_stay"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": null,
+      "topScore": null,
       "coastal": true,
       "life": "관광지",
       "grades": {
@@ -246,16 +222,12 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "로컬살이형",
-          "score": 57
+          "score": 37
         },
         {
           "name": "네트워킹형",
-          "score": 50
+          "score": 34
         },
         {
           "name": "몰입형",
@@ -274,8 +246,8 @@
         "coast",
         "park"
       ],
-      "topType": "장기체류형",
-      "topScore": 61,
+      "topType": "몰입형",
+      "topScore": 50,
       "coastal": true,
       "life": "관광지",
       "grades": {
@@ -284,12 +256,8 @@
       },
       "types": [
         {
-          "name": "장기체류형",
-          "score": 61
-        },
-        {
           "name": "몰입형",
-          "score": 41
+          "score": 50
         },
         {
           "name": "로컬살이형",
@@ -321,10 +289,6 @@
         {
           "name": "로컬살이형",
           "score": 88
-        },
-        {
-          "name": "장기체류형",
-          "score": 83
         },
         {
           "name": "몰입형",
@@ -367,10 +331,6 @@
           "score": 63
         },
         {
-          "name": "장기체류형",
-          "score": 63
-        },
-        {
           "name": "로컬살이형",
           "score": 41
         }
@@ -400,10 +360,6 @@
         {
           "name": "로컬살이형",
           "score": 55
-        },
-        {
-          "name": "장기체류형",
-          "score": 36
         },
         {
           "name": "몰입형",
@@ -441,10 +397,6 @@
           "score": 72
         },
         {
-          "name": "장기체류형",
-          "score": 65
-        },
-        {
           "name": "몰입형",
           "score": 56
         }
@@ -478,10 +430,6 @@
         {
           "name": "몰입형",
           "score": 49
-        },
-        {
-          "name": "장기체류형",
-          "score": 33
         }
       ]
     },
@@ -509,10 +457,6 @@
         {
           "name": "몰입형",
           "score": 72
-        },
-        {
-          "name": "장기체류형",
-          "score": 66
         },
         {
           "name": "네트워킹형",
@@ -547,11 +491,7 @@
         },
         {
           "name": "몰입형",
-          "score": 53
-        },
-        {
-          "name": "장기체류형",
-          "score": 49
+          "score": 52
         }
       ]
     },
@@ -586,10 +526,6 @@
         {
           "name": "몰입형",
           "score": 48
-        },
-        {
-          "name": "장기체류형",
-          "score": 47
         }
       ]
     },
@@ -618,10 +554,6 @@
         {
           "name": "몰입형",
           "score": 63
-        },
-        {
-          "name": "장기체류형",
-          "score": 54
         },
         {
           "name": "로컬살이형",
@@ -655,10 +587,6 @@
           "score": 97
         },
         {
-          "name": "장기체류형",
-          "score": 94
-        },
-        {
           "name": "네트워킹형",
           "score": 79
         },
@@ -688,10 +616,6 @@
         {
           "name": "로컬살이형",
           "score": 90
-        },
-        {
-          "name": "장기체류형",
-          "score": 72
         },
         {
           "name": "몰입형",
@@ -730,11 +654,7 @@
         },
         {
           "name": "몰입형",
-          "score": 83
-        },
-        {
-          "name": "장기체류형",
-          "score": 67
+          "score": 82
         }
       ]
     },
@@ -773,10 +693,6 @@
         {
           "name": "몰입형",
           "score": 46
-        },
-        {
-          "name": "장기체류형",
-          "score": 38
         }
       ]
     }
