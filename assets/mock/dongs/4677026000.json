@@ -1,0 +1,121 @@
+{
+  "id": "4677026000",
+  "name": "도양읍",
+  "sigungu": {
+    "id": "46770",
+    "name": "고흥군"
+  },
+  "province": "전라남도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/46770.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "고흥군 도양읍 중심지"
+  ],
+  "accessNote": "고흥군 · 고흥군 도양읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.06,
+    "localLife": 78,
+    "peerShare": 39,
+    "eveningVibe": 0.4,
+    "eveningSurplus": 1.24
+  },
+  "scores": {
+    "quiet": 60,
+    "vibe": 71,
+    "peer": 39
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80,
+      70
+    ],
+    "weekend": [
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 18,
+      "lowHour": 6,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 19,
+      "lowHour": 7,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 39,
+    "weekendTourist": 25,
+    "weekdayWork": 13,
+    "dawnResidential": 23
+  },
+  "seasonType": "flat"
+}

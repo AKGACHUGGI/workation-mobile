@@ -1,0 +1,121 @@
+{
+  "id": "5011064000",
+  "name": "오라동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 오라동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 오라동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.84,
+    "localLife": 55,
+    "peerShare": 48,
+    "eveningVibe": 0.3,
+    "eveningSurplus": 1.05
+  },
+  "scores": {
+    "quiet": 76,
+    "vibe": 50,
+    "peer": 48
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      32,
+      33,
+      37,
+      42,
+      49,
+      57,
+      66,
+      75,
+      83,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      83,
+      75,
+      66,
+      57,
+      49,
+      42,
+      37,
+      33
+    ],
+    "weekend": [
+      35,
+      31,
+      30,
+      31,
+      35,
+      40,
+      48,
+      56,
+      65,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      65,
+      56,
+      48,
+      40
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 32
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 30
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 31,
+    "weekendTourist": 32,
+    "weekdayWork": 19,
+    "dawnResidential": 18
+  },
+  "seasonType": "flat"
+}

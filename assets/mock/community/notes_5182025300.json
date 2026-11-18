@@ -1,0 +1,33 @@
+{
+  "total": 2,
+  "items": [
+    {
+      "id": "dn1",
+      "author": {
+        "nickname": "두이",
+        "initial": "두"
+      },
+      "createdAt": "2026-11-04T09:00:00+09:00",
+      "dongName": "거진읍",
+      "stayLabel": "2주 체류",
+      "visitMonth": "2025-10",
+      "body": "오전엔 항구 쪽 카페가 한산해서 일하기 좋았어요. 주말 낮엔 화진포 쪽으로 사람이 몰립니다.",
+      "helpful": 12,
+      "replies": 1
+    },
+    {
+      "id": "dn2",
+      "author": {
+        "nickname": "바다",
+        "initial": "바"
+      },
+      "createdAt": "2026-10-20T12:00:00+09:00",
+      "dongName": "거진읍",
+      "stayLabel": "1주 체류",
+      "visitMonth": "2025-09",
+      "body": "저녁 8시 넘으면 거의 조용합니다. 야식은 속초로 나가야 해요.",
+      "helpful": 7,
+      "replies": 0
+    }
+  ]
+}

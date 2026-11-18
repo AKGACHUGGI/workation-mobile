@@ -17,6 +17,7 @@ import '../../shared/widgets/tag.dart';
 import '../home/home_providers.dart';
 import 'region_providers.dart';
 import 'widgets/dongs_tab.dart';
+import 'widgets/info_tab.dart';
 import 'widgets/season_tab.dart';
 
 /// 지역 상세의 탭. [name] 이 `?tab=` 값입니다.
@@ -155,7 +156,12 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
                     detail: d,
                     onDongTap: (dong) => context.push(AppRoutes.dong(dong.id)),
                   ),
-                  RegionTab.info => const _InfoPending(),
+                  RegionTab.info => InfoTab(
+                    detail: d,
+                    rank: rank,
+                    presetLabel: preset,
+                    onLinkTap: (link) => _comingSoon('외부 링크 열기'),
+                  ),
                 },
               ),
             ),
@@ -280,27 +286,6 @@ class _TabsHeader extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_TabsHeader oldDelegate) => oldDelegate.tab != tab;
-}
-
-class _InfoPending extends StatelessWidget {
-  const _InfoPending();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.s4,
-        vertical: AppSpacing.s10,
-      ),
-      child: Text(
-        '지표 카드 · 추천 이유 · 팁은 다음 단계(M3)에서 열립니다',
-        textAlign: TextAlign.center,
-        style: AppTextStyles.bodySm.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
-  }
 }
 
 /// 불러오는 중이거나 실패했을 때. 뒤로 가기는 항상 둡니다.

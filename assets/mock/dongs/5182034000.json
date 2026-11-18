@@ -1,0 +1,121 @@
+{
+  "id": "5182034000",
+  "name": "토성면",
+  "sigungu": {
+    "id": "51820",
+    "name": "고성군"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51820-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "송지호 해안"
+  ],
+  "accessNote": "고성군 · 송지호 해안 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.95,
+    "localLife": 46,
+    "peerShare": 39,
+    "eveningVibe": 0.42,
+    "eveningSurplus": 1.27
+  },
+  "scores": {
+    "quiet": 68,
+    "vibe": 75,
+    "peer": 39
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80,
+      70
+    ],
+    "weekend": [
+      80,
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 18,
+      "lowHour": 6,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 37,
+    "weekendTourist": 34,
+    "weekdayWork": 14,
+    "dawnResidential": 15
+  },
+  "seasonType": "second_half_rise"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5013025000",
+  "name": "대정읍",
+  "sigungu": {
+    "id": "50130",
+    "name": "서귀포시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50130.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "서귀포시 대정읍 중심지"
+  ],
+  "accessNote": "서귀포시 · 서귀포시 대정읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.81,
+    "localLife": 49,
+    "peerShare": 37,
+    "eveningVibe": 0.27,
+    "eveningSurplus": 1.0
+  },
+  "scores": {
+    "quiet": 78,
+    "vibe": 44,
+    "peer": 37
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      36,
+      37,
+      40,
+      45,
+      52,
+      60,
+      68,
+      76,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      76,
+      68,
+      60,
+      52,
+      45,
+      40,
+      37
+    ],
+    "weekend": [
+      38,
+      35,
+      34,
+      35,
+      38,
+      44,
+      51,
+      58,
+      67,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      67,
+      58,
+      51,
+      44
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 36
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 34
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 28,
+    "weekendTourist": 35,
+    "weekdayWork": 20,
+    "dawnResidential": 17
+  },
+  "seasonType": "flat"
+}

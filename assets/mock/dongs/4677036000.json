@@ -1,0 +1,121 @@
+{
+  "id": "4677036000",
+  "name": "봉래면",
+  "sigungu": {
+    "id": "46770",
+    "name": "고흥군"
+  },
+  "province": "전라남도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/46770.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "고흥군 봉래면 중심지"
+  ],
+  "accessNote": "고흥군 · 고흥군 봉래면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.7,
+    "localLife": 75,
+    "peerShare": 64,
+    "eveningVibe": 0.35,
+    "eveningSurplus": 1.14
+  },
+  "scores": {
+    "quiet": 86,
+    "vibe": 60,
+    "peer": 64
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      82,
+      74,
+      64,
+      55,
+      47,
+      39,
+      34,
+      30,
+      29,
+      30,
+      34,
+      39,
+      47,
+      55,
+      64,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90
+    ],
+    "weekend": [
+      89,
+      82,
+      73,
+      64,
+      54,
+      45,
+      38,
+      32,
+      28,
+      27,
+      28,
+      32,
+      38,
+      45,
+      54,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 29
+    },
+    "weekend": {
+      "peakHour": 21,
+      "lowHour": 9,
+      "lowValue": 27
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 35,
+    "weekendTourist": 25,
+    "weekdayWork": 18,
+    "dawnResidential": 22
+  },
+  "seasonType": "flat"
+}

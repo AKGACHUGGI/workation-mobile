@@ -1,0 +1,121 @@
+{
+  "id": "5011055000",
+  "name": "삼도1동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 삼도1동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 삼도1동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.48,
+    "localLife": 79,
+    "peerShare": 43,
+    "eveningVibe": 0.33,
+    "eveningSurplus": 1.09
+  },
+  "scores": {
+    "quiet": 30,
+    "vibe": 55,
+    "peer": 43
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      26,
+      30,
+      36,
+      44,
+      53,
+      62,
+      72,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      81,
+      72,
+      62,
+      53,
+      44,
+      36,
+      30,
+      26,
+      25
+    ],
+    "weekend": [
+      24,
+      23,
+      24,
+      28,
+      34,
+      42,
+      52,
+      62,
+      71,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      81,
+      71,
+      62,
+      52,
+      42,
+      34,
+      28
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 23,
+      "lowValue": 25
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 23
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 35,
+    "weekendTourist": 26,
+    "weekdayWork": 14,
+    "dawnResidential": 25
+  },
+  "seasonType": "flat"
+}

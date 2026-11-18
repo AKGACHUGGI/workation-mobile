@@ -1,0 +1,121 @@
+{
+  "id": "5013061000",
+  "name": "중문동",
+  "sigungu": {
+    "id": "50130",
+    "name": "서귀포시"
+  },
+  "province": "제주특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50130.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "서귀포시 중문동 중심지"
+  ],
+  "accessNote": "서귀포시 · 서귀포시 중문동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.89,
+    "localLife": 61,
+    "peerShare": 62,
+    "eveningVibe": 0.33,
+    "eveningSurplus": 1.11
+  },
+  "scores": {
+    "quiet": 72,
+    "vibe": 57,
+    "peer": 62
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      30,
+      29,
+      30,
+      34,
+      39,
+      47,
+      55,
+      64,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      64,
+      55,
+      47,
+      39,
+      34
+    ],
+    "weekend": [
+      38,
+      32,
+      28,
+      27,
+      28,
+      32,
+      38,
+      45,
+      54,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      82,
+      73,
+      64,
+      54,
+      45
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 29
+    },
+    "weekend": {
+      "peakHour": 15,
+      "lowHour": 3,
+      "lowValue": 27
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 33,
+    "weekendTourist": 31,
+    "weekdayWork": 16,
+    "dawnResidential": 20
+  },
+  "seasonType": "flat"
+}

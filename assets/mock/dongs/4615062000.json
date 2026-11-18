@@ -1,0 +1,121 @@
+{
+  "id": "4615062000",
+  "name": "조례동",
+  "sigungu": {
+    "id": "46150",
+    "name": "순천시"
+  },
+  "province": "전라남도",
+  "kind": "tourist",
+  "tags": [
+    "도시"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/46150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46150-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "순천시 조례동 중심지"
+  ],
+  "accessNote": "순천시 · 순천시 조례동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.99,
+    "localLife": 40,
+    "peerShare": 56,
+    "eveningVibe": 0.24,
+    "eveningSurplus": 0.94
+  },
+  "scores": {
+    "quiet": 65,
+    "vibe": 38,
+    "peer": 56
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      38,
+      41,
+      46,
+      53,
+      60,
+      68,
+      77,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      77,
+      68,
+      60,
+      53,
+      46,
+      41,
+      38,
+      37
+    ],
+    "weekend": [
+      35,
+      36,
+      39,
+      45,
+      51,
+      59,
+      68,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      68,
+      59,
+      51,
+      45,
+      39,
+      36
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 23,
+      "lowValue": 37
+    },
+    "weekend": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 35
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 27,
+    "weekendTourist": 41,
+    "weekdayWork": 16,
+    "dawnResidential": 16
+  },
+  "seasonType": "spring_autumn"
+}

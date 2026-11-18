@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/login_screen.dart';
 import '../features/dong/dong_screen.dart';
 import '../features/favorites/favorites_screen.dart';
 import '../features/home/home_screen.dart';
@@ -20,6 +21,7 @@ abstract final class AppRoutes {
 
   // 하단 내비 없이 화면 전체를 쓰는 화면
   static const search = '/search'; // M-01b
+  static const login = '/login'; // M-06, `push<bool>` 로 띄워 로그인 여부를 돌려받습니다
 
   /// M-03 지역 상세. [tab] 은 `season` · `dongs` · `info`.
   static String region(String id, {String? tab}) =>
@@ -75,6 +77,10 @@ GoRouter createRouter({String initialLocation = AppRoutes.home}) => GoRouter(
     GoRoute(
       path: AppRoutes.search,
       builder: (context, state) => const SearchScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
       path: '/regions/:id',

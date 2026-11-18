@@ -1,0 +1,121 @@
+{
+  "id": "4677025000",
+  "name": "고흥읍",
+  "sigungu": {
+    "id": "46770",
+    "name": "고흥군"
+  },
+  "province": "전라남도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/46770.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/46770-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "고흥군 고흥읍 중심지"
+  ],
+  "accessNote": "고흥군 · 고흥군 고흥읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.2,
+    "localLife": 37,
+    "peerShare": 50,
+    "eveningVibe": 0.29,
+    "eveningSurplus": 1.03
+  },
+  "scores": {
+    "quiet": 50,
+    "vibe": 48,
+    "peer": 50
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      35,
+      40,
+      48,
+      56,
+      65,
+      74,
+      82,
+      90,
+      95,
+      99,
+      100,
+      99,
+      95,
+      90,
+      82,
+      74,
+      65,
+      56,
+      48,
+      40,
+      35,
+      31,
+      30,
+      31
+    ],
+    "weekend": [
+      28,
+      29,
+      33,
+      39,
+      46,
+      55,
+      64,
+      73,
+      82,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89,
+      82,
+      73,
+      64,
+      55,
+      46,
+      39,
+      33,
+      29
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 10,
+      "lowHour": 22,
+      "lowValue": 30
+    },
+    "weekend": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 28
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 29,
+    "weekendTourist": 39,
+    "weekdayWork": 18,
+    "dawnResidential": 14
+  },
+  "seasonType": "flat"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5117053000",
+  "name": "묵호동",
+  "sigungu": {
+    "id": "51170",
+    "name": "동해시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51170.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "동해시 묵호동 중심지"
+  ],
+  "accessNote": "동해시 · 동해시 묵호동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.41,
+    "localLife": 69,
+    "peerShare": 37,
+    "eveningVibe": 0.1,
+    "eveningSurplus": 0.69
+  },
+  "scores": {
+    "quiet": 35,
+    "vibe": 10,
+    "peer": 37
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      48,
+      47,
+      48,
+      51,
+      55,
+      60,
+      67,
+      74,
+      80,
+      87,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      87,
+      80,
+      74,
+      67,
+      60,
+      55,
+      51
+    ],
+    "weekend": [
+      53,
+      49,
+      46,
+      45,
+      46,
+      49,
+      53,
+      59,
+      65,
+      72,
+      80,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      80,
+      72,
+      65,
+      59
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 47
+    },
+    "weekend": {
+      "peakHour": 15,
+      "lowHour": 3,
+      "lowValue": 45
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 20,
+    "weekendTourist": 36,
+    "weekdayWork": 16,
+    "dawnResidential": 28
+  },
+  "seasonType": "summer_beach"
+}

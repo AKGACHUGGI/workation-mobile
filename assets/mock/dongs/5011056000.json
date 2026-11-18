@@ -1,0 +1,121 @@
+{
+  "id": "5011056000",
+  "name": "삼도2동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 삼도2동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 삼도2동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.44,
+    "localLife": 46,
+    "peerShare": 46,
+    "eveningVibe": 0.17,
+    "eveningSurplus": 0.81
+  },
+  "scores": {
+    "quiet": 33,
+    "vibe": 23,
+    "peer": 46
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      42,
+      41,
+      42,
+      45,
+      50,
+      56,
+      63,
+      70,
+      78,
+      85,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      85,
+      78,
+      70,
+      63,
+      56,
+      50,
+      45
+    ],
+    "weekend": [
+      43,
+      40,
+      39,
+      40,
+      43,
+      48,
+      54,
+      62,
+      70,
+      77,
+      85,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      85,
+      77,
+      70,
+      62,
+      54,
+      48
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 41
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 39
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 24,
+    "weekendTourist": 42,
+    "weekdayWork": 15,
+    "dawnResidential": 19
+  },
+  "seasonType": "flat"
+}

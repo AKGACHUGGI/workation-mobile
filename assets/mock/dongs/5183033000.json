@@ -1,0 +1,121 @@
+{
+  "id": "5183033000",
+  "name": "손양면",
+  "sigungu": {
+    "id": "51830",
+    "name": "양양군"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51830.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51830-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "양양군 손양면 중심지"
+  ],
+  "accessNote": "양양군 · 양양군 손양면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.85,
+    "localLife": 65,
+    "peerShare": 41,
+    "eveningVibe": 0.38,
+    "eveningSurplus": 1.19
+  },
+  "scores": {
+    "quiet": 75,
+    "vibe": 65,
+    "peer": 41
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      81,
+      72,
+      62,
+      53,
+      44,
+      36,
+      30,
+      26,
+      25,
+      26,
+      30,
+      36,
+      44,
+      53,
+      62,
+      72,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99,
+      95,
+      89
+    ],
+    "weekend": [
+      95,
+      89,
+      81,
+      71,
+      62,
+      52,
+      42,
+      34,
+      28,
+      24,
+      23,
+      24,
+      28,
+      34,
+      42,
+      52,
+      62,
+      71,
+      81,
+      89,
+      95,
+      99,
+      100,
+      99
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 25
+    },
+    "weekend": {
+      "peakHour": 22,
+      "lowHour": 10,
+      "lowValue": 23
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 34,
+    "weekendTourist": 27,
+    "weekdayWork": 20,
+    "dawnResidential": 19
+  },
+  "seasonType": "summer_beach"
+}

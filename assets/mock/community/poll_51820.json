@@ -1,0 +1,20 @@
+{
+  "question": "",
+  "yes": 91,
+  "no": 33,
+  "total": 124,
+  "photos": [
+    {
+      "url": "assets/mock-photos/51820-1.jpg",
+      "author": "바다러버"
+    },
+    {
+      "url": "assets/mock-photos/51820-2.jpg",
+      "author": "느린오후"
+    },
+    {
+      "url": "assets/mock-photos/51820-3.jpg",
+      "author": "도시탈출"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "total": 9,
+  "items": [
+    {
+      "id": "jn1",
+      "author": {
+        "nickname": "바다러버",
+        "initial": "바"
+      },
+      "createdAt": "2026-11-11T09:00:00+09:00",
+      "dongName": "주문진읍",
+      "stayLabel": "2주 체류",
+      "visitMonth": "2025-10",
+      "body": "주문진항 근처 '파도소리' 카페는 와이파이가 빠르고 평일 오전엔 거의 비어 있어요.",
+      "helpful": 12,
+      "replies": 2
+    },
+    {
+      "id": "jn2",
+      "author": {
+        "nickname": "도시탈출",
+        "initial": "도"
+      },
+      "createdAt": "2026-10-24T19:00:00+09:00",
+      "dongName": "주문진읍",
+      "stayLabel": "한 달 살기",
+      "visitMonth": "2025-10",
+      "body": "저녁 7시 이후엔 식당이 거의 닫아요. 장은 오후에 하나로마트에서 미리 보는 게 편합니다.",
+      "helpful": 5,
+      "replies": 2
+    }
+  ]
+}

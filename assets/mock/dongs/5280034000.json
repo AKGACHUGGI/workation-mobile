@@ -1,0 +1,121 @@
+{
+  "id": "5280034000",
+  "name": "변산면",
+  "sigungu": {
+    "id": "52800",
+    "name": "부안군"
+  },
+  "province": "전북특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/52800.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "부안군 변산면 중심지"
+  ],
+  "accessNote": "부안군 · 부안군 변산면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.13,
+    "localLife": 55,
+    "peerShare": 35,
+    "eveningVibe": 0.45,
+    "eveningSurplus": 1.31
+  },
+  "scores": {
+    "quiet": 55,
+    "vibe": 79,
+    "peer": 35
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80,
+      70
+    ],
+    "weekend": [
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88,
+      80
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 18,
+      "lowHour": 6,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 19,
+      "lowHour": 7,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 39,
+    "weekendTourist": 31,
+    "weekdayWork": 13,
+    "dawnResidential": 17
+  },
+  "seasonType": "summer_beach"
+}

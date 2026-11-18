@@ -1,0 +1,121 @@
+{
+  "id": "5011054000",
+  "name": "이도2동",
+  "sigungu": {
+    "id": "50110",
+    "name": "제주시"
+  },
+  "province": "제주특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50110.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50110-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "제주시 이도2동 중심지"
+  ],
+  "accessNote": "제주시 · 제주시 이도2동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.03,
+    "localLife": 48,
+    "peerShare": 46,
+    "eveningVibe": 0.2,
+    "eveningSurplus": 0.86
+  },
+  "scores": {
+    "quiet": 62,
+    "vibe": 29,
+    "peer": 46
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      43,
+      42,
+      43,
+      46,
+      50,
+      57,
+      63,
+      71,
+      79,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      79,
+      71,
+      63,
+      57,
+      50,
+      46
+    ],
+    "weekend": [
+      44,
+      41,
+      40,
+      41,
+      44,
+      49,
+      55,
+      62,
+      70,
+      78,
+      85,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      85,
+      78,
+      70,
+      62,
+      55,
+      49
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 42
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 40
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 24,
+    "weekendTourist": 38,
+    "weekdayWork": 20,
+    "dawnResidential": 18
+  },
+  "seasonType": "flat"
+}

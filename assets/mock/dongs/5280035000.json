@@ -1,0 +1,121 @@
+{
+  "id": "5280035000",
+  "name": "진서면",
+  "sigungu": {
+    "id": "52800",
+    "name": "부안군"
+  },
+  "province": "전북특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/52800.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/52800-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "부안군 진서면 중심지"
+  ],
+  "accessNote": "부안군 · 부안군 진서면 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.75,
+    "localLife": 64,
+    "peerShare": 22,
+    "eveningVibe": 0.27,
+    "eveningSurplus": 0.99
+  },
+  "scores": {
+    "quiet": 82,
+    "vibe": 43,
+    "peer": 22
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      37,
+      38,
+      41,
+      46,
+      53,
+      60,
+      68,
+      77,
+      84,
+      91,
+      96,
+      99,
+      100,
+      99,
+      96,
+      91,
+      84,
+      77,
+      68,
+      60,
+      53,
+      46,
+      41,
+      38
+    ],
+    "weekend": [
+      39,
+      36,
+      35,
+      36,
+      39,
+      45,
+      51,
+      59,
+      68,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      68,
+      59,
+      51,
+      45
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 37
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 35
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 30,
+    "weekendTourist": 31,
+    "weekdayWork": 18,
+    "dawnResidential": 21
+  },
+  "seasonType": "summer_beach"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "5013027000",
+  "name": "성산읍",
+  "sigungu": {
+    "id": "50130",
+    "name": "서귀포시"
+  },
+  "province": "제주특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/50130.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/50130-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "서귀포시 성산읍 중심지"
+  ],
+  "accessNote": "서귀포시 · 서귀포시 성산읍 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.98,
+    "localLife": 69,
+    "peerShare": 37,
+    "eveningVibe": 0.13,
+    "eveningSurplus": 0.74
+  },
+  "scores": {
+    "quiet": 66,
+    "vibe": 16,
+    "peer": 37
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      48,
+      49,
+      51,
+      56,
+      61,
+      67,
+      74,
+      81,
+      87,
+      92,
+      97,
+      99,
+      100,
+      99,
+      97,
+      92,
+      87,
+      81,
+      74,
+      67,
+      61,
+      56,
+      51,
+      49
+    ],
+    "weekend": [
+      50,
+      47,
+      46,
+      47,
+      50,
+      54,
+      60,
+      66,
+      73,
+      80,
+      86,
+      92,
+      96,
+      99,
+      100,
+      99,
+      96,
+      92,
+      86,
+      80,
+      73,
+      66,
+      60,
+      54
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 48
+    },
+    "weekend": {
+      "peakHour": 14,
+      "lowHour": 2,
+      "lowValue": 46
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 22,
+    "weekendTourist": 33,
+    "weekdayWork": 19,
+    "dawnResidential": 26
+  },
+  "seasonType": "flat"
+}

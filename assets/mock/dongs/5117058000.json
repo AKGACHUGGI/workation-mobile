@@ -1,0 +1,121 @@
+{
+  "id": "5117058000",
+  "name": "천곡동",
+  "sigungu": {
+    "id": "51170",
+    "name": "동해시"
+  },
+  "province": "강원특별자치도",
+  "kind": "tourist",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51170.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51170-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "동해시 천곡동 중심지"
+  ],
+  "accessNote": "동해시 · 동해시 천곡동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.62,
+    "localLife": 35,
+    "peerShare": 24,
+    "eveningVibe": 0.42,
+    "eveningSurplus": 1.27
+  },
+  "scores": {
+    "quiet": 20,
+    "vibe": 74,
+    "peer": 24
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      80,
+      70,
+      60,
+      50,
+      40,
+      32,
+      25,
+      21,
+      20,
+      21,
+      25,
+      32,
+      40,
+      50,
+      60,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99,
+      95,
+      88
+    ],
+    "weekend": [
+      95,
+      88,
+      80,
+      70,
+      59,
+      48,
+      39,
+      30,
+      23,
+      19,
+      18,
+      19,
+      23,
+      30,
+      39,
+      48,
+      59,
+      70,
+      80,
+      88,
+      95,
+      99,
+      100,
+      99
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 20,
+      "lowHour": 8,
+      "lowValue": 20
+    },
+    "weekend": {
+      "peakHour": 22,
+      "lowHour": 10,
+      "lowValue": 18
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 35,
+    "weekendTourist": 34,
+    "weekdayWork": 19,
+    "dawnResidential": 12
+  },
+  "seasonType": "summer_beach"
+}

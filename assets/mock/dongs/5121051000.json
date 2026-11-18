@@ -1,0 +1,121 @@
+{
+  "id": "5121051000",
+  "name": "영랑동",
+  "sigungu": {
+    "id": "51210",
+    "name": "속초시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51210.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51210-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "속초시 영랑동 중심지"
+  ],
+  "accessNote": "속초시 · 속초시 영랑동 중심지 인근",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 1.48,
+    "localLife": 64,
+    "peerShare": 46,
+    "eveningVibe": 0.22,
+    "eveningSurplus": 0.91
+  },
+  "scores": {
+    "quiet": 30,
+    "vibe": 34,
+    "peer": 46
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      35,
+      36,
+      39,
+      45,
+      51,
+      59,
+      68,
+      76,
+      84,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      84,
+      76,
+      68,
+      59,
+      51,
+      45,
+      39,
+      36
+    ],
+    "weekend": [
+      34,
+      33,
+      34,
+      37,
+      43,
+      50,
+      58,
+      66,
+      75,
+      83,
+      90,
+      96,
+      99,
+      100,
+      99,
+      96,
+      90,
+      83,
+      75,
+      66,
+      58,
+      50,
+      43,
+      37
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 12,
+      "lowHour": 0,
+      "lowValue": 35
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 1,
+      "lowValue": 33
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 29,
+    "weekendTourist": 34,
+    "weekdayWork": 14,
+    "dawnResidential": 23
+  },
+  "seasonType": "summer_beach"
+}
