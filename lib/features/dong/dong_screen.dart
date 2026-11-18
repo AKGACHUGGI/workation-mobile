@@ -9,13 +9,15 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/models/community.dart';
 import '../../data/models/dong_detail.dart';
+import '../../data/models/me.dart';
 import '../../shared/widgets/metric_card.dart';
 import '../../shared/widgets/mobile_sticky_bar.dart';
 import '../../shared/widgets/photo_header.dart';
 import '../../shared/widgets/tag.dart';
-import '../auth/login_gate.dart';
 import '../community/widgets/poll_section.dart';
 import '../community/widgets/tips_section.dart';
+import '../favorites/favorite_actions.dart';
+import '../favorites/favorites_providers.dart';
 import '../home/home_providers.dart';
 import 'dong_copy.dart';
 import 'dong_providers.dart';
@@ -52,17 +54,15 @@ class _DongScreenState extends ConsumerState<DongScreen> {
       ..showSnackBar(SnackBar(content: Text('$what 기능은 준비 중이에요')));
   }
 
-  /// 동네 즐겨찾기. 즐겨찾기 상태가 생기면 이 함수만 바꿔 연결합니다.
-  Future<void> _onSave() async {
-    if (!await ensureLoggedIn(context, ref)) return;
-    if (!mounted) return;
-    _comingSoon('즐겨찾기');
-  }
+  /// 동네 즐겨찾기. 비로그인이면 로그인 뒤 이어서 저장합니다.
+  Future<void> _onSave() =>
+      toggleFavoriteWithLogin(context, ref, FavoriteKind.dongs, widget.dongId);
 
   @override
   Widget build(BuildContext context) {
     final arg = (id: widget.dongId, month: _month);
     final detail = ref.watch(dongDetailProvider(arg));
+    final saved = ref.watch(isDongSavedProvider(widget.dongId));
 
     final error = detail.isLoading ? null : detail.error;
     if (error != null) {
@@ -96,6 +96,7 @@ class _DongScreenState extends ConsumerState<DongScreen> {
                 photos: [for (final p in d.photos) p.url],
                 onBack: _back,
                 onShare: () => _comingSoon('공유'),
+                saved: saved,
                 onToggleSave: _onSave,
               ),
               _TitleBlock(
@@ -202,7 +203,7 @@ class _DongScreenState extends ConsumerState<DongScreen> {
             ? '집계 제외 동네'
             : '동네 조용함 ${quietGrade!.label} · '
                   '행정동 ${d.dongCount}곳 백분위 ${scores.quiet.round()}',
-        actionLabel: '동네 즐겨찾기',
+        actionLabel: saved ? '저장됨' : '동네 즐겨찾기',
         onAction: _onSave,
       ),
     );

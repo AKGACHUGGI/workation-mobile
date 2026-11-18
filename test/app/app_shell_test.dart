@@ -33,11 +33,11 @@ void main() {
 
     await tester.tap(tab('즐겨찾기'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('M-05 즐겨찾기'), findsOneWidget);
+    expect(find.text('로그인하고 저장해 보세요'), findsOneWidget);
 
     await tester.tap(tab('MY'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('M-07 MY'), findsOneWidget);
+    expect(find.text('로그인이 필요해요'), findsOneWidget);
 
     await tester.tap(tab('홈'));
     await tester.pumpAndSettle();

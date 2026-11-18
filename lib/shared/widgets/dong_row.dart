@@ -17,6 +17,7 @@ class DongRow extends StatelessWidget {
     required this.grade,
     this.kindTone = TagTone.neutral,
     this.showDivider = true,
+    this.trailing,
     this.onTap,
   });
 
@@ -33,6 +34,9 @@ class DongRow extends StatelessWidget {
   final String metricLabel;
   final Grade grade;
   final bool showDivider;
+
+  /// 오른쪽 끝 위젯. 없으면 `>` 화살표(M-05 편집 중에는 저장 해제 버튼).
+  final Widget? trailing;
   final VoidCallback? onTap;
 
   @override
@@ -79,7 +83,7 @@ class DongRow extends StatelessWidget {
         const SizedBox(width: 6),
         GradeBadge(grade),
         const SizedBox(width: AppSpacing.s3),
-        const Icon(LucideIcons.chevronRight, size: 20),
+        trailing ?? const Icon(LucideIcons.chevronRight, size: 20),
       ],
     );
   }

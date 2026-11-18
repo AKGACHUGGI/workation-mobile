@@ -16,7 +16,7 @@ import '../../helpers.dart';
 
 void main() {
   testWidgets('Avatar 는 글자를 그린다', (tester) async {
-    await pumpInTheme(tester, const Avatar('바'));
+    await pumpInTheme(tester, const Avatar(initial: '바'));
     expect(find.text('바'), findsOneWidget);
   });
 
