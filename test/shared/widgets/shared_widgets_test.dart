@@ -66,7 +66,7 @@ void main() {
       AppChipRow(
         children: [
           AppChip(label: '전체', onTap: () => taps++),
-          const AppChip(label: '장기체류형', selected: true),
+          const AppChip(label: '로컬살이형', selected: true),
         ],
       ),
     );
@@ -74,7 +74,7 @@ void main() {
     await tester.tap(find.text('전체'));
     expect(taps, 1);
     expect(
-      tester.widget<Text>(find.text('장기체류형')).style!.color,
+      tester.widget<Text>(find.text('로컬살이형')).style!.color,
       AppSemantic.selectedFg,
     );
   });
@@ -155,18 +155,18 @@ void main() {
       const DongScoreRow(
         name: '주문진읍',
         facts: [
-          FactPill('장기체류형', kind: FactKind.type),
+          FactPill('로컬살이형', kind: FactKind.type),
           FactPill('바닷가', kind: FactKind.coast),
         ],
         score: 61,
-        scoreLabel: '장기체류형',
+        scoreLabel: '로컬살이형',
       ),
     );
 
     expect(find.text('주문진읍'), findsOneWidget);
     expect(find.byType(FactPill), findsNWidgets(2));
     expect(find.text('61'), findsOneWidget);
-    expect(find.text('장기체류형'), findsNWidgets(2));
+    expect(find.text('로컬살이형'), findsNWidgets(2));
   });
 
   testWidgets('PhotoHeader 는 뒤로 · 공유 · 저장 버튼과 사진 수만큼 점을 그린다', (tester) async {
@@ -249,7 +249,7 @@ void main() {
         child: Column(
           children: [
             TypeBar(
-              name: '장기체류형',
+              name: '로컬살이형',
               score: 61,
               highlight: true,
               reason: '숙박 성향 64 · 한산한 달 7개',

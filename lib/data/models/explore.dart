@@ -5,14 +5,16 @@ import '../../core/metric/metric.dart';
 part 'explore.freezed.dart';
 part 'explore.g.dart';
 
-/// 워케이션 유형 4종. 순서는 백엔드 동점 순서와 같습니다.
+/// 워케이션 유형 3종(장기체류형은 workation-backend #17 에서 빠짐). 순서는 백엔드 동점 순서와 같습니다.
 abstract final class WorkationTypes {
   static const immersive = '몰입형';
   static const networking = '네트워킹형';
   static const local = '로컬살이형';
-  static const longStay = '장기체류형';
 
-  static const all = [immersive, networking, local, longStay];
+  static const all = [immersive, networking, local];
+
+  /// 대표 유형 기준(백엔드 `TYPE_MIN`). 1위 점수가 이보다 낮으면 핀의 `topType` · `topScore` 가 null 입니다.
+  static const min = 40;
 }
 
 @freezed
@@ -65,7 +67,8 @@ abstract class PinDong with _$PinDong {
     String? life,
     @Default(PinGrades()) PinGrades grades,
 
-    /// 유형 4종 점수(점수 높은 순). 백엔드 요청 중(workation-backend #16)이라 없을 수 있습니다.
+    /// 유형 3종 점수(점수 높은 순, workation-backend #16). `topType` 이 null 인 동에도 3개가 옵니다.
+    /// 옛 응답에는 없어서 null 일 수 있습니다.
     List<TypeScore>? types,
   }) = _PinDong;
 
@@ -116,7 +119,7 @@ abstract class ExploreDong with _$ExploreDong {
     required String sido,
     double? coastKm,
 
-    /// 4개, 점수 높은 순
+    /// 3개, 점수 높은 순
     @Default(<TypeScore>[]) List<TypeScore> types,
 
     /// 0개 또는 3개

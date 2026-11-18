@@ -12,7 +12,7 @@
 | `community/notes_<id>.json` · `poll_<id>.json` | `GET /api/{regions\|dongs}/{id}/notes` · `/poll` | 지역 51820, 동 5182025300 · 5115025000 의 샘플. 그 밖의 대상은 비어 있고, 팁 · 투표는 메모리에만 쌓입니다 |
 | `me/favorites.json` · `tips.json` · `photos.json` · `settings.json` · `summary.json` | `GET /api/me/favorites` · `/me/tips` · `/me/photos` · `/me/settings` · `/me/summary` | 웹 `src/mocks/me/*` 의 초기 값. 쓰기(PUT · DELETE · PATCH)는 메모리에만 반영됩니다 |
 
-- 핀의 `types`(유형 4종 점수)는 아직 실제 응답에 없는 필드입니다(workation-backend #16). 주문진읍만 실측이고, 나머지 동은 1위 유형 점수만 실측이며 다른 세 유형 점수는 **화면 확인용으로 지어낸 값**입니다.
+- 유형은 3종(몰입형 · 네트워킹형 · 로컬살이형)이고 대표 유형 기준은 40점입니다(1위가 40 미만이면 `topType` · `topScore` 가 null, 강릉 5개 면). 핀의 `types`(workation-backend #16, 3개)는 주문진읍만 실측이고, 나머지 동은 1위 유형 점수만 실측(40 미만 동은 웹 mock 주석의 1위 점수)이며 다른 두 유형 점수는 **화면 확인용으로 지어낸 값**입니다. 1위 유형 · 점수 · 바닷가 · 생활권 · 등급은 웹 `src/mocks/explore/pins.ts` 의 2026-11-14 실측과 같습니다.
 - 사진 경로(`assets/mock-photos/…`)의 파일은 커밋하지 않습니다. `assets/mock-photos/README.md` 를 봅니다.
 - `POST /api/search/parse` 는 파일이 없습니다. `MockSearchRepository` 가 문장에서 낱말(월 숫자 · 조용/활기 · 바다/산/도시 · 한 달/2주 · 또래)을 찾아 조건을 만듭니다.
 - 지역 상세의 사진은 `<코드>.jpg`, `<코드>-1.jpg` … `-4.jpg` 5장을 가리킵니다. 없는 장은 회색 상자로 나옵니다.

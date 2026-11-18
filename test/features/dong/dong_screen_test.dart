@@ -45,12 +45,12 @@ void main() {
     expect(find.text('해안'), findsOneWidget);
     expect(find.text('주말 관광형'), findsOneWidget);
 
-    // 유형 카드: 4종, 1위만 강조, 근거의 괄호 설명은 뗀다
+    // 유형 카드: 3종, 1위만 강조
     expect(find.text('워케이션 유형'), findsOneWidget);
     final bars = tester.widgetList<TypeBar>(find.byType(TypeBar)).toList();
-    expect(bars.map((b) => b.name), ['장기체류형', '로컬살이형', '네트워킹형', '몰입형']);
-    expect([for (final b in bars) b.highlight], [true, false, false, false]);
-    expect(find.text('숙박 성향 64 · 한산한 달 7개'), findsOneWidget);
+    expect(bars.map((b) => b.name), ['로컬살이형', '네트워킹형', '몰입형']);
+    expect([for (final b in bars) b.highlight], [true, false, false]);
+    expect(find.text('생활권 지수 0.74'), findsOneWidget);
 
     // 곡선: 기본은 주중
     expect(find.text('24시간 붐빔 곡선'), findsOneWidget);

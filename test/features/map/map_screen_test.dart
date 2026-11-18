@@ -150,7 +150,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(locationOf(tester), '/map?sgg=51150');
-      expect(find.widgetWithText(AppChip, '장기체류형'), findsOneWidget);
+      expect(find.widgetWithText(AppChip, '로컬살이형'), findsOneWidget);
       expect(find.text('강릉시'), findsOneWidget); // 머리글만
     });
 
@@ -183,14 +183,13 @@ void main() {
   });
 
   group('① 행정동 핀', () {
-    testWidgets('머리글 · 핀 · 칩 8개 · 제목 줄 없는 목록', (tester) async {
+    testWidgets('머리글 · 핀 · 칩 7개 · 제목 줄 없는 목록', (tester) async {
       await pumpMap(tester, sgg: '51150');
 
       expect(find.text('강릉시'), findsOneWidget);
       expect(find.byType(DongPin), findsWidgets);
       for (final label in [
         '전체',
-        '장기체류형',
         '로컬살이형',
         '네트워킹형',
         '몰입형',
@@ -361,7 +360,7 @@ void main() {
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
       expect(locationOf(tester), '/map?sgg=51150');
-      expect(find.widgetWithText(AppChip, '장기체류형'), findsOneWidget);
+      expect(find.widgetWithText(AppChip, '로컬살이형'), findsOneWidget);
 
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
@@ -398,8 +397,8 @@ void main() {
       expect(find.text('바닷가 0.0km'), findsOneWidget);
       expect(find.text('강원특별자치도 · 강릉시'), findsOneWidget);
       final bar = tester.widget<TypeBar>(find.byType(TypeBar));
-      expect(bar.name, '장기체류형');
-      expect(bar.score, 61);
+      expect(bar.name, '로컬살이형');
+      expect(bar.score, 60);
       expect(bar.highlight, isTrue);
       // 브리핑은 첫 줄만
       expect(

@@ -8,6 +8,7 @@ import 'package:workation_mobile/features/dong/dong_copy.dart';
 import 'package:workation_mobile/features/dong/widgets/hourly_curve_card.dart';
 import 'package:workation_mobile/features/dong/widgets/location_card.dart';
 import 'package:workation_mobile/features/dong/widgets/month_day_row.dart';
+import 'package:workation_mobile/shared/widgets/type_bar.dart';
 import 'package:workation_mobile/features/dong/widgets/workation_types_card.dart';
 
 import '../../fakes/dong.dart';
@@ -53,9 +54,9 @@ void main() {
         child: WorkationTypesCard(
           types: [
             TypeScore(
-              name: '장기체류형',
-              score: 61,
-              reason: '숙박 성향 64 · 한산한 달 7개(성수기보다 20% 이상 적은 달)',
+              name: '로컬살이형',
+              score: 60,
+              reason: '생활권 지수 0.74(거주+근무 ÷ 전체)',
             ),
             TypeScore(name: '몰입형', score: 36),
           ],
@@ -64,10 +65,33 @@ void main() {
     );
 
     expect(find.text('유형별 적합도 · 0~100'), findsOneWidget);
-    expect(find.text('숙박 성향 64 · 한산한 달 7개'), findsOneWidget);
-    expect(find.text('61'), findsOneWidget);
+    expect(find.text('생활권 지수 0.74'), findsOneWidget);
+    expect(find.text('60'), findsOneWidget);
     expect(find.text('36'), findsOneWidget);
     expect(WorkationTypesCard.shortReason('생활권 지수 0.74'), '생활권 지수 0.74');
+    final bars = tester.widgetList<TypeBar>(find.byType(TypeBar)).toList();
+    expect([for (final b in bars) b.highlight], [true, false]);
+  });
+
+  testWidgets('WorkationTypesCard 는 1위도 대표 유형 기준(40) 미만이면 강조하지 않는다', (
+    tester,
+  ) async {
+    await pumpInTheme(
+      tester,
+      const SizedBox(
+        width: 358,
+        child: WorkationTypesCard(
+          types: [
+            TypeScore(name: '네트워킹형', score: 32),
+            TypeScore(name: '몰입형', score: 29),
+            TypeScore(name: '로컬살이형', score: 26),
+          ],
+        ),
+      ),
+    );
+
+    final bars = tester.widgetList<TypeBar>(find.byType(TypeBar)).toList();
+    expect([for (final b in bars) b.highlight], [false, false, false]);
   });
 
   testWidgets('MonthDayRow 는 월 시트에서 고르고 주중 · 주말을 바꾼다', (tester) async {

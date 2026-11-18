@@ -840,7 +840,8 @@ mixin _$PinDong {
 
  String get id; String get name; GeoPoint? get center;/// 관광공사 동 태그 id, 백엔드 순서. 핀 아이콘은 맨 앞 것을 씁니다.
  List<String> get tags; String? get topType; double? get topScore; bool get coastal;/// `생활권` 또는 `관광지`
- String? get life; PinGrades get grades;/// 유형 4종 점수(점수 높은 순). 백엔드 요청 중(workation-backend #16)이라 없을 수 있습니다.
+ String? get life; PinGrades get grades;/// 유형 3종 점수(점수 높은 순, workation-backend #16). `topType` 이 null 인 동에도 3개가 옵니다.
+/// 옛 응답에는 없어서 null 일 수 있습니다.
  List<TypeScore>? get types;
 /// Create a copy of PinDong
 /// with the given fields replaced by the non-null parameter values.
@@ -1091,9 +1092,11 @@ class _PinDong extends PinDong {
 /// `생활권` 또는 `관광지`
 @override final  String? life;
 @override@JsonKey() final  PinGrades grades;
-/// 유형 4종 점수(점수 높은 순). 백엔드 요청 중(workation-backend #16)이라 없을 수 있습니다.
+/// 유형 3종 점수(점수 높은 순, workation-backend #16). `topType` 이 null 인 동에도 3개가 옵니다.
+/// 옛 응답에는 없어서 null 일 수 있습니다.
  final  List<TypeScore>? _types;
-/// 유형 4종 점수(점수 높은 순). 백엔드 요청 중(workation-backend #16)이라 없을 수 있습니다.
+/// 유형 3종 점수(점수 높은 순, workation-backend #16). `topType` 이 null 인 동에도 3개가 옵니다.
+/// 옛 응답에는 없어서 null 일 수 있습니다.
 @override List<TypeScore>? get types {
   final value = _types;
   if (value == null) return null;
@@ -1751,7 +1754,7 @@ as String,
 /// @nodoc
 mixin _$ExploreDong {
 
- String get id; String get name; SigunguRef get sigungu; String get sido; double? get coastKm;/// 4개, 점수 높은 순
+ String get id; String get name; SigunguRef get sigungu; String get sido; double? get coastKm;/// 3개, 점수 높은 순
  List<TypeScore> get types;/// 0개 또는 3개
  List<String> get briefing;
 /// Create a copy of ExploreDong
@@ -1975,9 +1978,9 @@ class _ExploreDong implements ExploreDong {
 @override final  SigunguRef sigungu;
 @override final  String sido;
 @override final  double? coastKm;
-/// 4개, 점수 높은 순
+/// 3개, 점수 높은 순
  final  List<TypeScore> _types;
-/// 4개, 점수 높은 순
+/// 3개, 점수 높은 순
 @override@JsonKey() List<TypeScore> get types {
   if (_types is EqualUnmodifiableListView) return _types;
   // ignore: implicit_dynamic_type
