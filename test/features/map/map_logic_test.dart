@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:convert';
 import 'dart:io';
 
@@ -44,6 +45,30 @@ void main() {
       final back = MapProjection.toGeo(MapProjection.toWorld(p));
       expect(back.lat, closeTo(p.lat, 1e-9));
       expect(back.lng, closeTo(p.lng, 1e-9));
+    });
+
+    test('Google Maps 줌 ↔ 배율: 줌 0 은 세계 한 바퀴가 256px, 줌 1 오르면 두 배', () {
+      expect(MapCamera.scaleForZoom(0) * 2 * math.pi, closeTo(256, 1e-9));
+      expect(
+        MapCamera.scaleForZoom(11) / MapCamera.scaleForZoom(10),
+        closeTo(2, 1e-9),
+      );
+      expect(
+        MapCamera.zoomForScale(MapCamera.scaleForZoom(9.3)),
+        closeTo(9.3, 1e-9),
+      );
+    });
+
+    test('fromZoom 카메라는 가운데 위경도 · 줌을 그대로 돌려준다', () {
+      const target = GeoPoint(lat: 37.75, lng: 128.9);
+      final cam = MapCamera.fromZoom(const Size(390, 600), target, 10.5);
+      expect(cam.target.lat, closeTo(target.lat, 1e-9));
+      expect(cam.target.lng, closeTo(target.lng, 1e-9));
+      expect(cam.zoom, closeTo(10.5, 1e-9));
+      // 가운데 점은 화면 가운데에 놓입니다.
+      final c = cam.toScreen(target);
+      expect(c.dx, closeTo(195, 1e-6));
+      expect(c.dy, closeTo(300, 1e-6));
     });
 
     test('북쪽일수록 화면 위(y 작음), 동쪽일수록 오른쪽(x 큼)', () {

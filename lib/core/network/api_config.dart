@@ -26,6 +26,13 @@ abstract final class ApiConfig {
   /// Supabase 대시보드 Authentication → URL Configuration 의 Redirect URLs 에 같은 값이 있어야 합니다.
   static const authRedirectUrl = 'com.skpjc.workationmobile://login-callback';
 
+  /// Google Maps 키(Maps SDK for Android · iOS). 앱은 비어 있는지만 보고, 실제 키는
+  /// Android `build.gradle.kts` · iOS `AppDelegate` 가 같은 dart-define 에서 읽어 SDK 에 넘깁니다.
+  static const mapsApiKey = String.fromEnvironment('GOOGLE_MAPS_API_KEY');
+
+  /// Google Maps 타일을 쓸지. 키가 없으면(테스트 포함) 경계를 직접 그린 지도로 대신합니다.
+  static const mapsEnabled = mapsApiKey != '';
+
   static const connectTimeout = Duration(seconds: 10);
 
   /// 자연어 검색(LLM)은 응답에 수 초가 걸려 여유를 둡니다.

@@ -81,6 +81,9 @@
 		</dict>
 	</array>
 	<!-- 딥링크는 supabase_flutter(app_links)가 받습니다. go_router 로 넘기지 않습니다 -->
+	<!-- --dart-define 값(base64 목록). AppDelegate 가 GOOGLE_MAPS_API_KEY 를 꺼내 씁니다 -->
+	<key>DartDefines</key>
+	<string>$(DART_DEFINES)</string>
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
 </dict>

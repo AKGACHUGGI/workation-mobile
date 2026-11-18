@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/network/api_config.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/explore.dart';
 import '../../../data/models/geo_area.dart';
 import '../map_projection.dart';
+import 'google_map_canvas.dart';
 
-/// 지도에 칠하는 면 하나. 좌표는 세계 좌표(메르카토르)로 한 번만 바꿔 둡니다.
+/// 지도에 칠하는 면 하나. 경계는 위경도로 두고, 직접 그릴 때 쓰는 세계 좌표(메르카토르)는
+/// 처음 필요할 때 한 번만 바꿔 둡니다.
 class MapShape {
   MapShape({
     required this.id,
@@ -23,13 +26,7 @@ class MapShape {
     double strokeWidth = 1,
   }) => MapShape(
     id: area.id,
-    polygons: _worldCache[area] ??= [
-      for (final polygon in area.polygons)
-        [
-          for (final ring in polygon)
-            [for (final p in ring) MapProjection.toWorld(p)],
-        ],
-    ],
+    polygons: area.polygons,
     fill: fill,
     stroke: stroke,
     strokeWidth: strokeWidth,
@@ -45,9 +42,7 @@ class MapShape {
   }) => MapShape(
     id: id,
     polygons: [
-      [
-        [for (final p in points) MapProjection.toWorld(p)],
-      ],
+      [points],
     ],
     fill: fill,
     stroke: stroke,
@@ -57,28 +52,64 @@ class MapShape {
   static final _worldCache = Expando<List<List<List<Offset>>>>('worldPolygons');
 
   final String id;
-  final List<List<List<Offset>>> polygons;
+
+  /// 폴리곤 → 고리(첫 고리가 바깥, 나머지는 구멍) → 점
+  final List<List<List<GeoPoint>>> polygons;
   final Color? fill;
   final Color? stroke;
   final double strokeWidth;
+
+  /// [polygons] 를 세계 좌표로 바꾼 것. 같은 경계 목록이면 다시 계산하지 않습니다.
+  List<List<List<Offset>>> get world => _worldCache[polygons] ??= [
+    for (final polygon in polygons)
+      [
+        for (final ring in polygon)
+          [for (final p in ring) MapProjection.toWorld(p)],
+      ],
+  ];
+
+  /// 그린 모양이 같은지. id 가 같으면 경계도 같다고 보고 색 · 선만 비교합니다.
+  static bool sameList(List<MapShape> a, List<MapShape> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].id != b[i].id ||
+          a[i].fill != b[i].fill ||
+          a[i].stroke != b[i].stroke ||
+          a[i].strokeWidth != b[i].strokeWidth ||
+          a[i].polygons.length != b[i].polygons.length) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 /// 밖에서 카메라를 옮기는 손잡이.
 class MapCanvasController {
-  _MapCanvasState? _state;
+  void Function(GeoBounds bounds, EdgeInsets? padding)? _fit;
 
   /// [bounds] 가 화면에 들어오게 부드럽게 옮깁니다.
   void fitBounds(GeoBounds bounds, {EdgeInsets? padding}) =>
-      _state?._animateToBounds(bounds, padding: padding);
+      _fit?.call(bounds, padding);
 }
 
-/// 지도 한 장. 배경 · 면([shapes])을 직접 그리고, 이름 라벨 · 핀은 [overlayBuilder] 가
-/// 돌려주는 위젯을 그 위에 겹칩니다. 끌어서 이동, 두 손가락으로 확대 · 축소합니다.
+/// 컨트롤러를 지도 구현에 붙였다 떼는 도우미(같은 라이브러리 안에서만 씁니다).
+extension MapCanvasControllerBinding on MapCanvasController {
+  void attach(void Function(GeoBounds, EdgeInsets?) fit) => _fit = fit;
+
+  void detach(void Function(GeoBounds, EdgeInsets?) fit) {
+    if (_fit == fit) _fit = null;
+  }
+}
+
+/// 지도 한 장. 면([shapes])을 칠하고, 이름 라벨 · 핀은 [overlayBuilder] 가 돌려주는 위젯을
+/// 그 위에 겹칩니다. 끌어서 이동, 두 손가락으로 확대 · 축소합니다.
 ///
-/// 나중에 Google Maps 로 바꿀 때 이 위젯 한 곳을 `GoogleMap` 으로 갈아 끼웁니다.
-/// 투영은 [MapCamera](웹 메르카토르, Google Maps 와 같음)이고, 겹쳐 놓는 위젯은
-/// 카메라로 위경도를 화면 좌표로 바꿔 자리를 잡으므로 지도 SDK 에 묶이지 않습니다.
-class MapCanvas extends StatefulWidget {
+/// Google Maps 키가 있으면(`ApiConfig.mapsEnabled`) 타일 지도 위에 면을 폴리곤으로 올리고
+/// ([GoogleMapCanvas]), 없으면(테스트 포함) 배경 · 면을 직접 그립니다. 투영은 둘 다
+/// [MapCamera](웹 메르카토르)라, 겹쳐 놓는 위젯은 어느 쪽이든 같은 카메라로 자리를 잡습니다.
+class MapCanvas extends StatelessWidget {
   const MapCanvas({
     super.key,
     required this.bounds,
@@ -90,6 +121,7 @@ class MapCanvas extends StatefulWidget {
     this.onTapGeo,
     this.maxZoomIn = 40,
     this.maxZoomOut = 8,
+    this.tiles,
   });
 
   /// 처음 보여 줄 범위. [fitKey] 가 바뀌면 이 범위로 다시 맞춥니다.
@@ -111,11 +143,43 @@ class MapCanvas extends StatefulWidget {
   final double maxZoomIn;
   final double maxZoomOut;
 
+  /// Google Maps 타일을 쓸지. null 이면 `ApiConfig.mapsEnabled`.
+  final bool? tiles;
+
+  /// 지금 설정으로 타일 지도를 쓰는지. 화면은 이 값으로 바다 · 이웃 지역 이름 같은
+  /// 장식(타일이 대신 그려 주는 것)을 넣을지 정합니다.
+  static bool get usesTiles => ApiConfig.mapsEnabled;
+
   @override
-  State<MapCanvas> createState() => _MapCanvasState();
+  Widget build(BuildContext context) {
+    if (tiles ?? usesTiles) {
+      return GoogleMapCanvas(
+        bounds: bounds,
+        fitKey: fitKey,
+        padding: padding,
+        controller: controller,
+        shapes: shapes,
+        overlayBuilder: overlayBuilder,
+        onTapGeo: onTapGeo,
+        maxZoomIn: maxZoomIn,
+        maxZoomOut: maxZoomOut,
+      );
+    }
+    return _PaintedMapCanvas(this);
+  }
 }
 
-class _MapCanvasState extends State<MapCanvas>
+/// 키가 없을 때의 지도: 배경과 면을 CustomPaint 로 직접 그립니다.
+class _PaintedMapCanvas extends StatefulWidget {
+  const _PaintedMapCanvas(this.config);
+
+  final MapCanvas config;
+
+  @override
+  State<_PaintedMapCanvas> createState() => _MapCanvasState();
+}
+
+class _MapCanvasState extends State<_PaintedMapCanvas>
     with SingleTickerProviderStateMixin {
   late final AnimationController _anim = AnimationController(
     vsync: this,
@@ -132,27 +196,29 @@ class _MapCanvasState extends State<MapCanvas>
   MapCamera? _gestureStart;
   Offset _gestureFocalWorld = Offset.zero;
 
+  MapCanvas get _config => widget.config;
+
   @override
   void initState() {
     super.initState();
-    widget.controller?._state = this;
+    _config.controller?.attach(_animateToBounds);
   }
 
   @override
-  void didUpdateWidget(MapCanvas old) {
+  void didUpdateWidget(_PaintedMapCanvas old) {
     super.didUpdateWidget(old);
-    if (old.controller != widget.controller) {
-      old.controller?._state = null;
-      widget.controller?._state = this;
+    if (old.config.controller != _config.controller) {
+      old.config.controller?.detach(_animateToBounds);
+      _config.controller?.attach(_animateToBounds);
     }
-    if (old.fitKey != widget.fitKey && _size != Size.zero) {
-      _animateToBounds(widget.bounds);
+    if (old.config.fitKey != _config.fitKey && _size != Size.zero) {
+      _animateToBounds(_config.bounds, null);
     }
   }
 
   @override
   void dispose() {
-    if (widget.controller?._state == this) widget.controller?._state = null;
+    _config.controller?.detach(_animateToBounds);
     _anim.dispose();
     super.dispose();
   }
@@ -170,13 +236,13 @@ class _MapCanvasState extends State<MapCanvas>
     );
   }
 
-  void _animateToBounds(GeoBounds bounds, {EdgeInsets? padding}) {
+  void _animateToBounds(GeoBounds bounds, EdgeInsets? padding) {
     final from = _camera;
     if (from == null) return;
     final to = MapCamera.fit(
       bounds,
       _size,
-      padding: padding ?? widget.padding,
+      padding: padding ?? _config.padding,
       maxScale: _maxScale,
     );
     _animFrom = from;
@@ -184,8 +250,8 @@ class _MapCanvasState extends State<MapCanvas>
     _anim.forward(from: 0);
   }
 
-  double get _maxScale => (_baseScale ?? 1) * widget.maxZoomIn;
-  double get _minScale => (_baseScale ?? 1) / widget.maxZoomOut;
+  double get _maxScale => (_baseScale ?? 1) * _config.maxZoomIn;
+  double get _minScale => (_baseScale ?? 1) / _config.maxZoomOut;
 
   void _onScaleStart(ScaleStartDetails d) {
     _anim.stop();
@@ -219,9 +285,9 @@ class _MapCanvasState extends State<MapCanvas>
         var camera = _camera;
         if (camera == null) {
           camera = MapCamera.fit(
-            widget.bounds,
+            _config.bounds,
             size,
-            padding: widget.padding,
+            padding: _config.padding,
             maxScale: double.infinity,
           );
           _baseScale = camera.scale;
@@ -236,19 +302,19 @@ class _MapCanvasState extends State<MapCanvas>
             behavior: HitTestBehavior.opaque,
             onScaleStart: _onScaleStart,
             onScaleUpdate: _onScaleUpdate,
-            onTapUp: widget.onTapGeo == null
+            onTapUp: _config.onTapGeo == null
                 ? null
-                : (d) => widget.onTapGeo!(cam.toGeo(d.localPosition)),
+                : (d) => _config.onTapGeo!(cam.toGeo(d.localPosition)),
             child: Stack(
               fit: StackFit.expand,
               children: [
                 ColoredBox(color: semantic.mapLandAlt),
                 CustomPaint(
-                  painter: _ShapePainter(cam, widget.shapes),
+                  painter: _ShapePainter(cam, _config.shapes),
                   size: size,
                 ),
-                if (widget.overlayBuilder != null)
-                  widget.overlayBuilder!(context, cam),
+                if (_config.overlayBuilder != null)
+                  _config.overlayBuilder!(context, cam),
               ],
             ),
           ),
@@ -269,7 +335,7 @@ class _ShapePainter extends CustomPainter {
     final visible = Offset.zero & size;
     for (final shape in shapes) {
       final path = Path()..fillType = PathFillType.evenOdd;
-      for (final polygon in shape.polygons) {
+      for (final polygon in shape.world) {
         for (final ring in polygon) {
           if (ring.isEmpty) continue;
           final first = camera.worldToScreen(ring.first);
@@ -303,20 +369,7 @@ class _ShapePainter extends CustomPainter {
       old.camera.center != camera.center ||
       old.camera.scale != camera.scale ||
       old.camera.size != camera.size ||
-      !identical(old.shapes, shapes) && !_sameShapes(old.shapes, shapes);
-
-  static bool _sameShapes(List<MapShape> a, List<MapShape> b) {
-    if (a.length != b.length) return false;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i].id != b[i].id ||
-          a[i].fill != b[i].fill ||
-          a[i].stroke != b[i].stroke ||
-          a[i].strokeWidth != b[i].strokeWidth) {
-        return false;
-      }
-    }
-    return true;
-  }
+      !MapShape.sameList(old.shapes, shapes);
 }
 
 /// 지도 위에 위젯을 놓는 도우미. 위젯의 가로 가운데를 [at] 에 맞추고,

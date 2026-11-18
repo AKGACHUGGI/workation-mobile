@@ -1,8 +1,24 @@
+import java.util.Base64
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// `flutter run --dart-define-from-file=env.json` 의 값은 Gradle 에 base64 목록(`dart-defines`)으로
+// 넘어옵니다. Google Maps 키를 여기서 꺼내 매니페스트에 넣습니다(키를 커밋하지 않기 위함).
+val dartDefines: Map<String, String> =
+    (project.findProperty("dart-defines") as String?)
+        ?.split(",")
+        ?.mapNotNull { encoded ->
+            runCatching { String(Base64.getDecoder().decode(encoded)) }.getOrNull()
+        }
+        ?.mapNotNull { pair ->
+            pair.split("=", limit = 2).takeIf { it.size == 2 }?.let { it[0] to it[1] }
+        }
+        ?.toMap()
+        ?: emptyMap()
 
 android {
     namespace = "com.skpjc.workation_mobile"
@@ -27,6 +43,7 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["googleMapsApiKey"] = dartDefines["GOOGLE_MAPS_API_KEY"] ?: ""
     }
 
     buildTypes {
