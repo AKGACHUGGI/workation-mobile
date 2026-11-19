@@ -13,6 +13,7 @@ import '../../shared/widgets/dong_pin.dart';
 import '../../shared/widgets/heat_legend.dart';
 import 'map_decor.dart';
 import 'map_logic.dart';
+import 'map_markers.dart';
 import 'map_projection.dart';
 import 'map_providers.dart';
 import 'widgets/dong_list_sheet.dart';
@@ -321,6 +322,14 @@ class _SigunguMap extends ConsumerWidget {
           controller: controller,
           shapes: shapes,
           onTapGeo: tapGeo,
+          // 타일 지도는 마커, 직접 그리는 지도는 겹친 위젯
+          markersBuilder: (camera) => sigunguMarkerSpecs(
+            camera,
+            areas,
+            scores: scores,
+            selected: selected,
+            onSelect: onSelect,
+          ),
           overlayBuilder: (context, camera) => _SigunguLabels(
             camera: camera,
             areas: areas,
@@ -422,48 +431,21 @@ class _SigunguLabels extends StatelessWidget {
   final String? selected;
   final ValueChanged<String> onSelect;
 
-  static String summaryOf(GeoArea a) =>
-      [if (a.dongCount != null) '동 ${a.dongCount}', ?a.hint].join(' · ');
-
-  /// 글자 폭 어림(한글 12px ≈ 12, 숫자 · 기호 ≈ 7)으로 라벨 상자를 잡습니다.
-  static Size sizeOf(String name, String summary) => Size(
-    20 + name.length * 12.0 + (summary.isEmpty ? 0 : 6 + summary.length * 9.0),
-    26,
-  );
-
   @override
   Widget build(BuildContext context) {
     final viewport = Offset.zero & camera.size;
 
-    // 화면 가장자리에 걸치면 안쪽으로 밀어 넣습니다.
-    Offset spot(GeoArea a) {
-      final p = camera.toScreen(a.label!);
-      final half = sizeOf(a.name, summaryOf(a)).width / 2 + 8;
-      return Offset(p.dx.clamp(half, camera.size.width - half), p.dy);
-    }
-
     // 고른 것 → 점수 높은 것 순으로 자리를 잡고, 겹치는 라벨은 숨깁니다(확대하면 나타남).
-    final candidates =
-        [
-          for (final a in areas)
-            if (a.label != null && viewport.contains(camera.toScreen(a.label!)))
-              a,
-        ]..sort((a, b) {
-          if (a.id == selected) return -1;
-          if (b.id == selected) return 1;
-          return (scores[b.id] ?? -1).compareTo(scores[a.id] ?? -1);
-        });
-    final rects = [
-      for (final a in candidates)
-        Rect.fromCenter(
-          center: spot(a),
-          width: sizeOf(a.name, summaryOf(a)).width,
-          height: 26,
-        ),
-    ];
-    final keep = pickNonOverlapping(rects);
+    // 화면 가장자리에 걸치면 안쪽으로 밀어 넣습니다.
+    final labels = pickAreaLabels(
+      camera,
+      areas,
+      scores: scores,
+      selected: selected,
+      includeOffscreen: false,
+    );
 
-    final zoomedIn = camera.visible.north - camera.visible.south < 3;
+    final zoomedIn = showsExcludedAreas(camera);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -497,20 +479,19 @@ class _SigunguLabels extends StatelessWidget {
                   state: AreaLabelState.excluded,
                 ),
               ),
-        for (var i = candidates.length - 1; i >= 0; i--)
-          if (keep[i])
-            MapAnchored(
-              key: ValueKey(candidates[i].id),
-              at: spot(candidates[i]),
-              child: AreaLabel(
-                name: candidates[i].name,
-                summary: summaryOf(candidates[i]),
-                state: candidates[i].id == selected
-                    ? AreaLabelState.selected
-                    : AreaLabelState.normal,
-                onTap: () => onSelect(candidates[i].id),
-              ),
+        for (final l in labels.reversed)
+          MapAnchored(
+            key: ValueKey(l.area.id),
+            at: l.spot,
+            child: AreaLabel(
+              name: l.area.name,
+              summary: areaSummary(l.area),
+              state: l.area.id == selected
+                  ? AreaLabelState.selected
+                  : AreaLabelState.normal,
+              onTap: () => onSelect(l.area.id),
             ),
+          ),
       ],
     );
   }
@@ -561,20 +542,34 @@ class _DongMap extends ConsumerWidget {
         ),
     ];
 
+    // 묶음을 누르면 접힌 핀들이 다 보이게 확대합니다.
+    void openCluster(PinCluster c) => controller.fitBounds(
+      GeoBounds.of([for (final m in c.members) m.center!])!.atLeast(0.012),
+      padding: const EdgeInsets.fromLTRB(56, 96, 56, 56),
+    );
+
     return MapCanvas(
       bounds: bounds,
       fitKey: sigungu.id,
       padding: const EdgeInsets.fromLTRB(32, 72, 32, 24),
       controller: controller,
       shapes: shapes,
+      // 타일 지도는 마커, 직접 그리는 지도는 겹친 위젯
+      markersBuilder: (camera) => dongMarkerSpecs(
+        camera,
+        pins,
+        dongId: dongId,
+        onPickDong: onPickDong,
+        onOpenCluster: openCluster,
+      ),
       overlayBuilder: (context, camera) => _PinLayer(
         camera: camera,
         sigungu: sigungu,
         areas: areas,
         pins: pins,
         dongId: dongId,
-        controller: controller,
         onPickDong: onPickDong,
+        onOpenCluster: openCluster,
       ),
     );
   }
@@ -587,8 +582,8 @@ class _PinLayer extends StatelessWidget {
     required this.areas,
     required this.pins,
     required this.dongId,
-    required this.controller,
     required this.onPickDong,
+    required this.onOpenCluster,
   });
 
   final MapCamera camera;
@@ -596,8 +591,8 @@ class _PinLayer extends StatelessWidget {
   final List<GeoArea> areas;
   final List<PinDong> pins;
   final String? dongId;
-  final MapCanvasController controller;
   final ValueChanged<String> onPickDong;
+  final ValueChanged<PinCluster> onOpenCluster;
 
   @override
   Widget build(BuildContext context) {
@@ -663,11 +658,7 @@ class _PinLayer extends StatelessWidget {
             ),
             child: PinClusterPill(
               count: c.members.length,
-              onTap: () => controller.fitBounds(
-                GeoBounds.of([for (final m in c.members) m.center!])!
-                    .atLeast(0.012),
-                padding: const EdgeInsets.fromLTRB(56, 96, 56, 56),
-              ),
+              onTap: () => onOpenCluster(c),
             ),
           ),
       ],
