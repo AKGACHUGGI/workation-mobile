@@ -207,7 +207,8 @@ void main() {
           count++;
           expect(d.name, dong.name, reason: dong.id);
           expect(d.sigungu.id, region.id, reason: dong.id);
-          // 생활권 · 관광지 구분(kind)은 서버의 지역 목록과 동 상세가 다른 동이 있어 견주지 않습니다.
+          // 생활권 · 관광지 구분은 지역 목록과 동 상세가 같아야 합니다(workation-backend #32).
+          expect(d.kind, dong.kind, reason: dong.id);
           for (final h in [d.hourly.weekday, d.hourly.weekend]) {
             expect(h, hasLength(24), reason: dong.id);
             expect(h.every((v) => v >= 0 && v <= 100), isTrue);
