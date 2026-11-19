@@ -16,6 +16,7 @@ import '../auth/auth_providers.dart';
 import '../auth/widgets/login_prompt.dart';
 import '../favorites/favorites_providers.dart';
 import 'my_providers.dart';
+import 'widgets/delete_my_tip.dart';
 import 'widgets/my_photo_tile.dart';
 import 'widgets/my_tip_tile.dart';
 
@@ -485,6 +486,7 @@ class _TipsTab extends ConsumerWidget {
               MyTipTile(
                 key: ValueKey(tip.id),
                 tip: tip,
+                onDelete: () => confirmDeleteMyTip(context, ref, tip),
                 onTap: () => context.push(
                   tip.target.kind == TipTargetKind.region
                       ? AppRoutes.region(tip.target.id)

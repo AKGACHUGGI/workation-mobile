@@ -133,12 +133,17 @@ class FakeMeRepository implements MeRepository {
     this.settingsError,
     this.moreTips,
     this.failMoreTips = false,
+    this.failDelete = false,
   });
 
   bool failPatch;
   Object? settingsError;
   List<MyTip>? moreTips;
   bool failMoreTips;
+  bool failDelete;
+
+  /// 지운 팁 id(순서대로). 지운 뒤에는 팁 목록 · 요약에서 빠집니다.
+  final deletedTips = <String>[];
 
   /// 설정을 읽은 횟수
   int settingsCalls = 0;
@@ -158,12 +163,18 @@ class FakeMeRepository implements MeRepository {
   final patches = <Map<String, bool>>[];
 
   @override
-  Future<MeSummary> summary() async => const MeSummary(
+  Future<void> deleteTip(String id) async {
+    if (failDelete) throw const NetworkException('/api/me/tips');
+    deletedTips.add(id);
+  }
+
+  @override
+  Future<MeSummary> summary() async => MeSummary(
     stays: [
       StayCount(regionName: '강릉', count: 2),
       StayCount(regionName: '고성', count: 1),
     ],
-    tipCount: 2,
+    tipCount: 2 - deletedTips.length,
     photoCount: 3,
     favoriteCount: 6,
     voteCount: 3,
@@ -177,7 +188,13 @@ class FakeMeRepository implements MeRepository {
       if (failMoreTips) throw const NetworkException('/api/me/tips');
       return MyTipsResponse(items: moreTips ?? const [], helpfulSum: 17);
     }
+    final items = [
+      for (final t in _firstTips.items)
+        if (!deletedTips.contains(t.id)) t,
+    ];
     return _firstTips.copyWith(
+      items: items,
+      helpfulSum: items.fold(0, (sum, t) => sum + t.helpful),
       nextCursor: moreTips == null ? null : _nextCursor,
     );
   }

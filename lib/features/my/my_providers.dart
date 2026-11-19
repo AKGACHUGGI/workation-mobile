@@ -2,9 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/network/api_exception.dart';
 import '../../core/network/retry.dart';
+import '../../data/models/community.dart';
 import '../../data/models/me.dart';
 import '../../data/repositories/me_repository.dart';
 import '../auth/auth_providers.dart';
+import '../community/community_providers.dart';
 
 /// 알림 설정 항목 (`PATCH /api/me/settings` 의 키와 같습니다).
 enum NotifySetting {
@@ -125,6 +127,49 @@ class MyTipsNotifier extends AsyncNotifier<MyTipsResponse> {
     } finally {
       _loadingMore = false;
     }
+  }
+
+  /// 내 팁을 지웁니다. 지우지 못하면 false(목록은 그대로).
+  ///
+  /// 성공하면 목록 · 합계에서 빼고, 요약(팁 수)과 그 지역 · 동네의 팁 목록을 다시
+  /// 읽게 합니다. 서버의 `cursor` 는 읽은 개수라 다음 쪽이 남아 있으면 한 칸이 밀려
+  /// 빠지는 팁이 생기므로, 그때는 첫 쪽부터 다시 읽어 바꿉니다.
+  Future<bool> deleteTip(MyTip tip) async {
+    final repo = ref.read(meRepositoryProvider);
+    try {
+      await repo.deleteTip(tip.id);
+    } on ApiException {
+      return false;
+    }
+    if (!ref.mounted) return true;
+    ref.invalidate(meSummaryProvider);
+    ref.invalidate(
+      tipsProvider(
+        tip.target.kind == TipTargetKind.region
+            ? CommunityTarget.region(tip.target.id)
+            : CommunityTarget.dong(tip.target.id),
+      ),
+    );
+    final current = state.value;
+    if (current == null) return true;
+    final left = [
+      for (final t in current.items)
+        if (t.id != tip.id) t,
+    ];
+    var next = current.copyWith(
+      items: left,
+      helpfulSum: current.helpfulSum - tip.helpful,
+    );
+    if (current.nextCursor != null) {
+      try {
+        next = await repo.tips();
+      } on ApiException {
+        // 다시 읽지 못하면 빼기만 합니다.
+      }
+      if (!ref.mounted) return true;
+    }
+    state = AsyncData(next);
+    return true;
   }
 }
 
