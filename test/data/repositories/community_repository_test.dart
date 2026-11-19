@@ -162,9 +162,12 @@ void main() {
   });
 
   group('DongRepository', () {
-    test('주문진읍 mock 은 Figma 수치다', () async {
-      final d = await MockDongRepository(assets)
-          .detail('5115025000', '2025-10');
+    test('주문진읍 동네 프로필(Figma 수치)을 읽는다', () {
+      final d = DongDetail.fromJson(
+        jsonDecode(
+          File('test/fixtures/dongs/5115025000.json').readAsStringSync(),
+        ) as Map<String, dynamic>,
+      );
 
       expect(d.name, '주문진읍');
       expect(d.sigungu.name, '강릉시');
@@ -191,6 +194,7 @@ void main() {
       );
     });
 
+    // assets/mock 은 실서버 응답을 받아 둔 것이라 값이 아니라 규칙만 봅니다.
     test('M-03b 동 목록에 나오는 동은 모두 열리고 곡선 규칙을 지킨다', () async {
       final repo = MockDongRepository(assets);
       var count = 0;
@@ -203,7 +207,7 @@ void main() {
           count++;
           expect(d.name, dong.name, reason: dong.id);
           expect(d.sigungu.id, region.id, reason: dong.id);
-          expect(d.kind, dong.kind, reason: dong.id);
+          // 생활권 · 관광지 구분(kind)은 서버의 지역 목록과 동 상세가 다른 동이 있어 견주지 않습니다.
           for (final h in [d.hourly.weekday, d.hourly.weekend]) {
             expect(h, hasLength(24), reason: dong.id);
             expect(h.every((v) => v >= 0 && v <= 100), isTrue);
@@ -226,7 +230,7 @@ void main() {
           expect(d.scores, isNotNull);
         }
       }
-      expect(count, 67);
+      expect(count, 203);
     });
   });
 

@@ -1,0 +1,121 @@
+{
+  "id": "5115025000",
+  "name": "주문진읍",
+  "sigungu": {
+    "id": "51150",
+    "name": "강릉시"
+  },
+  "province": "강원특별자치도",
+  "kind": "living",
+  "tags": [
+    "해안"
+  ],
+  "photos": [
+    {
+      "url": "assets/mock-photos/51150.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-1.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-2.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-3.jpg"
+    },
+    {
+      "url": "assets/mock-photos/51150-4.jpg"
+    }
+  ],
+  "landmarks": [
+    "강릉시 주문진읍 중심지"
+  ],
+  "accessNote": "강릉시 북부 · 바닷가 0.0km",
+  "month": "2025-10",
+  "stats": {
+    "dayInflow": 0.79,
+    "localLife": 74,
+    "peerShare": 39,
+    "eveningVibe": 0.18,
+    "eveningSurplus": 0.85
+  },
+  "scores": {
+    "quiet": 31,
+    "vibe": 62,
+    "peer": 39
+  },
+  "dongCount": 203,
+  "hourly": {
+    "weekday": [
+      58,
+      53,
+      50,
+      48,
+      49,
+      53,
+      62,
+      74,
+      86,
+      94,
+      98,
+      100,
+      97,
+      95,
+      93,
+      91,
+      88,
+      84,
+      78,
+      72,
+      68,
+      65,
+      62,
+      60
+    ],
+    "weekend": [
+      55,
+      51,
+      49,
+      47,
+      48,
+      50,
+      56,
+      64,
+      74,
+      84,
+      92,
+      97,
+      99,
+      100,
+      98,
+      96,
+      93,
+      89,
+      82,
+      75,
+      69,
+      64,
+      60,
+      57
+    ]
+  },
+  "peaks": {
+    "weekday": {
+      "peakHour": 11,
+      "lowHour": 3,
+      "lowValue": 48
+    },
+    "weekend": {
+      "peakHour": 13,
+      "lowHour": 3,
+      "lowValue": 47
+    }
+  },
+  "activityMix": {
+    "eveningDowntown": 25,
+    "weekendTourist": 32,
+    "weekdayWork": 24,
+    "dawnResidential": 19
+  },
+  "seasonType": "summer_beach"
+}

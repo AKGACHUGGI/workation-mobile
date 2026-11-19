@@ -7,9 +7,10 @@ import 'package:workation_mobile/data/models/explore.dart';
 import 'package:workation_mobile/data/repositories/explore_repository.dart';
 
 dynamic _json(String file) =>
-    jsonDecode(File('assets/mock/explore/$file').readAsStringSync());
+    jsonDecode(File('test/fixtures/explore/$file').readAsStringSync());
 
-/// mock 파일을 기다림 없이 돌려주는 가짜. 강릉시(51150) 핀 21동과 주문진읍(5115025000) 요약만 있고
+/// 고정 응답(`test/fixtures/explore/`)을 기다림 없이 돌려주는 가짜. 강릉시(51150) 핀 21동과
+/// 주문진읍(5115025000) 요약만 있고
 /// 나머지는 404 입니다.
 ///
 /// * [failPins] · [failDong] 이면 연결 실패를 던집니다.

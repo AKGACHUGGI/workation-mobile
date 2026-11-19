@@ -32,7 +32,8 @@ class ApiExploreRepository implements ExploreRepository {
   }
 }
 
-/// mock 은 강릉시(51150) 핀과 주문진읍(5115025000) 요약만 있습니다. 그 밖은 404 입니다.
+/// 시군구 12곳의 핀과 행정동 203곳의 요약(실서버 응답을 받아 둔 값)이 있습니다.
+/// 그 밖은 404 입니다.
 class MockExploreRepository implements ExploreRepository {
   const MockExploreRepository(this._assets);
 
