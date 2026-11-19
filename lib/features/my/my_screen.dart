@@ -18,6 +18,7 @@ import '../favorites/favorites_providers.dart';
 import 'my_providers.dart';
 import 'widgets/my_photo_tile.dart';
 import 'widgets/my_tip_tile.dart';
+import 'widgets/nickname_edit_sheet.dart';
 
 enum _MyTab {
   favorites('즐겨찾기'),
@@ -172,7 +173,7 @@ class _LoggedInState extends ConsumerState<_LoggedIn> {
               _ProfileCard(
                 user: user,
                 summary: summary.value,
-                onEdit: () => _snack('프로필 편집은 준비 중이에요'),
+                onEdit: () => showNicknameEditSheet(context),
               ),
               const SizedBox(height: AppSpacing.s4),
               Row(
