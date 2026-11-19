@@ -176,7 +176,7 @@ void main() {
       PhotoHeader(
         photos: const [null, null, null],
         onBack: () => calls.add('back'),
-        onShare: () => calls.add('share'),
+        onShare: (origin) => calls.add('share'),
         onToggleSave: () => calls.add('save'),
       ),
     );

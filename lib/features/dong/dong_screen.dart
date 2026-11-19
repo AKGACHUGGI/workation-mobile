@@ -22,6 +22,8 @@ import '../favorites/favorites_providers.dart';
 import '../home/home_providers.dart';
 import '../map/map_providers.dart';
 import '../map/widgets/map_canvas.dart';
+import '../share/share_copy.dart';
+import '../share/share_providers.dart';
 import 'dong_copy.dart';
 import 'dong_providers.dart';
 import 'widgets/dong_fallback.dart';
@@ -50,12 +52,6 @@ class _DongScreenState extends ConsumerState<DongScreen> {
   var _weekend = false;
 
   void _back() => context.canPop() ? context.pop() : context.go(AppRoutes.home);
-
-  void _comingSoon(String what) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$what 기능은 준비 중이에요')));
-  }
 
   /// 동네 즐겨찾기. 비로그인이면 로그인 뒤 이어서 저장합니다.
   Future<void> _onSave() =>
@@ -106,7 +102,18 @@ class _DongScreenState extends ConsumerState<DongScreen> {
               PhotoHeader(
                 photos: [for (final p in d.photos) p.url],
                 onBack: _back,
-                onShare: () => _comingSoon('공유'),
+                onShare: (origin) => shareDong(
+                  ref,
+                  text: ShareCopy.dong(
+                    name: d.name,
+                    sigunguName: d.sigungu.name,
+                    month: _month,
+                    quietScore: scores?.quiet.round(),
+                  ),
+                  dongId: d.id,
+                  month: _month,
+                  origin: origin,
+                ),
                 saved: saved,
                 onToggleSave: _onSave,
               ),

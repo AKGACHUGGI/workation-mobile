@@ -18,6 +18,7 @@ import 'package:workation_mobile/data/repositories/geo_repository.dart';
 import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/data/repositories/search_repository.dart';
 import 'package:workation_mobile/features/auth/auth_providers.dart';
+import 'package:workation_mobile/features/share/share_providers.dart';
 
 import 'fakes/account.dart';
 
@@ -26,6 +27,7 @@ import 'fakes/dong.dart';
 
 import 'fakes/explore.dart';
 import 'fakes/geo.dart';
+import 'fakes/share.dart';
 
 /// 위젯 하나를 앱 테마 안에서 띄웁니다.
 Future<void> pumpInTheme(WidgetTester tester, Widget child) {
@@ -51,6 +53,8 @@ Future<void> pumpApp(
   FavoritesRepository? favorites,
   MeRepository? me,
   AuthRepository? auth,
+  FakeShareService? share,
+  String webBaseUrl = '',
   bool loggedIn = false,
   bool settle = true,
   Size size = const Size(390, 2400),
@@ -84,6 +88,8 @@ Future<void> pumpApp(
         if (auth != null) authRepositoryProvider.overrideWithValue(auth),
         if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
         geoRepositoryProvider.overrideWithValue(FakeGeoRepository()),
+        shareServiceProvider.overrideWithValue(share ?? FakeShareService()),
+        webBaseUrlProvider.overrideWithValue(webBaseUrl),
       ],
       child: const WorkationApp(),
     ),
