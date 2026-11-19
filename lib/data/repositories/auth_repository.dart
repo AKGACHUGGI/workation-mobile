@@ -40,6 +40,10 @@ abstract class AuthRepository {
   Future<AuthUser> updateMe({String? nickname, String? agreedAt});
 
   Future<void> signOut();
+
+  /// `DELETE /api/me` — 서버가 Supabase 사용자까지 지웁니다. 실패하면 던지고(세션은 그대로),
+  /// 성공하면 이 기기의 세션도 정리합니다.
+  Future<void> deleteAccount();
 }
 
 /// Supabase Auth + 백엔드 `/api/me`. [_auth] 가 null 이면 Supabase 값이 없는 빌드라
@@ -127,6 +131,16 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async => _auth?.signOut();
+
+  @override
+  Future<void> deleteAccount() async {
+    await _client.delete('/api/me');
+    // 서버가 사용자를 지웠으므로 로컬 세션만 지웁니다. 사용자가 이미 없어 로그아웃 요청이
+    // 실패해도(로컬 세션은 그 전에 지워짐) 삭제는 성공입니다.
+    try {
+      await _auth?.signOut(scope: SignOutScope.local);
+    } catch (_) {}
+  }
 }
 
 /// 로그인 페이지를 여는 단계가 실패했을 때 딥링크로 세션이 생기기를 기다리는 시간.
@@ -191,6 +205,9 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async => _me = null;
+
+  @override
+  Future<void> deleteAccount() async => _me = null;
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

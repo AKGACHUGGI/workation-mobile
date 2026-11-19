@@ -107,6 +107,14 @@ class SessionNotifier extends Notifier<AuthUser?> {
     unawaited(_signOutQuietly());
   }
 
+  /// 계정을 삭제하고 비로그인으로 돌아갑니다(정리는 [signOut] 과 같음). 서버가 거절하면
+  /// 던지고 로그인 상태를 그대로 둡니다.
+  Future<void> deleteAccount() async {
+    await _repo.deleteAccount();
+    state = null;
+    ref.read(pendingOnboardingProvider.notifier).set(null);
+  }
+
   Future<void> _signOutQuietly() async {
     try {
       await _repo.signOut();
