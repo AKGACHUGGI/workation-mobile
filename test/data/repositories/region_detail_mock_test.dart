@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/core/metric/metric.dart';
@@ -10,14 +13,20 @@ import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/data/repositories/search_repository.dart';
 import 'package:workation_mobile/features/region/region_providers.dart';
 
+// 정확한 값은 고정 응답(test/fixtures)으로 견주고, assets/mock(실서버 응답을 받아 둔 것)은
+// 규칙만 봅니다.
+Map<String, dynamic> _fixture(String file) =>
+    jsonDecode(File('test/fixtures/$file').readAsStringSync())
+        as Map<String, dynamic>;
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final repo = MockRegionRepository(
     MockAssets(rootBundle, delay: Duration.zero),
   );
 
-  test('고성군 상세 mock 은 웹 W-03 픽스처와 같은 값이다', () async {
-    final d = await repo.detail('51820', '2025-10');
+  test('고성군 상세(웹 W-03 픽스처)를 읽는다', () {
+    final d = RegionDetail.fromJson(_fixture('regions/51820.json'));
 
     expect(d.name, '고성군');
     expect(d.month, '2025-10');
@@ -38,22 +47,28 @@ void main() {
 
   test('인기 지역 12곳 모두 상세 mock 이 있고 12개월 막대를 갖는다', () async {
     final popular = await repo.popular('2025-10');
+    var dongs = 0;
 
     for (final r in popular.items) {
-      final d = await repo.detail(r.id, '2025-12');
+      final d = await repo.detail(r.id, '2025-10');
       expect(d.name, r.name, reason: r.id);
-      expect(d.month, '2025-12', reason: r.id);
+      // 요청한 달을 그대로 돌려줍니다.
+      expect(d.month, '2025-10', reason: r.id);
       expect(d.months, hasLength(12), reason: r.id);
       expect(d.dongs, isNotEmpty, reason: r.id);
+      expect({for (final x in d.dongs) x.id}, hasLength(d.dongs.length));
+      dongs += d.dongs.length;
     }
+    // 집계하는 행정동은 203곳(수동면 제외)
+    expect(dongs, 203);
   });
 
   test('mock 에 없는 지역은 NotFoundException 이다', () {
     expect(repo.detail('99999', '2025-10'), throwsA(isA<NotFoundException>()));
   });
 
-  test('고성군은 조용한 곳 프리셋에서 50점 · 12곳 중 3위 · S 다 (Figma M-03)', () async {
-    final popular = await repo.popular('2025-10');
+  test('고성군은 조용한 곳 프리셋에서 50점 · 12곳 중 3위 · S 다 (Figma M-03)', () {
+    final popular = PopularResponse.fromJson(_fixture('regions_popular.json'));
 
     final rank = rankRegion(popular.items, '51820', Weights.quietPreset)!;
 

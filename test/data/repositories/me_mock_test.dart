@@ -29,23 +29,23 @@ void main() {
 
       await repo.put(FavoriteKind.regions, '51830'); // 양양군(인기 지역 mock 에서 채움)
       await repo.put(FavoriteKind.regions, '51830'); // 중복은 무시
-      await repo.put(FavoriteKind.dongs, '5182034000'); // 토성면(지역 상세 mock 에서 채움)
+      await repo.put(FavoriteKind.dongs, '5182033000'); // 토성면(지역 상세 mock 에서 채움)
       var res = await repo.list('2025-10');
       expect(res.regions.map((r) => r.id), contains('51830'));
       expect(res.regions.where((r) => r.id == '51830'), hasLength(1));
       final yangyang = res.regions.firstWhere((r) => r.id == '51830');
       expect(yangyang.name, '양양군');
       expect(yangyang.scores.quiet, greaterThan(0));
-      final tosung = res.dongs.firstWhere((d) => d.id == '5182034000');
+      final tosung = res.dongs.firstWhere((d) => d.id == '5182033000');
       expect(tosung.name, '토성면');
       expect(tosung.kind, DongKind.tourist);
       expect(tosung.sigungu.name, '고성군');
 
       await repo.remove(FavoriteKind.regions, '51820');
-      await repo.remove(FavoriteKind.dongs, '5182034000');
+      await repo.remove(FavoriteKind.dongs, '5182033000');
       res = await repo.list('2025-10');
       expect(res.regions.map((r) => r.id), isNot(contains('51820')));
-      expect(res.dongs.map((d) => d.id), isNot(contains('5182034000')));
+      expect(res.dongs.map((d) => d.id), isNot(contains('5182033000')));
     });
 
     test('모르는 id 도 빈 항목으로 저장되고, 상한을 넘으면 오류다', () async {

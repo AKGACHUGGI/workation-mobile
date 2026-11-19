@@ -131,7 +131,7 @@ class FakeRegionRepository implements RegionRepository {
       items: [
         region('51830', '양양군', 1172, [Terrain.coast]),
         region('51820', '고성군', 1284, [Terrain.coast]),
-        region('52140', '정읍시', 221, [Terrain.mountain]),
+        region('52180', '정읍시', 221, [Terrain.mountain]),
       ],
     );
   }
@@ -182,8 +182,8 @@ class FakeRegionRepository implements RegionRepository {
       peerOffpeakMonths: const [12, 2],
       dongs: [
         dong('5182025300', '거진읍', DongKind.living, '거진항', 37, 72),
-        dong('5182034000', '토성면', DongKind.tourist, '송지호 해안', 68, 61),
-        dong('5182033000', '죽왕면', DongKind.tourist, '왕곡마을', 55, 58),
+        dong('5182033000', '토성면', DongKind.tourist, '송지호 해안', 68, 61),
+        dong('5182032000', '죽왕면', DongKind.tourist, '왕곡마을', 55, 58),
         dong('5182025000', '간성읍', DongKind.living, '고성군청', 28, 100),
         dong('5182031000', '현내면', DongKind.tourist, '화진포', 20, 55),
       ],

@@ -36,7 +36,7 @@ class ApiRegionRepository implements RegionRepository {
   }
 }
 
-/// 10월 수치(웹 mock 과 같은 값)를 어느 달에나 돌려줍니다.
+/// 실서버 응답을 받아 둔 값(`tool/refresh_mock.sh`, 2025-12)을 어느 달에나 돌려줍니다.
 class MockRegionRepository implements RegionRepository {
   const MockRegionRepository(this._assets);
 

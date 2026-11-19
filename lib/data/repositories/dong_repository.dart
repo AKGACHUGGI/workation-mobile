@@ -23,7 +23,8 @@ class ApiDongRepository implements DongRepository {
   }
 }
 
-/// `dongs/<id>.json`(2025-10 값)을 어느 달에나 돌려줍니다. 없는 동은 404 입니다.
+/// `dongs/<id>.json`(실서버 2025-12 응답을 받아 둔 값)을 어느 달에나 돌려줍니다.
+/// 없는 동은 404 입니다.
 class MockDongRepository implements DongRepository {
   const MockDongRepository(this._assets);
 

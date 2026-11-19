@@ -355,10 +355,10 @@ void main() {
       expect(rowScore(dongs[3], const PinFilter(type: '몰입형')), isNull);
     });
 
-    test('강릉시 mock: 로컬살이형 칩 정렬이 점수 내림차순', () {
+    test('강릉시 핀: 로컬살이형 칩 정렬이 점수 내림차순', () {
       final res = PinsResponse.fromJson(
         jsonDecode(
-          File('assets/mock/explore/pins_51150.json').readAsStringSync(),
+          File('test/fixtures/explore/pins_51150.json').readAsStringSync(),
         ) as Map<String, dynamic>,
       );
       final sorted = filterAndSortPins(

@@ -1,21 +1,22 @@
 {
-  "month": "2025-10",
+  "month": "2025-12",
   "regions": [
     {
       "id": "51820",
       "name": "고성군",
       "province": "강원특별자치도",
-      "photoUrl": "assets/mock-photos/51820.jpg",
+      "photoUrl": "https://pub-b980bc139472454e8f15056e1fa53b01.r2.dev/photos/1544574.webp",
       "scores": {
-        "quiet": 55,
-        "crowd": 37,
-        "peer": 48,
-        "overnight": 76,
-        "vibe": 30
+        "quiet": 9,
+        "crowd": 91,
+        "peer": 73,
+        "overnight": 82,
+        "vibe": 27
       },
       "tags": [
         "해안",
-        "속초시 인접"
+        "해수욕장",
+        "카페 많음"
       ],
       "note": "11월 2주 체류 예정",
       "visitMonth": "2025-11",
@@ -25,17 +26,18 @@
       "id": "51150",
       "name": "강릉시",
       "province": "강원특별자치도",
-      "photoUrl": "assets/mock-photos/51150.jpg",
+      "photoUrl": "https://pub-b980bc139472454e8f15056e1fa53b01.r2.dev/photos/2473619.webp",
       "scores": {
-        "quiet": 12,
-        "crowd": 10,
-        "peer": 80,
-        "overnight": 86,
-        "vibe": 25
+        "quiet": 45,
+        "crowd": 45,
+        "peer": 64,
+        "overnight": 64,
+        "vibe": 36
       },
       "tags": [
         "해안",
-        "도시"
+        "해수욕장",
+        "카페 많음"
       ],
       "addedAt": "2025-09-20T10:00:00+09:00"
     },
@@ -43,17 +45,18 @@
       "id": "50130",
       "name": "서귀포시",
       "province": "제주특별자치도",
-      "photoUrl": "assets/mock-photos/50130.jpg",
+      "photoUrl": "https://pub-b980bc139472454e8f15056e1fa53b01.r2.dev/photos/2814635.webp",
       "scores": {
-        "quiet": 76,
-        "crowd": 13,
-        "peer": 84,
-        "overnight": 25,
-        "vibe": 80
+        "quiet": 73,
+        "crowd": 18,
+        "peer": 55,
+        "overnight": 36,
+        "vibe": 73
       },
       "tags": [
         "해안",
-        "제주 남부"
+        "해수욕장",
+        "섬"
       ],
       "addedAt": "2025-08-11T10:00:00+09:00"
     }
@@ -68,16 +71,16 @@
         "name": "고성군"
       },
       "scores": {
-        "quiet": 37,
-        "crowd": 40,
+        "quiet": 38,
+        "crowd": 91,
         "peer": 44,
-        "overnight": 76,
-        "vibe": 38
+        "overnight": 82,
+        "vibe": 36
       },
       "addedAt": "2025-10-02T10:05:00+09:00"
     },
     {
-      "id": "5182033000",
+      "id": "5182032000",
       "name": "죽왕면",
       "kind": "tourist",
       "sigungu": {
@@ -85,11 +88,11 @@
         "name": "고성군"
       },
       "scores": {
-        "quiet": 55,
-        "crowd": 35,
-        "peer": 30,
-        "overnight": 76,
-        "vibe": 22
+        "quiet": 19,
+        "crowd": 91,
+        "peer": 51,
+        "overnight": 82,
+        "vibe": 16
       },
       "addedAt": "2025-10-02T10:06:00+09:00"
     },
@@ -102,11 +105,11 @@
         "name": "서귀포시"
       },
       "scores": {
-        "quiet": 72,
-        "crowd": 20,
-        "peer": 70,
-        "overnight": 25,
-        "vibe": 65
+        "quiet": 86,
+        "crowd": 18,
+        "peer": 72,
+        "overnight": 36,
+        "vibe": 79
       },
       "addedAt": "2025-08-11T10:10:00+09:00"
     }

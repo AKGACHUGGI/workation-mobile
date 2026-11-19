@@ -98,7 +98,7 @@ class FakeFavoritesRepository implements FavoritesRepository {
           regions.add(
             fakeFavoriteRegion(id, switch (id) {
               '51830' => '양양군',
-              '52140' => '정읍시',
+              '52180' => '정읍시',
               _ => id,
             }),
           );
