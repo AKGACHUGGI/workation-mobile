@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/router.dart';
-import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/data/models/me.dart';
 import 'package:workation_mobile/features/my/my_screen.dart';
 import 'package:workation_mobile/features/my/widgets/my_photo_tile.dart';
@@ -13,17 +12,11 @@ import '../../fakes/account.dart';
 import '../../helpers.dart';
 
 void main() {
-  List<bool> toggles(WidgetTester tester) => [
-    for (final t in tester.widgetList<AppToggle>(find.byType(AppToggle)))
-      t.value,
-  ];
-
   testWidgets('비로그인: 안내와 로그인 버튼, 로그인하면 프로필이 나온다', (tester) async {
     await pumpApp(tester, location: AppRoutes.my);
 
     expect(find.text('로그인이 필요해요'), findsOneWidget);
-    expect(find.text('알림 설정'), findsNothing);
-    expect(find.byType(AppToggle), findsNothing);
+    expect(find.text('연결된 계정'), findsNothing);
 
     await tester.tap(find.widgetWithText(FilledButton, '로그인'));
     await tester.pumpAndSettle();
@@ -162,101 +155,15 @@ void main() {
     expect(find.text('두이님 · 웹·앱 동기화됨 · 지역 1 · 동네 1'), findsOneWidget);
   });
 
-  testWidgets('알림 설정 토글 3개: 켜짐 · 켜짐 · 꺼짐에서 시작해 눌러 바꾸면 PATCH 한다', (
-    tester,
-  ) async {
-    final me = FakeMeRepository();
-    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
-    await tester.ensureVisible(find.text('알림 설정'));
-
-    expect(find.byType(AppToggle), findsNWidgets(3));
-    expect(find.text('가기 좋은 달 알림'), findsOneWidget);
-    expect(find.text('내 팁 반응 알림'), findsOneWidget);
-    expect(find.text('이달의 사진 선정 알림'), findsOneWidget);
-    expect(toggles(tester), [true, true, false]);
-    expect(tester.getSize(find.byType(AppToggle).first), const Size(44, 24));
-
-    await tester.tap(find.byType(AppToggle).at(0));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(AppToggle).at(2));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(AppToggle).at(1));
-    await tester.pumpAndSettle();
-
-    expect(toggles(tester), [false, false, true]);
-    expect(me.patches, [
-      {'notifyBestMonth': false},
-      {'notifyPhotoSelected': true},
-      {'notifyTipReaction': false},
-    ]);
-  });
-
-  testWidgets('설정을 저장하지 못하면 되돌리고 안내한다', (tester) async {
-    final me = FakeMeRepository(failPatch: true);
-    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
-    await tester.ensureVisible(find.text('알림 설정'));
-
-    await tester.tap(find.byType(AppToggle).first);
-    await tester.pumpAndSettle();
-
-    expect(toggles(tester), [true, true, false]);
-    expect(find.text('설정을 저장하지 못했어요'), findsOneWidget);
-  });
-
-  testWidgets('알림 설정이 서버에 아직 없으면(501) 한 번만 부르고 준비 중으로 보여준다', (tester) async {
-    final me = FakeMeRepository(
-      settingsError: const ServerException('/api/me/settings', 501),
-    );
-    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
-    // 저절로 다시 부르는지 넉넉히 기다려 봅니다.
-    await tester.pump(const Duration(seconds: 30));
-    await tester.ensureVisible(find.text('알림 설정'));
-
-    expect(me.settingsCalls, 1);
-    expect(find.text('알림 설정은 준비 중이에요'), findsOneWidget);
-    expect(find.text('다시 시도'), findsNothing);
-    expect(find.byType(CircularProgressIndicator), findsNothing);
-
-    // 토글은 꺼진 채 눌리지 않습니다.
-    expect(toggles(tester), [false, false, false]);
-    for (final t in tester.widgetList<AppToggle>(find.byType(AppToggle))) {
-      expect(t.onChanged, isNull);
-    }
-    await tester.tap(find.byType(AppToggle).first);
-    await tester.pumpAndSettle();
-    expect(me.patches, isEmpty);
-    // 나머지 줄은 그대로 씁니다.
-    expect(find.text('연결된 계정'), findsOneWidget);
-    expect(find.text('로그아웃'), findsOneWidget);
-  });
-
-  testWidgets('알림 설정을 읽지 못하면(연결 실패) 한 번만 부르고 [다시 시도] 로 다시 읽는다', (tester) async {
-    final me = FakeMeRepository(
-      settingsError: const NetworkException('/api/me/settings'),
-    );
-    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
-    await tester.pump(const Duration(seconds: 30));
-    await tester.ensureVisible(find.text('알림 설정'));
-
-    expect(me.settingsCalls, 1);
-    expect(find.text('설정을 불러오지 못했어요'), findsOneWidget);
-    expect(find.text('알림 설정은 준비 중이에요'), findsNothing);
-    expect(find.byType(AppToggle), findsNothing);
-
-    me.settingsError = null;
-    await tester.tap(find.text('다시 시도'));
-    await tester.pumpAndSettle();
-
-    expect(me.settingsCalls, 2);
-    expect(toggles(tester), [true, true, false]);
-  });
-
   testWidgets('연결된 계정 줄은 로그인한 제공자를 보여준다', (tester) async {
     await pumpApp(tester, location: AppRoutes.my, loggedIn: true);
     await tester.ensureVisible(find.text('연결된 계정'));
 
     expect(find.text('연결된 계정'), findsOneWidget);
     expect(find.text('카카오'), findsOneWidget);
+    // 푸시알림을 넣지 않기로 해 알림 설정은 없습니다.
+    expect(find.text('알림 설정'), findsNothing);
+    expect(find.byType(AppToggle), findsNothing);
   });
 
   testWidgets('로그아웃은 확인을 거치고, 취소하면 그대로다', (tester) async {

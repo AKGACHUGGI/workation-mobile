@@ -240,16 +240,3 @@ _MyPhotosResponse _$MyPhotosResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$MyPhotosResponseToJson(_MyPhotosResponse instance) =>
     <String, dynamic>{'items': instance.items};
-
-_MeSettings _$MeSettingsFromJson(Map<String, dynamic> json) => _MeSettings(
-  notifyBestMonth: json['notifyBestMonth'] as bool,
-  notifyTipReaction: json['notifyTipReaction'] as bool,
-  notifyPhotoSelected: json['notifyPhotoSelected'] as bool,
-);
-
-Map<String, dynamic> _$MeSettingsToJson(_MeSettings instance) =>
-    <String, dynamic>{
-      'notifyBestMonth': instance.notifyBestMonth,
-      'notifyTipReaction': instance.notifyTipReaction,
-      'notifyPhotoSelected': instance.notifyPhotoSelected,
-    };

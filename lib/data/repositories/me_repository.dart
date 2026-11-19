@@ -20,16 +20,6 @@ abstract class MeRepository {
 
   /// `GET /api/me/photos`
   Future<MyPhotosResponse> photos();
-
-  /// `GET /api/me/settings`
-  Future<MeSettings> settings();
-
-  /// `PATCH /api/me/settings` — 바꾼 값만 보내고 합쳐진 설정을 돌려받습니다.
-  Future<MeSettings> patchSettings({
-    bool? notifyBestMonth,
-    bool? notifyTipReaction,
-    bool? notifyPhotoSelected,
-  });
 }
 
 class ApiMeRepository implements MeRepository {
@@ -58,35 +48,13 @@ class ApiMeRepository implements MeRepository {
   Future<MyPhotosResponse> photos() async => MyPhotosResponse.fromJson(
     await _client.get('/api/me/photos') as Map<String, dynamic>,
   );
-
-  @override
-  Future<MeSettings> settings() async => MeSettings.fromJson(
-    await _client.get('/api/me/settings') as Map<String, dynamic>,
-  );
-
-  @override
-  Future<MeSettings> patchSettings({
-    bool? notifyBestMonth,
-    bool? notifyTipReaction,
-    bool? notifyPhotoSelected,
-  }) async => MeSettings.fromJson(
-    await _client.patch(
-      '/api/me/settings',
-      body: {
-        'notifyBestMonth': ?notifyBestMonth,
-        'notifyTipReaction': ?notifyTipReaction,
-        'notifyPhotoSelected': ?notifyPhotoSelected,
-      },
-    ) as Map<String, dynamic>,
-  );
 }
 
-/// 웹 mock 의 초기 값에서 시작하는 메모리 저장소. 설정 변경은 앱을 끌 때까지 남습니다.
+/// 웹 mock 의 초기 값에서 시작하는 메모리 저장소. 지운 팁은 앱을 끌 때까지 빠져 있습니다.
 class MockMeRepository implements MeRepository {
   MockMeRepository(this._assets);
 
   final MockAssets _assets;
-  MeSettings? _settings;
   final _deletedTips = <String>{};
 
   @override
@@ -134,29 +102,6 @@ class MockMeRepository implements MeRepository {
     await _assets.read('me/photos.json', path: '/api/me/photos')
         as Map<String, dynamic>,
   );
-
-  @override
-  Future<MeSettings> settings() async => _settings ??= MeSettings.fromJson(
-    await _assets.read('me/settings.json', path: '/api/me/settings')
-        as Map<String, dynamic>,
-  );
-
-  @override
-  Future<MeSettings> patchSettings({
-    bool? notifyBestMonth,
-    bool? notifyTipReaction,
-    bool? notifyPhotoSelected,
-  }) async {
-    final current = await settings();
-    if (_assets.delay > Duration.zero) {
-      await Future<void>.delayed(_assets.delay ~/ 4);
-    }
-    return _settings = current.copyWith(
-      notifyBestMonth: notifyBestMonth ?? current.notifyBestMonth,
-      notifyTipReaction: notifyTipReaction ?? current.notifyTipReaction,
-      notifyPhotoSelected: notifyPhotoSelected ?? current.notifyPhotoSelected,
-    );
-  }
 }
 
 final meRepositoryProvider = Provider<MeRepository>(

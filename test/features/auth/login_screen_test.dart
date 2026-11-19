@@ -98,7 +98,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('두이'), findsOneWidget);
-    expect(find.text('알림 설정'), findsOneWidget);
+    expect(find.text('연결된 계정'), findsOneWidget);
   });
 
   testWidgets('비로그인 홈 카드의 북마크 → 로그인 → 이어서 저장된다', (tester) async {

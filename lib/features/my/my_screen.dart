@@ -7,7 +7,6 @@ import '../../app/router.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/models/me.dart';
 import '../../shared/widgets/app_button.dart';
-import '../../shared/widgets/app_toggle.dart';
 import '../../shared/widgets/avatar.dart';
 import '../../shared/widgets/load_more_button.dart';
 import '../../shared/widgets/segmented_tabs.dart';
@@ -32,8 +31,8 @@ enum _MyTab {
   final String label;
 }
 
-/// M-07 MY. 로그인 필수. 프로필 · 활동 통계 · 내 즐겨찾기/팁/사진 탭 · 알림 설정 ·
-/// 연결된 계정 · 로그아웃. 비로그인이면 안내와 로그인 버튼입니다.
+/// M-07 MY. 로그인 필수. 프로필 · 활동 통계 · 내 즐겨찾기/팁/사진 탭 · 계정(연결된 계정 ·
+/// 로그아웃 · 계정 삭제). 비로그인이면 안내와 로그인 버튼입니다.
 class MyScreen extends ConsumerWidget {
   const MyScreen({super.key});
 
@@ -53,8 +52,8 @@ class MyScreen extends ConsumerWidget {
                       icon: LoginPromptIcons.my,
                       title: '로그인이 필요해요',
                       body:
-                          '로그인하면 프로필 · 내 팁 · 내 사진과\n'
-                          '알림 설정을 한곳에서 볼 수 있어요.',
+                          '로그인하면 프로필 · 내 팁 · 내 사진을\n'
+                          '한곳에서 볼 수 있어요.',
                     ),
                   ),
                 ],
@@ -123,11 +122,6 @@ class _LoggedInState extends ConsumerState<_LoggedIn> {
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOut,
     );
-  }
-
-  Future<void> _toggleSetting(NotifySetting setting, bool value) async {
-    final ok = await ref.read(meSettingsProvider.notifier).set(setting, value);
-    if (!ok && mounted) _snack('설정을 저장하지 못했어요');
   }
 
   Future<void> _confirmLogout() async {
@@ -207,7 +201,6 @@ class _LoggedInState extends ConsumerState<_LoggedIn> {
               _SettingsCard(
                 key: _settingsKey,
                 providerLabel: user.provider.label,
-                onToggle: _toggleSetting,
                 onAccount: () => _snack(
                   '${user.provider.label} 계정(${user.emailMasked})으로 로그인했어요',
                 ),
@@ -574,29 +567,27 @@ class _FavoritesTab extends ConsumerWidget {
   }
 }
 
-class _SettingsCard extends ConsumerWidget {
+/// 계정 줄 묶음: 연결된 계정 · 로그아웃 · 계정 삭제.
+class _SettingsCard extends StatelessWidget {
   const _SettingsCard({
     super.key,
     required this.providerLabel,
-    required this.onToggle,
     required this.onAccount,
     required this.onLogout,
     required this.onDeleteAccount,
   });
 
   final String providerLabel;
-  final void Function(NotifySetting setting, bool value) onToggle;
   final VoidCallback onAccount;
   final VoidCallback onLogout;
   final VoidCallback onDeleteAccount;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final tertiary = Theme.of(context)
         .extension<AppSemanticColors>()!
         .textTertiary;
-    final settings = ref.watch(meSettingsProvider);
     final line = BorderSide(color: scheme.outlineVariant);
 
     Widget row({
@@ -637,37 +628,6 @@ class _SettingsCard extends ConsumerWidget {
       );
     }
 
-    // 토글 3줄. [s] 가 null 이면(준비 중) 모두 꺼진 채 눌리지 않습니다.
-    Widget toggles(MeSettings? s) => Column(
-      spacing: 14,
-      children: [
-        for (final item in NotifySetting.values)
-          Row(
-            spacing: AppSpacing.s3,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 2,
-                  children: [
-                    Text(item.label, style: AppTextStyles.bodySmMedium),
-                    Text(
-                      item.hint,
-                      style: AppTextStyles.captionXs.copyWith(color: tertiary),
-                    ),
-                  ],
-                ),
-              ),
-              AppToggle(
-                value: s != null && item.valueOf(s),
-                semanticLabel: item.label,
-                onChanged: s == null ? null : (v) => onToggle(item, v),
-              ),
-            ],
-          ),
-      ],
-    );
-
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -677,61 +637,6 @@ class _SettingsCard extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.s4,
-              vertical: 14,
-            ),
-            decoration: BoxDecoration(border: Border(bottom: line)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 14,
-              children: [
-                Text('알림 설정', style: AppTextStyles.bodySmMedium),
-                settings.when(
-                  loading: () => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.s4),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                  // 서버에 아직 없으면(501) 다시 불러도 같으니 준비 중으로 보여 줍니다.
-                  error: (e, s) => isNotImplemented(e)
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 14,
-                          children: [
-                            Text(
-                              '알림 설정은 준비 중이에요',
-                              style: AppTextStyles.captionXs.copyWith(
-                                color: tertiary,
-                              ),
-                            ),
-                            Opacity(opacity: 0.5, child: toggles(null)),
-                          ],
-                        )
-                      : Row(
-                          spacing: AppSpacing.s2,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '설정을 불러오지 못했어요',
-                                style: AppTextStyles.captionXs.copyWith(
-                                  color: tertiary,
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () =>
-                                  ref.invalidate(meSettingsProvider),
-                              child: const Text('다시 시도'),
-                            ),
-                          ],
-                        ),
-                  data: toggles,
-                ),
-              ],
-            ),
-          ),
           row(label: '연결된 계정', trailingText: providerLabel, onTap: onAccount),
           row(label: '로그아웃', labelColor: scheme.error, onTap: onLogout),
           row(

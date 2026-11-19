@@ -10,7 +10,7 @@
 | `explore/pins_<시군구 코드>.json` (12곳) | `GET /api/explore/sigungu/{id}/pins` | **실서버 응답** |
 | `explore/dong_<행정동 코드>.json` (203곳) | `GET /api/explore/dongs/{id}` | **실서버 응답** |
 | `community/notes_<id>.json` · `poll_<id>.json` | `GET /api/{regions\|dongs}/{id}/notes` · `/poll` | 손으로 만든 샘플(서버에 아직 팁 · 투표가 없음). 지역 51820, 동 5182025300 · 5115025000 만 있고 그 밖의 대상은 비어 있습니다. 팁 · 투표는 메모리에만 쌓입니다 |
-| `me/favorites.json` · `tips.json` · `photos.json` · `settings.json` · `summary.json` | `GET /api/me/favorites` · `/me/tips` · `/me/photos` · `/me/settings` · `/me/summary` | 손으로 만든 샘플(웹 `src/mocks/me/*` 의 초기 값). 즐겨찾기의 지역 · 동 코드와 점수는 위 실서버 응답과 맞춰 두었습니다. 쓰기(PUT · DELETE · PATCH)는 메모리에만 반영됩니다 |
+| `me/favorites.json` · `tips.json` · `photos.json` · `summary.json` | `GET /api/me/favorites` · `/me/tips` · `/me/photos` · `/me/summary` | 손으로 만든 샘플(웹 `src/mocks/me/*` 의 초기 값). 즐겨찾기의 지역 · 동 코드와 점수는 위 실서버 응답과 맞춰 두었습니다. 쓰기(PUT · DELETE)는 메모리에만 반영됩니다 |
 
 ### 실서버 응답 다시 받기
 
