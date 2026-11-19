@@ -33,6 +33,10 @@ abstract final class ApiConfig {
   /// Google Maps 타일을 쓸지. 키가 없으면(테스트 포함) 경계를 직접 그린 지도로 대신합니다.
   static const mapsEnabled = mapsApiKey != '';
 
+  /// 웹 배포 주소(예: `https://workation.example.com`). 공유할 때 같은 지역 · 동네의 웹 링크를
+  /// 붙이는 데만 쓰고, 비어 있으면 링크 없이 글만 보냅니다.
+  static const webBaseUrl = String.fromEnvironment('WEB_BASE_URL');
+
   static const connectTimeout = Duration(seconds: 10);
 
   /// 자연어 검색(LLM)은 응답에 수 초가 걸려 여유를 둡니다.

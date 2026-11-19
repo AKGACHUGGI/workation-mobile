@@ -18,6 +18,8 @@ import '../../shared/widgets/tag.dart';
 import '../favorites/favorite_actions.dart';
 import '../favorites/favorites_providers.dart';
 import '../home/home_providers.dart';
+import '../share/share_copy.dart';
+import '../share/share_providers.dart';
 import 'region_providers.dart';
 import 'widgets/dongs_tab.dart';
 import 'widgets/info_tab.dart';
@@ -114,7 +116,20 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
               child: PhotoHeader(
                 photos: [for (final p in d.photos) p.url],
                 onBack: _back,
-                onShare: () => _comingSoon('공유'),
+                onShare: (origin) => shareRegion(
+                  ref,
+                  text: ShareCopy.region(
+                    name: d.name,
+                    month: d.month,
+                    score: rank.score.round(),
+                    preset: preset,
+                    rank: rank.rank,
+                    total: rank.total,
+                  ),
+                  regionId: d.id,
+                  month: d.month,
+                  origin: origin,
+                ),
                 saved: saved,
                 onToggleSave: toggleSave,
               ),

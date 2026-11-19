@@ -20,7 +20,9 @@ class PhotoHeader extends StatelessWidget {
   final List<String?> photos;
   final bool saved;
   final VoidCallback? onBack;
-  final VoidCallback? onShare;
+
+  /// 누른 공유 버튼의 화면 위치를 함께 넘깁니다(iPad · 태블릿 공유창 위치용).
+  final ValueChanged<Rect>? onShare;
   final VoidCallback? onToggleSave;
   final double height;
 
@@ -47,10 +49,14 @@ class PhotoHeader extends StatelessWidget {
                     onPressed: onBack,
                   ),
                   const Spacer(),
-                  IconButtonCircle(
-                    icon: LucideIcons.share,
-                    semanticLabel: '공유',
-                    onPressed: onShare,
+                  Builder(
+                    builder: (context) => IconButtonCircle(
+                      icon: LucideIcons.share,
+                      semanticLabel: '공유',
+                      onPressed: onShare == null
+                          ? null
+                          : () => onShare!(_originOf(context)),
+                    ),
                   ),
                   const SizedBox(width: AppSpacing.s2),
                   IconButtonCircle.save(saved: saved, onPressed: onToggleSave),
@@ -61,5 +67,10 @@ class PhotoHeader extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static Rect _originOf(BuildContext context) {
+    final box = context.findRenderObject() as RenderBox;
+    return box.localToGlobal(Offset.zero) & box.size;
   }
 }
