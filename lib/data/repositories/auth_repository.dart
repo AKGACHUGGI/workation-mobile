@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthUser;
 import 'package:url_launcher/url_launcher.dart';
@@ -87,12 +88,21 @@ class SupabaseAuthRepository implements AuthRepository {
     if (auth == null) {
       throw StateError('Supabase 설정이 없습니다 (SUPABASE_URL · SUPABASE_ANON_KEY)');
     }
-    final launched = await auth.signInWithOAuth(switch (provider) {
-      AuthProviderKind.kakao => OAuthProvider.kakao,
-      AuthProviderKind.google => OAuthProvider.google,
-    }, redirectTo: ApiConfig.authRedirectUrl);
-    if (!launched) throw StateError('로그인 페이지를 열지 못했습니다');
-    return null;
+    bool launched;
+    try {
+      launched = await auth.signInWithOAuth(switch (provider) {
+        AuthProviderKind.kakao => OAuthProvider.kakao,
+        AuthProviderKind.google => OAuthProvider.google,
+      }, redirectTo: ApiConfig.authRedirectUrl);
+    } on PlatformException {
+      // iOS: 이미 로그인한 계정이면 OAuth 가 로그인 페이지 없이 바로 앱 딥링크로 넘어가고,
+      // 인앱 브라우저(SFSafariViewController)는 커스텀 스킴을 열지 못해 첫 로드를
+      // 실패(failedToLoad)로 끝냅니다. 이때도 딥링크로 세션이 생기면 로그인 성공입니다.
+      launched = false;
+    }
+    if (launched) return null;
+    if (await waitForSession(() => auth.currentSession != null)) return null;
+    throw StateError('로그인 페이지를 열지 못했습니다');
   }
 
   @override
@@ -117,6 +127,24 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async => _auth?.signOut();
+}
+
+/// 로그인 페이지를 여는 단계가 실패했을 때 딥링크로 세션이 생기기를 기다리는 시간.
+const loginRedirectGrace = Duration(seconds: 3);
+
+/// [hasSession] 이 true 가 될 때까지 [grace] 동안 [step] 간격으로 확인합니다.
+/// (Supabase `onAuthStateChange` 는 지난 이벤트를 모두 다시 보내므로 쓰지 않습니다.)
+Future<bool> waitForSession(
+  bool Function() hasSession, {
+  Duration grace = loginRedirectGrace,
+  Duration step = const Duration(milliseconds: 100),
+}) async {
+  final deadline = DateTime.now().add(grace);
+  while (!hasSession()) {
+    if (!DateTime.now().isBefore(deadline)) return false;
+    await Future<void>.delayed(step);
+  }
+  return true;
 }
 
 /// mock 로그인이 끝나기까지 보이는 짧은 로딩.
