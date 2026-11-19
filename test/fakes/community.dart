@@ -4,19 +4,31 @@ import 'package:workation_mobile/data/repositories/community_repository.dart';
 
 /// 팁 2개 · 투표(그래요 3 · 아니요 1)로 시작하는 메모리 가짜. 등록 · 투표가 결과에 반영됩니다.
 /// [fail] 이면 모든 호출이 연결 실패를 던집니다. 위젯 테스트에서는 에셋 읽기가 끝나지 않아 씁니다.
+///
+/// [moreTips] 를 주면 첫 쪽이 `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를
+/// 줍니다([failMoreTips] 면 실패).
 class FakeCommunityRepository implements CommunityRepository {
-  FakeCommunityRepository({this.fail = false, bool withPhotos = false})
-    : _poll = PollResponse(
-        yes: 3,
-        no: 1,
-        total: 4,
-        photos: [
-          if (withPhotos)
-            const UserPhoto(url: 'assets/none.jpg', author: '바다러버'),
-        ],
-      );
+  FakeCommunityRepository({
+    this.fail = false,
+    bool withPhotos = false,
+    this.moreTips,
+    this.failMoreTips = false,
+  }) : _poll = PollResponse(
+         yes: 3,
+         no: 1,
+         total: 4,
+         photos: [
+           if (withPhotos)
+             const UserPhoto(url: 'assets/none.jpg', author: '바다러버'),
+         ],
+       );
 
   bool fail;
+  List<Tip>? moreTips;
+  bool failMoreTips;
+
+  /// 팁을 읽을 때 받은 커서(순서대로, 첫 쪽은 null)
+  final tipCursors = <String?>[];
 
   /// 등록한 팁 본문(순서대로)
   final posted = <String>[];
@@ -54,9 +66,20 @@ class FakeCommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<TipsResponse> tips(CommunityTarget target) async {
+  Future<TipsResponse> tips(CommunityTarget target, {String? cursor}) async {
     _check(target);
-    return _tips;
+    tipCursors.add(cursor);
+    final more = moreTips;
+    if (cursor != null) {
+      if (failMoreTips) throw NetworkException('${target.path}/notes');
+      return TipsResponse(
+        total: _tips.total + (more?.length ?? 0),
+        items: more ?? const [],
+      );
+    }
+    return more == null
+        ? _tips
+        : _tips.copyWith(total: _tips.total + more.length, nextCursor: '20');
   }
 
   @override

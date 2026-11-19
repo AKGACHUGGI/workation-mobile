@@ -124,10 +124,30 @@ class FakeFavoritesRepository implements FavoritesRepository {
 }
 
 /// MY 에 쓰는 가짜. 팁 2개 · 사진 3장(검수 대기 1) · 설정은 웹 mock 의 초기 값.
+///
+/// [settingsError] 를 주면 설정 읽기가 그 오류로 실패합니다. [moreTips] 를 주면 첫 쪽이
+/// `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를 줍니다([failMoreTips] 면 실패).
 class FakeMeRepository implements MeRepository {
-  FakeMeRepository({this.failPatch = false});
+  FakeMeRepository({
+    this.failPatch = false,
+    this.settingsError,
+    this.moreTips,
+    this.failMoreTips = false,
+  });
 
   bool failPatch;
+  Object? settingsError;
+  List<MyTip>? moreTips;
+  bool failMoreTips;
+
+  /// 설정을 읽은 횟수
+  int settingsCalls = 0;
+
+  /// 팁을 읽을 때 받은 커서(순서대로, 첫 쪽은 null)
+  final tipCursors = <String?>[];
+
+  static const _nextCursor = '20';
+
   MeSettings current = const MeSettings(
     notifyBestMonth: true,
     notifyTipReaction: true,
@@ -151,7 +171,18 @@ class FakeMeRepository implements MeRepository {
   );
 
   @override
-  Future<MyTipsResponse> tips() async => const MyTipsResponse(
+  Future<MyTipsResponse> tips({String? cursor}) async {
+    tipCursors.add(cursor);
+    if (cursor != null) {
+      if (failMoreTips) throw const NetworkException('/api/me/tips');
+      return MyTipsResponse(items: moreTips ?? const [], helpfulSum: 17);
+    }
+    return _firstTips.copyWith(
+      nextCursor: moreTips == null ? null : _nextCursor,
+    );
+  }
+
+  static const _firstTips = MyTipsResponse(
     items: [
       MyTip(
         id: 'tip-1',
@@ -214,7 +245,11 @@ class FakeMeRepository implements MeRepository {
   );
 
   @override
-  Future<MeSettings> settings() async => current;
+  Future<MeSettings> settings() async {
+    settingsCalls++;
+    if (settingsError case final error?) throw error;
+    return current;
+  }
 
   @override
   Future<MeSettings> patchSettings({

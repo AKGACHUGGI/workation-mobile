@@ -5,6 +5,7 @@ import '../../../core/network/api_exception.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/community.dart';
 import '../../../data/repositories/community_repository.dart';
+import '../../../shared/widgets/load_more_button.dart';
 import '../../../shared/widgets/tip_card.dart';
 import '../../../shared/widgets/tip_composer.dart';
 import '../../auth/auth_providers.dart';
@@ -77,6 +78,12 @@ class TipsSection extends ConsumerWidget {
         if (data != null) ...[
           for (final tip in data.items) TipCard(tip, key: ValueKey(tip.id)),
           if (data.items.isEmpty) const SectionNotice('아직 팁이 없어요. 첫 팁을 남겨보세요'),
+          // 서버는 한 쪽에 20개씩 줍니다.
+          if (data.nextCursor != null)
+            LoadMoreButton(
+              label: '팁 더 보기',
+              onLoad: ref.read(tipsProvider(target).notifier).loadMore,
+            ),
         ] else if (tips.hasError)
           SectionNotice(
             '팁을 불러오지 못했어요',

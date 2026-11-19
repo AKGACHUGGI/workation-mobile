@@ -10,8 +10,9 @@ abstract class MeRepository {
   /// `GET /api/me/summary` — 체류 기록 · 가입일 · 활동 수.
   Future<MeSummary> summary();
 
-  /// `GET /api/me/tips`
-  Future<MyTipsResponse> tips();
+  /// `GET /api/me/tips` — 한 쪽에 20개. [cursor] 는 앞 응답의 `nextCursor` 를
+  /// 그대로 넘깁니다(없으면 첫 쪽). `helpfulSum` 은 어느 쪽에서나 전체 합계입니다.
+  Future<MyTipsResponse> tips({String? cursor});
 
   /// `GET /api/me/photos`
   Future<MyPhotosResponse> photos();
@@ -38,9 +39,11 @@ class ApiMeRepository implements MeRepository {
   );
 
   @override
-  Future<MyTipsResponse> tips() async => MyTipsResponse.fromJson(
-    await _client.get('/api/me/tips') as Map<String, dynamic>,
-  );
+  Future<MyTipsResponse> tips({String? cursor}) async =>
+      MyTipsResponse.fromJson(
+        await _client.get('/api/me/tips', query: {'cursor': ?cursor})
+            as Map<String, dynamic>,
+      );
 
   @override
   Future<MyPhotosResponse> photos() async => MyPhotosResponse.fromJson(
@@ -89,11 +92,13 @@ class MockMeRepository implements MeRepository {
         .copyWith(tipCount: tips.items.length, photoCount: photos.items.length);
   }
 
+  // mock 은 한 쪽에 다 들어 있습니다.
   @override
-  Future<MyTipsResponse> tips() async => MyTipsResponse.fromJson(
-    await _assets.read('me/tips.json', path: '/api/me/tips')
-        as Map<String, dynamic>,
-  );
+  Future<MyTipsResponse> tips({String? cursor}) async =>
+      MyTipsResponse.fromJson(
+        await _assets.read('me/tips.json', path: '/api/me/tips')
+            as Map<String, dynamic>,
+      );
 
   @override
   Future<MyPhotosResponse> photos() async => MyPhotosResponse.fromJson(

@@ -9,6 +9,7 @@ import '../../data/models/me.dart';
 import '../../shared/widgets/app_button.dart';
 import '../../shared/widgets/app_toggle.dart';
 import '../../shared/widgets/avatar.dart';
+import '../../shared/widgets/load_more_button.dart';
 import '../../shared/widgets/segmented_tabs.dart';
 import '../../shared/widgets/tag.dart';
 import '../auth/auth_providers.dart';
@@ -465,11 +466,18 @@ class _TipsTab extends ConsumerWidget {
       ),
       data: (data) {
         if (data.items.isEmpty) return const _TabMessage('아직 남긴 팁이 없어요');
+        // 다음 쪽이 남아 있으면 읽은 수가 전체가 아니므로 요약의 팁 수를 씁니다.
+        final more = data.nextCursor != null;
+        final total = more
+            ? ref.watch(meSummaryProvider).value?.tipCount
+            : data.items.length;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _TabHeader(
-              title: '내가 쓴 팁 ${data.items.length}개',
+              title: total == null
+                  ? '내가 쓴 팁 ${data.items.length}개 이상'
+                  : '내가 쓴 팁 $total개',
               aside: '도움돼요 합계 ${data.helpfulSum}',
             ),
             for (final (i, tip) in data.items.indexed) ...[
@@ -482,6 +490,13 @@ class _TipsTab extends ConsumerWidget {
                       ? AppRoutes.region(tip.target.id)
                       : AppRoutes.dong(tip.target.id),
                 ),
+              ),
+            ],
+            if (more) ...[
+              const SizedBox(height: AppSpacing.s3),
+              LoadMoreButton(
+                label: '팁 더 보기',
+                onLoad: ref.read(myTipsProvider.notifier).loadMore,
               ),
             ],
           ],
@@ -615,6 +630,37 @@ class _SettingsCard extends ConsumerWidget {
       );
     }
 
+    // 토글 3줄. [s] 가 null 이면(준비 중) 모두 꺼진 채 눌리지 않습니다.
+    Widget toggles(MeSettings? s) => Column(
+      spacing: 14,
+      children: [
+        for (final item in NotifySetting.values)
+          Row(
+            spacing: AppSpacing.s3,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 2,
+                  children: [
+                    Text(item.label, style: AppTextStyles.bodySmMedium),
+                    Text(
+                      item.hint,
+                      style: AppTextStyles.captionXs.copyWith(color: tertiary),
+                    ),
+                  ],
+                ),
+              ),
+              AppToggle(
+                value: s != null && item.valueOf(s),
+                semanticLabel: item.label,
+                onChanged: s == null ? null : (v) => onToggle(item, v),
+              ),
+            ],
+          ),
+      ],
+    );
+
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -641,44 +687,40 @@ class _SettingsCard extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(vertical: AppSpacing.s4),
                     child: Center(child: CircularProgressIndicator()),
                   ),
-                  error: (e, s) => Text(
-                    '설정을 불러오지 못했어요',
-                    style: AppTextStyles.captionXs.copyWith(color: tertiary),
-                  ),
-                  data: (s) => Column(
-                    spacing: 14,
-                    children: [
-                      for (final item in NotifySetting.values)
-                        Row(
-                          spacing: AppSpacing.s3,
+                  // 서버에 아직 없으면(501) 다시 불러도 같으니 준비 중으로 보여 줍니다.
+                  error: (e, s) => isNotImplemented(e)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 14,
                           children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 2,
-                                children: [
-                                  Text(
-                                    item.label,
-                                    style: AppTextStyles.bodySmMedium,
-                                  ),
-                                  Text(
-                                    item.hint,
-                                    style: AppTextStyles.captionXs.copyWith(
-                                      color: tertiary,
-                                    ),
-                                  ),
-                                ],
+                            Text(
+                              '알림 설정은 준비 중이에요',
+                              style: AppTextStyles.captionXs.copyWith(
+                                color: tertiary,
                               ),
                             ),
-                            AppToggle(
-                              value: item.valueOf(s),
-                              semanticLabel: item.label,
-                              onChanged: (v) => onToggle(item, v),
+                            Opacity(opacity: 0.5, child: toggles(null)),
+                          ],
+                        )
+                      : Row(
+                          spacing: AppSpacing.s2,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '설정을 불러오지 못했어요',
+                                style: AppTextStyles.captionXs.copyWith(
+                                  color: tertiary,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  ref.invalidate(meSettingsProvider),
+                              child: const Text('다시 시도'),
                             ),
                           ],
                         ),
-                    ],
-                  ),
+                  data: toggles,
                 ),
               ],
             ),

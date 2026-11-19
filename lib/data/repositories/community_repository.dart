@@ -9,8 +9,9 @@ import 'mock_assets.dart';
 /// 커뮤니티: 한 줄 팁 · 체감 투표 · 이달의 사진(투표 응답에 함께 옵니다).
 /// 읽기 경로는 웹과 같고, 쓰기 경로(`POST`)는 백엔드 명세 전이라 앱이 정했습니다.
 abstract class CommunityRepository {
-  /// `GET {target}/notes?sort=helpful`
-  Future<TipsResponse> tips(CommunityTarget target);
+  /// `GET {target}/notes?sort=helpful` — 한 쪽에 20개. [cursor] 는 앞 응답의
+  /// `nextCursor` 를 그대로 넘깁니다(없으면 첫 쪽).
+  Future<TipsResponse> tips(CommunityTarget target, {String? cursor});
 
   /// `POST {target}/notes` — 본문 `{body, visitMonth?}`. 만든 팁을 돌려줍니다.
   /// [authorName] 은 mock 이 작성자 표시에 씁니다(실제 API 는 세션으로 압니다).
@@ -39,10 +40,10 @@ class ApiCommunityRepository implements CommunityRepository {
   final ApiClient _client;
 
   @override
-  Future<TipsResponse> tips(CommunityTarget target) async {
+  Future<TipsResponse> tips(CommunityTarget target, {String? cursor}) async {
     final json = await _client.get(
       '${target.path}/notes',
-      query: {'sort': 'helpful'},
+      query: {'sort': 'helpful', 'cursor': ?cursor},
     );
     return TipsResponse.fromJson(json as Map<String, dynamic>);
   }
@@ -99,8 +100,9 @@ class MockCommunityRepository implements CommunityRepository {
   String _file(String kind, CommunityTarget t) =>
       'community/${kind}_${t.id}.json';
 
+  // mock 은 한 쪽에 다 들어 있습니다.
   @override
-  Future<TipsResponse> tips(CommunityTarget target) async {
+  Future<TipsResponse> tips(CommunityTarget target, {String? cursor}) async {
     final cached = _tips[target];
     if (cached != null) return cached;
     TipsResponse res;
