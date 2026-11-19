@@ -70,7 +70,7 @@ void main() {
   });
 
   group('MockMeRepository', () {
-    test('요약 · 팁 · 사진 · 설정은 웹 mock 의 초기 값이다', () async {
+    test('요약 · 팁 · 사진은 웹 mock 의 초기 값이다', () async {
       final repo = MockMeRepository(assets);
 
       final summary = await repo.summary();
@@ -92,20 +92,6 @@ void main() {
         photos.items.where((p) => p.status == PhotoStatus.pending),
         hasLength(2),
       );
-
-      final settings = await repo.settings();
-      expect(settings.notifyBestMonth, isTrue);
-      expect(settings.notifyTipReaction, isTrue);
-      expect(settings.notifyPhotoSelected, isFalse);
-    });
-
-    test('설정 PATCH 는 바꾼 값만 합쳐 메모리에 남긴다', () async {
-      final repo = MockMeRepository(assets);
-
-      final saved = await repo.patchSettings(notifyPhotoSelected: true);
-      expect(saved.notifyPhotoSelected, isTrue);
-      expect(saved.notifyBestMonth, isTrue);
-      expect((await repo.settings()).notifyPhotoSelected, isTrue);
     });
   });
 }

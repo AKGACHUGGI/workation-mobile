@@ -123,21 +123,16 @@ class FakeFavoritesRepository implements FavoritesRepository {
   }
 }
 
-/// MY 에 쓰는 가짜. 팁 2개 · 사진 3장(검수 대기 1) · 설정은 웹 mock 의 초기 값.
+/// MY 에 쓰는 가짜. 팁 2개 · 사진 3장(검수 대기 1).
 ///
-/// [settingsError] 를 주면 설정 읽기가 그 오류로 실패합니다. [moreTips] 를 주면 첫 쪽이
-/// `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를 줍니다([failMoreTips] 면 실패).
+/// [moreTips] 를 주면 첫 쪽이 `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를 줍니다([failMoreTips] 면 실패).
 class FakeMeRepository implements MeRepository {
   FakeMeRepository({
-    this.failPatch = false,
-    this.settingsError,
     this.moreTips,
     this.failMoreTips = false,
     this.failDelete = false,
   });
 
-  bool failPatch;
-  Object? settingsError;
   List<MyTip>? moreTips;
   bool failMoreTips;
   bool failDelete;
@@ -145,22 +140,10 @@ class FakeMeRepository implements MeRepository {
   /// 지운 팁 id(순서대로). 지운 뒤에는 팁 목록 · 요약에서 빠집니다.
   final deletedTips = <String>[];
 
-  /// 설정을 읽은 횟수
-  int settingsCalls = 0;
-
   /// 팁을 읽을 때 받은 커서(순서대로, 첫 쪽은 null)
   final tipCursors = <String?>[];
 
   static const _nextCursor = '20';
-
-  MeSettings current = const MeSettings(
-    notifyBestMonth: true,
-    notifyTipReaction: true,
-    notifyPhotoSelected: false,
-  );
-
-  /// 받은 `PATCH` 본문(바꾼 키만)
-  final patches = <Map<String, bool>>[];
 
   @override
   Future<void> deleteTip(String id) async {
@@ -260,30 +243,4 @@ class FakeMeRepository implements MeRepository {
       ),
     ],
   );
-
-  @override
-  Future<MeSettings> settings() async {
-    settingsCalls++;
-    if (settingsError case final error?) throw error;
-    return current;
-  }
-
-  @override
-  Future<MeSettings> patchSettings({
-    bool? notifyBestMonth,
-    bool? notifyTipReaction,
-    bool? notifyPhotoSelected,
-  }) async {
-    patches.add({
-      'notifyBestMonth': ?notifyBestMonth,
-      'notifyTipReaction': ?notifyTipReaction,
-      'notifyPhotoSelected': ?notifyPhotoSelected,
-    });
-    if (failPatch) throw const NetworkException('/api/me/settings');
-    return current = current.copyWith(
-      notifyBestMonth: notifyBestMonth ?? current.notifyBestMonth,
-      notifyTipReaction: notifyTipReaction ?? current.notifyTipReaction,
-      notifyPhotoSelected: notifyPhotoSelected ?? current.notifyPhotoSelected,
-    );
-  }
 }

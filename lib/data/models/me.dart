@@ -225,16 +225,3 @@ abstract class MyPhotosResponse with _$MyPhotosResponse {
   factory MyPhotosResponse.fromJson(Map<String, dynamic> json) =>
       _$MyPhotosResponseFromJson(json);
 }
-
-/// `GET · PATCH /api/me/settings` — 알림 설정 3개.
-@freezed
-abstract class MeSettings with _$MeSettings {
-  const factory MeSettings({
-    required bool notifyBestMonth,
-    required bool notifyTipReaction,
-    required bool notifyPhotoSelected,
-  }) = _MeSettings;
-
-  factory MeSettings.fromJson(Map<String, dynamic> json) =>
-      _$MeSettingsFromJson(json);
-}
