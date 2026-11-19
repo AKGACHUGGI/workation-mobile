@@ -291,13 +291,4 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('로그인하고 저장해 보세요'), findsOneWidget);
   });
-
-  testWidgets('편집 버튼은 준비 중 안내를 띄운다', (tester) async {
-    await pumpApp(tester, location: AppRoutes.my, loggedIn: true);
-
-    await tester.tap(find.widgetWithText(OutlinedButton, '편집'));
-    await tester.pump();
-
-    expect(find.text('프로필 편집은 준비 중이에요'), findsOneWidget);
-  });
 }

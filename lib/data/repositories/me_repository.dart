@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/network/api_client.dart';
 import '../../core/network/api_config.dart';
+import '../../core/network/api_exception.dart';
 import '../models/me.dart';
 import 'mock_assets.dart';
 
@@ -13,6 +14,9 @@ abstract class MeRepository {
   /// `GET /api/me/tips` — 한 쪽에 20개. [cursor] 는 앞 응답의 `nextCursor` 를
   /// 그대로 넘깁니다(없으면 첫 쪽). `helpfulSum` 은 어느 쪽에서나 전체 합계입니다.
   Future<MyTipsResponse> tips({String? cursor});
+
+  /// `DELETE /api/me/tips/{id}` — 204. 내 팁이 아니면 404(`NotFoundException`).
+  Future<void> deleteTip(String id);
 
   /// `GET /api/me/photos`
   Future<MyPhotosResponse> photos();
@@ -44,6 +48,11 @@ class ApiMeRepository implements MeRepository {
         await _client.get('/api/me/tips', query: {'cursor': ?cursor})
             as Map<String, dynamic>,
       );
+
+  @override
+  Future<void> deleteTip(String id) async {
+    await _client.delete('/api/me/tips/$id');
+  }
 
   @override
   Future<MyPhotosResponse> photos() async => MyPhotosResponse.fromJson(
@@ -78,6 +87,7 @@ class MockMeRepository implements MeRepository {
 
   final MockAssets _assets;
   MeSettings? _settings;
+  final _deletedTips = <String>{};
 
   @override
   Future<MeSummary> summary() async {
@@ -92,13 +102,32 @@ class MockMeRepository implements MeRepository {
         .copyWith(tipCount: tips.items.length, photoCount: photos.items.length);
   }
 
-  // mock 은 한 쪽에 다 들어 있습니다.
+  // mock 은 한 쪽에 다 들어 있습니다. 지운 팁은 앱을 끌 때까지 빠집니다.
   @override
-  Future<MyTipsResponse> tips({String? cursor}) async =>
-      MyTipsResponse.fromJson(
-        await _assets.read('me/tips.json', path: '/api/me/tips')
-            as Map<String, dynamic>,
-      );
+  Future<MyTipsResponse> tips({String? cursor}) async {
+    final all = MyTipsResponse.fromJson(
+      await _assets.read('me/tips.json', path: '/api/me/tips')
+          as Map<String, dynamic>,
+    );
+    final items = [
+      for (final t in all.items)
+        if (!_deletedTips.contains(t.id)) t,
+    ];
+    // 서버처럼 합계는 남은 팁 기준입니다.
+    return all.copyWith(
+      items: items,
+      helpfulSum: items.fold(0, (sum, t) => sum + t.helpful),
+    );
+  }
+
+  @override
+  Future<void> deleteTip(String id) async {
+    final mine = await tips();
+    if (!mine.items.any((t) => t.id == id)) {
+      throw NotFoundException('/api/me/tips/$id');
+    }
+    _deletedTips.add(id);
+  }
 
   @override
   Future<MyPhotosResponse> photos() async => MyPhotosResponse.fromJson(
