@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/metric/month.dart';
 import '../../../core/theme/app_theme.dart';
@@ -10,10 +11,13 @@ import '../../../shared/widgets/tag.dart';
 /// MY 전용입니다. 지역 · 동네 상세의 공용 `TipCard` 는 따로 만들어집니다.
 /// Figma M-07 v2 에는 팁 탭 화면이 없어 웹 `MyTips` 를 따라 모바일 폭에 맞췄습니다.
 class MyTipTile extends StatelessWidget {
-  const MyTipTile({super.key, required this.tip, this.onTap});
+  const MyTipTile({super.key, required this.tip, this.onTap, this.onDelete});
 
   final MyTip tip;
   final VoidCallback? onTap;
+
+  /// ⋯ 메뉴의 [삭제]. null 이면 메뉴를 그리지 않습니다.
+  final VoidCallback? onDelete;
 
   /// `2025-10-20T18:30:00+09:00` → `2025.10.20`
   static String dateLabel(String iso) =>
@@ -51,15 +55,35 @@ class MyTipTile extends StatelessWidget {
                 spacing: 6,
                 children: [
                   Tag(tip.target.name, tone: TagTone.brand),
-                  if (where.isNotEmpty)
-                    Expanded(
-                      child: Text(
-                        where,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.captionXs.copyWith(
+                  Expanded(
+                    child: Text(
+                      where,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.captionXs.copyWith(color: tertiary),
+                    ),
+                  ),
+                  if (onDelete != null)
+                    SizedBox.square(
+                      dimension: AppSpacing.s6,
+                      child: PopupMenuButton<bool>(
+                        tooltip: '팁 메뉴',
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          LucideIcons.ellipsis,
+                          size: AppSpacing.s5,
                           color: tertiary,
                         ),
+                        onSelected: (_) => onDelete!(),
+                        itemBuilder: (context) => [
+                          PopupMenuItem<bool>(
+                            value: true,
+                            child: Text(
+                              '삭제',
+                              style: TextStyle(color: scheme.error),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                 ],
