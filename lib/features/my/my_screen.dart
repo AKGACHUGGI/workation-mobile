@@ -16,6 +16,7 @@ import '../auth/auth_providers.dart';
 import '../auth/widgets/login_prompt.dart';
 import '../favorites/favorites_providers.dart';
 import 'my_providers.dart';
+import 'widgets/delete_account.dart';
 import 'widgets/my_photo_tile.dart';
 import 'widgets/my_tip_tile.dart';
 
@@ -209,6 +210,7 @@ class _LoggedInState extends ConsumerState<_LoggedIn> {
                   '${user.provider.label} 계정(${user.emailMasked})으로 로그인했어요',
                 ),
                 onLogout: _confirmLogout,
+                onDeleteAccount: () => confirmDeleteAccount(context),
               ),
               const SizedBox(height: AppSpacing.s6),
             ],
@@ -576,12 +578,14 @@ class _SettingsCard extends ConsumerWidget {
     required this.onToggle,
     required this.onAccount,
     required this.onLogout,
+    required this.onDeleteAccount,
   });
 
   final String providerLabel;
   final void Function(NotifySetting setting, bool value) onToggle;
   final VoidCallback onAccount;
   final VoidCallback onLogout;
+  final VoidCallback onDeleteAccount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -726,10 +730,11 @@ class _SettingsCard extends ConsumerWidget {
             ),
           ),
           row(label: '연결된 계정', trailingText: providerLabel, onTap: onAccount),
+          row(label: '로그아웃', labelColor: scheme.error, onTap: onLogout),
           row(
-            label: '로그아웃',
+            label: '계정 삭제',
             labelColor: scheme.error,
-            onTap: onLogout,
+            onTap: onDeleteAccount,
             divider: false,
           ),
         ],

@@ -73,4 +73,14 @@ class FakeAuthRepository implements AuthRepository {
     calls.add('signOut');
     hasSession = false;
   }
+
+  /// true 면 [deleteAccount] 가 서버 오류(502)처럼 실패합니다.
+  bool failDelete = false;
+
+  @override
+  Future<void> deleteAccount() async {
+    calls.add('DELETE /api/me');
+    if (failDelete) throw StateError('502 AUTH_PROVIDER_ERROR');
+    hasSession = false;
+  }
 }
