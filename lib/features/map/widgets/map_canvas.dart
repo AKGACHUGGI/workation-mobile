@@ -4,6 +4,7 @@ import '../../../core/network/api_config.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/explore.dart';
 import '../../../data/models/geo_area.dart';
+import '../map_markers.dart';
 import '../map_projection.dart';
 import 'google_map_canvas.dart';
 
@@ -103,12 +104,16 @@ extension MapCanvasControllerBinding on MapCanvasController {
   }
 }
 
-/// 지도 한 장. 면([shapes])을 칠하고, 이름 라벨 · 핀은 [overlayBuilder] 가 돌려주는 위젯을
-/// 그 위에 겹칩니다. 끌어서 이동, 두 손가락으로 확대 · 축소합니다.
+/// 지도 한 장. 면([shapes])을 칠하고 그 위에 이름 라벨 · 핀을 올립니다.
+/// 끌어서 이동, 두 손가락으로 확대 · 축소합니다.
 ///
-/// Google Maps 키가 있으면(`ApiConfig.mapsEnabled`) 타일 지도 위에 면을 폴리곤으로 올리고
-/// ([GoogleMapCanvas]), 없으면(테스트 포함) 배경 · 면을 직접 그립니다. 투영은 둘 다
-/// [MapCamera](웹 메르카토르)라, 겹쳐 놓는 위젯은 어느 쪽이든 같은 카메라로 자리를 잡습니다.
+/// Google Maps 키가 있으면(`ApiConfig.mapsEnabled`) 타일 지도 위에 면을 폴리곤으로,
+/// 라벨 · 핀은 [markersBuilder] 가 정한 마커로 올립니다([GoogleMapCanvas]). 마커는
+/// 지도에 붙어 움직여 끌 때 흔들리지 않습니다.
+///
+/// 키가 없으면(테스트 포함) 배경 · 면을 직접 그리고, 라벨 · 핀은 [overlayBuilder] 가
+/// 돌려주는 위젯을 겹칩니다. 투영은 둘 다 [MapCamera](웹 메르카토르)라 같은 좌표 계산을
+/// 씁니다.
 class MapCanvas extends StatelessWidget {
   const MapCanvas({
     super.key,
@@ -118,6 +123,7 @@ class MapCanvas extends StatelessWidget {
     this.controller,
     this.shapes = const [],
     this.overlayBuilder,
+    this.markersBuilder,
     this.onTapGeo,
     this.maxZoomIn = 40,
     this.maxZoomOut = 8,
@@ -133,8 +139,13 @@ class MapCanvas extends StatelessWidget {
   /// 아래에서부터 칠할 면
   final List<MapShape> shapes;
 
-  /// 라벨 · 핀. 카메라가 움직일 때마다 다시 불립니다.
+  /// 라벨 · 핀을 위젯으로 겹칩니다. 카메라가 움직일 때마다 다시 불립니다.
+  /// 타일 지도에서는 [markersBuilder] 가 있으면 쓰지 않습니다.
   final Widget Function(BuildContext context, MapCamera camera)? overlayBuilder;
+
+  /// 타일 지도에서 라벨 · 핀을 마커로 올립니다. 손을 뗀 뒤의 카메라로 불립니다.
+  /// 직접 그리는 지도에서는 쓰지 않습니다.
+  final List<MapMarkerSpec> Function(MapCamera camera)? markersBuilder;
 
   /// 빈 곳(또는 면)을 눌렀을 때 위경도
   final ValueChanged<GeoPoint>? onTapGeo;
@@ -160,6 +171,7 @@ class MapCanvas extends StatelessWidget {
         controller: controller,
         shapes: shapes,
         overlayBuilder: overlayBuilder,
+        markersBuilder: markersBuilder,
         onTapGeo: onTapGeo,
         maxZoomIn: maxZoomIn,
         maxZoomOut: maxZoomOut,
