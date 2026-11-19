@@ -88,6 +88,13 @@ class SessionNotifier extends Notifier<AuthUser?> {
     state = me.needsOnboarding ? null : me;
   }
 
+  /// 닉네임 바꾸기(M-07 프로필 편집): 저장하고 세션의 닉네임 · 이니셜을 갱신합니다.
+  /// 실패하면 던지고 세션은 그대로입니다.
+  Future<void> updateNickname(String nickname) async {
+    final me = await _repo.updateMe(nickname: nickname.trim());
+    if (state != null) state = me;
+  }
+
   /// 온보딩을 그만둠: 약관 미동의 세션을 남기지 않도록 로그아웃합니다.
   Future<void> cancelOnboarding() async {
     ref.read(pendingOnboardingProvider.notifier).set(null);
