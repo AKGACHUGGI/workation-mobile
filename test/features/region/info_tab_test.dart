@@ -112,6 +112,58 @@ void main() {
     expect(find.text('그래요 80%'), findsOneWidget);
   });
 
+  group('팁 다음 쪽', () {
+    const third = Tip(
+      id: 't3',
+      author: TipAuthor(nickname: '파도', initial: '파'),
+      createdAt: '2026-09-01T09:00:00+09:00',
+      body: '주말엔 해변 주차장이 일찍 차요.',
+    );
+
+    testWidgets('[팁 더 보기] 를 누르면 nextCursor 로 다음 쪽을 이어 붙인다', (tester) async {
+      final community = FakeCommunityRepository(
+        withPhotos: true,
+        moreTips: [third],
+      );
+      await open(tester, community: community);
+
+      expect(find.text('팁 3개 · 도움순'), findsOneWidget);
+      expect(find.byType(TipCard), findsNWidgets(2));
+
+      await tester.ensureVisible(find.text('팁 더 보기'));
+      await tester.tap(find.text('팁 더 보기'));
+      await tester.pumpAndSettle();
+
+      expect(community.tipCursors, [null, '20']);
+      expect(find.byType(TipCard), findsNWidgets(3));
+      expect(find.text('주말엔 해변 주차장이 일찍 차요.'), findsOneWidget);
+      expect(find.text('팁 3개 · 도움순'), findsOneWidget);
+      expect(find.text('팁 더 보기'), findsNothing);
+    });
+
+    testWidgets('다음 쪽을 읽지 못하면 안내하고 목록은 그대로 둔다', (tester) async {
+      final community = FakeCommunityRepository(
+        withPhotos: true,
+        moreTips: [third],
+        failMoreTips: true,
+      );
+      await open(tester, community: community);
+
+      await tester.ensureVisible(find.text('팁 더 보기'));
+      await tester.tap(find.text('팁 더 보기'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('더 불러오지 못했어요'), findsOneWidget);
+      expect(find.byType(TipCard), findsNWidgets(2));
+      expect(find.text('팁 더 보기'), findsOneWidget);
+    });
+
+    testWidgets('다음 쪽이 없으면 [팁 더 보기] 가 없다', (tester) async {
+      await open(tester);
+      expect(find.text('팁 더 보기'), findsNothing);
+    });
+  });
+
   testWidgets('팁이 없으면 안내 문구, 불러오기에 실패하면 다시 시도', (tester) async {
     final community = FakeCommunityRepository(withPhotos: true)..fail = true;
     await open(tester, community: community);

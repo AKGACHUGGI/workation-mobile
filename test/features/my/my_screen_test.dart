@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/router.dart';
+import 'package:workation_mobile/core/network/api_exception.dart';
+import 'package:workation_mobile/data/models/me.dart';
 import 'package:workation_mobile/features/my/my_screen.dart';
 import 'package:workation_mobile/features/my/widgets/my_photo_tile.dart';
 import 'package:workation_mobile/features/my/widgets/my_tip_tile.dart';
@@ -78,6 +80,72 @@ void main() {
     expect(find.text('거진읍 · 2주 체류 · 10월 방문'), findsOneWidget);
   });
 
+  group('팁 탭 다음 쪽', () {
+    const third = MyTip(
+      id: 'tip-3',
+      author: TipAuthor(nickname: '두이', initial: '두'),
+      createdAt: '2025-06-01T09:00:00+09:00',
+      body: '양양은 서핑 강습이 오전에 몰려요.',
+      helpful: 0,
+      replies: 0,
+      target: MyTipTarget(kind: TipTargetKind.region, id: '51830', name: '양양군'),
+    );
+
+    Future<void> openTips(WidgetTester tester, FakeMeRepository me) async {
+      await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+      await tester.tap(find.widgetWithText(GestureDetector, '팁').first);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('다음 쪽이 없으면 [팁 더 보기] 가 없다', (tester) async {
+      final me = FakeMeRepository();
+      await openTips(tester, me);
+
+      expect(find.text('팁 더 보기'), findsNothing);
+      expect(me.tipCursors, [null]);
+    });
+
+    testWidgets('[팁 더 보기] 를 누르면 nextCursor 로 다음 쪽을 이어 붙인다', (tester) async {
+      final me = FakeMeRepository(moreTips: [third]);
+      await openTips(tester, me);
+
+      expect(find.byType(MyTipTile), findsNWidgets(2));
+      // 다 읽기 전에는 요약의 팁 수를 씁니다.
+      expect(find.text('내가 쓴 팁 2개'), findsOneWidget);
+
+      await tester.ensureVisible(find.text('팁 더 보기'));
+      await tester.tap(find.text('팁 더 보기'));
+      await tester.pumpAndSettle();
+
+      expect(me.tipCursors, [null, '20']);
+      expect(find.byType(MyTipTile), findsNWidgets(3));
+      expect(find.text('양양은 서핑 강습이 오전에 몰려요.'), findsOneWidget);
+      expect(find.text('내가 쓴 팁 3개'), findsOneWidget);
+      // 합계는 첫 쪽 값 그대로
+      expect(find.text('도움돼요 합계 17'), findsOneWidget);
+      expect(find.text('팁 더 보기'), findsNothing);
+    });
+
+    testWidgets('다음 쪽을 읽지 못하면 안내하고 목록은 그대로 둔다', (tester) async {
+      final me = FakeMeRepository(moreTips: [third], failMoreTips: true);
+      await openTips(tester, me);
+
+      await tester.ensureVisible(find.text('팁 더 보기'));
+      await tester.tap(find.text('팁 더 보기'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('더 불러오지 못했어요'), findsOneWidget);
+      expect(find.byType(MyTipTile), findsNWidgets(2));
+
+      // 다시 누르면 같은 커서로 다시 읽습니다.
+      me.failMoreTips = false;
+      await tester.tap(find.text('팁 더 보기'));
+      await tester.pumpAndSettle();
+      expect(me.tipCursors, [null, '20', '20']);
+      expect(find.byType(MyTipTile), findsNWidgets(3));
+    });
+  });
+
   testWidgets('즐겨찾기 탭: 저장한 이름들과 즐겨찾기로 가는 버튼', (tester) async {
     await pumpApp(tester, location: AppRoutes.my, loggedIn: true);
 
@@ -133,6 +201,54 @@ void main() {
 
     expect(toggles(tester), [true, true, false]);
     expect(find.text('설정을 저장하지 못했어요'), findsOneWidget);
+  });
+
+  testWidgets('알림 설정이 서버에 아직 없으면(501) 한 번만 부르고 준비 중으로 보여준다', (tester) async {
+    final me = FakeMeRepository(
+      settingsError: const ServerException('/api/me/settings', 501),
+    );
+    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+    // 저절로 다시 부르는지 넉넉히 기다려 봅니다.
+    await tester.pump(const Duration(seconds: 30));
+    await tester.ensureVisible(find.text('알림 설정'));
+
+    expect(me.settingsCalls, 1);
+    expect(find.text('알림 설정은 준비 중이에요'), findsOneWidget);
+    expect(find.text('다시 시도'), findsNothing);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+
+    // 토글은 꺼진 채 눌리지 않습니다.
+    expect(toggles(tester), [false, false, false]);
+    for (final t in tester.widgetList<AppToggle>(find.byType(AppToggle))) {
+      expect(t.onChanged, isNull);
+    }
+    await tester.tap(find.byType(AppToggle).first);
+    await tester.pumpAndSettle();
+    expect(me.patches, isEmpty);
+    // 나머지 줄은 그대로 씁니다.
+    expect(find.text('연결된 계정'), findsOneWidget);
+    expect(find.text('로그아웃'), findsOneWidget);
+  });
+
+  testWidgets('알림 설정을 읽지 못하면(연결 실패) 한 번만 부르고 [다시 시도] 로 다시 읽는다', (tester) async {
+    final me = FakeMeRepository(
+      settingsError: const NetworkException('/api/me/settings'),
+    );
+    await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+    await tester.pump(const Duration(seconds: 30));
+    await tester.ensureVisible(find.text('알림 설정'));
+
+    expect(me.settingsCalls, 1);
+    expect(find.text('설정을 불러오지 못했어요'), findsOneWidget);
+    expect(find.text('알림 설정은 준비 중이에요'), findsNothing);
+    expect(find.byType(AppToggle), findsNothing);
+
+    me.settingsError = null;
+    await tester.tap(find.text('다시 시도'));
+    await tester.pumpAndSettle();
+
+    expect(me.settingsCalls, 2);
+    expect(toggles(tester), [true, true, false]);
   });
 
   testWidgets('연결된 계정 줄은 로그인한 제공자를 보여준다', (tester) async {
