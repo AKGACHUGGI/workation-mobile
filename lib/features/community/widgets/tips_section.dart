@@ -11,10 +11,12 @@ import '../../../shared/widgets/tip_composer.dart';
 import '../../auth/auth_providers.dart';
 import '../../auth/login_gate.dart';
 import '../community_providers.dart';
+import 'replies_sheet.dart';
 import 'section_header.dart';
 
 /// 워케이션 노트: 머리 · 입력 바 · 팁 카드 목록. 지역(M-03c)과 동네(M-04)가 같이 씁니다.
 /// 입력 바를 누르면 로그인을 확인하고(비로그인이면 로그인 화면) 입력 시트를 엽니다.
+/// 카드의 도움돼요는 로그인 뒤 켜고 끄고, 답글은 답글 시트를 엽니다(읽기는 로그인 없이).
 class TipsSection extends ConsumerWidget {
   const TipsSection({
     super.key,
@@ -55,6 +57,38 @@ class TipsSection extends ConsumerWidget {
     }
   }
 
+  Future<void> _helpful(BuildContext context, WidgetRef ref, Tip tip) async {
+    final wasLoggedIn = ref.read(isLoggedInProvider);
+    if (!await ensureLoggedIn(context, ref)) return;
+    if (!context.mounted) return;
+    final messenger = ScaffoldMessenger.of(context);
+    void say(String message) => messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+
+    var current = tip;
+    if (!wasLoggedIn) {
+      // 방금 로그인했으면 목록이 내 표시(내 팁 · 이미 누름)와 함께 다시 읽힙니다.
+      try {
+        final fresh = await ref.read(tipsProvider(target).future);
+        current = fresh.items.firstWhere(
+          (t) => t.id == tip.id,
+          orElse: () => tip,
+        );
+      } on ApiException {
+        return say('도움돼요를 반영하지 못했어요');
+      }
+      // 누르려던 것이니, 이미 눌러 둔 팁을 끄지는 않습니다.
+      if (current.myHelpful) return;
+    }
+    if (current.mine) return say('내 팁에는 도움돼요를 누를 수 없어요');
+
+    final ok = await ref
+        .read(tipsProvider(target).notifier)
+        .toggleHelpful(current);
+    if (!ok) say('도움돼요를 반영하지 못했어요');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tips = ref.watch(tipsProvider(target));
@@ -76,7 +110,14 @@ class TipsSection extends ConsumerWidget {
           onTap: () => _compose(context, ref),
         ),
         if (data != null) ...[
-          for (final tip in data.items) TipCard(tip, key: ValueKey(tip.id)),
+          for (final tip in data.items)
+            TipCard(
+              tip,
+              key: ValueKey(tip.id),
+              onHelpful: () => _helpful(context, ref, tip),
+              onReplies: () =>
+                  showRepliesSheet(context, target: target, tip: tip),
+            ),
           if (data.items.isEmpty) const SectionNotice('아직 팁이 없어요. 첫 팁을 남겨보세요'),
           // 서버는 한 쪽에 20개씩 줍니다.
           if (data.nextCursor != null)

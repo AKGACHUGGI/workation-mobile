@@ -9,11 +9,24 @@ import 'avatar.dart';
 import 'tag.dart';
 
 /// 한 줄 팁 카드 (Figma TipCard, 워케이션 노트 1건).
-/// 도움돼요 · 답글 · 신고는 모양만 있고 아직 누를 수 없습니다(다음 단계).
+/// 도움돼요는 내가 눌렀으면 강조됩니다. [onHelpful] · [onReplies] 가 null 이면 숫자만 보입니다.
+/// 신고는 모양만 있고 아직 누를 수 없습니다.
 class TipCard extends StatelessWidget {
-  const TipCard(this.tip, {super.key, this.now});
+  const TipCard(
+    this.tip, {
+    super.key,
+    this.now,
+    this.onHelpful,
+    this.onReplies,
+  });
 
   final Tip tip;
+
+  /// 도움돼요를 눌렀을 때(켜기 · 끄기는 부모가 [Tip.myHelpful] 로 정합니다)
+  final VoidCallback? onHelpful;
+
+  /// 답글을 눌렀을 때
+  final VoidCallback? onReplies;
 
   /// 상대 시간 기준. 테스트에서 고정합니다.
   final DateTime? now;
@@ -72,14 +85,21 @@ class TipCard extends StatelessWidget {
               _Stat(
                 icon: LucideIcons.thumbsUp,
                 label: '도움돼요 ${tip.helpful}',
-                style: secondary,
-                color: scheme.onSurfaceVariant,
+                style: tip.myHelpful
+                    ? AppTextStyles.captionXsBold.copyWith(
+                        color: scheme.primary,
+                      )
+                    : secondary,
+                color: tip.myHelpful ? scheme.primary : scheme.onSurfaceVariant,
+                selected: tip.myHelpful,
+                onTap: onHelpful,
               ),
               _Stat(
                 icon: LucideIcons.messageCircle,
                 label: '답글 ${tip.replies}',
                 style: secondary,
                 color: scheme.onSurfaceVariant,
+                onTap: onReplies,
               ),
               const Spacer(),
               _Stat(
@@ -104,6 +124,8 @@ class _Stat extends StatelessWidget {
     required this.style,
     required this.color,
     this.size = 16,
+    this.selected,
+    this.onTap,
   });
 
   final IconData icon;
@@ -112,15 +134,34 @@ class _Stat extends StatelessWidget {
   final Color color;
   final double size;
 
+  /// 켜고 끄는 버튼이면 지금 상태. 아니면 null
+  final bool? selected;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final row = Row(
       mainAxisSize: MainAxisSize.min,
       spacing: AppSpacing.s1,
       children: [
         Icon(icon, size: size, color: color),
         Text(label, style: style),
       ],
+    );
+    if (onTap == null) return row;
+
+    // 글자는 작아도 누르는 곳은 넉넉하게: 위아래로 넓히고 카드 여백 쪽으로 겹칩니다.
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: AppRadius.smAll,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.s2),
+          child: row,
+        ),
+      ),
     );
   }
 }

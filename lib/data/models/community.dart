@@ -54,6 +54,12 @@ abstract class Tip with _$Tip {
     required String body,
     @Default(0) int helpful,
     @Default(0) int replies,
+
+    /// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
+    @Default(false) bool mine,
+
+    /// 로그인한 사용자가 도움돼요를 눌렀으면 true
+    @Default(false) bool myHelpful,
   }) = _Tip;
 
   factory Tip.fromJson(Map<String, dynamic> json) => _$TipFromJson(json);
@@ -71,6 +77,27 @@ abstract class TipsResponse with _$TipsResponse {
   factory TipsResponse.fromJson(Map<String, dynamic> json) =>
       _$TipsResponseFromJson(json);
 }
+
+/// 팁에 달린 답글 한 개. `GET /api/tips/{id}/replies` 의 `items` 항목입니다.
+@freezed
+abstract class Reply with _$Reply {
+  const factory Reply({
+    required String id,
+    required TipAuthor author,
+
+    /// ISO 8601
+    required String createdAt,
+    required String body,
+
+    /// 로그인한 사용자가 쓴 답글이면 true (지울 수 있습니다)
+    @Default(false) bool mine,
+  }) = _Reply;
+
+  factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
+}
+
+/// `PUT` · `DELETE /api/tips/{id}/helpful` 의 응답.
+typedef HelpfulResult = ({int helpful, bool myHelpful});
 
 /// 체감 투표의 선택. 서버에는 `yes` · `no` 로 보냅니다.
 enum PollChoice {
@@ -90,8 +117,8 @@ abstract class UserPhoto with _$UserPhoto {
       _$UserPhotoFromJson(json);
 }
 
-/// `GET /api/{regions|dongs}/{id}/poll?month=` — 체감 투표 결과와 이달의 사진.
-/// [myVote] 는 로그인한 사용자가 이미 골랐을 때만 옵니다(웹 응답에는 없는 확장 필드).
+/// `GET /api/{regions|dongs}/{id}/poll?month=&preset=` — 체감 투표 결과와 이달의 사진.
+/// [myVote] 는 로그인한 사용자가 이미 골랐을 때만 옵니다.
 @freezed
 abstract class PollResponse with _$PollResponse {
   const PollResponse._();

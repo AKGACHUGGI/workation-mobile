@@ -181,7 +181,7 @@ class _RegionScreenState extends ConsumerState<RegionScreen> {
                   RegionTab.info => InfoTab(
                     detail: d,
                     rank: rank,
-                    presetLabel: preset,
+                    preset: filter.preset,
                     onLinkTap: (link) => _comingSoon('외부 링크 열기'),
                   ),
                 },

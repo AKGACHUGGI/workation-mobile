@@ -22,8 +22,10 @@ void main() {
   Future<void> open(
     WidgetTester tester, {
     FakeCommunityRepository? community,
+    bool loggedIn = false,
   }) => pumpApp(
     tester,
+    loggedIn: loggedIn,
     location: AppRoutes.region('51820', tab: 'info'),
     community: community ?? FakeCommunityRepository(withPhotos: true),
   );
@@ -74,9 +76,11 @@ void main() {
     await expectGate(find.textContaining('로그인하면 팁을 남기고'));
     await expectGate(find.text('그래요 75%'));
     await expectGate(find.text('이달의 사진 올리기'));
+    await expectGate(find.text('도움돼요 12'));
 
     expect(community.posted, isEmpty);
     expect(community.votes, isEmpty);
+    expect(community.helpfulCalls, isEmpty);
     expect(find.text('사진 올리기 기능은 준비 중이에요'), findsNothing);
   });
 
@@ -110,6 +114,101 @@ void main() {
     await tester.pumpAndSettle();
     expect(community.votes, [PollChoice.yes]);
     expect(find.text('그래요 80%'), findsOneWidget);
+    // 지역은 홈에서 고른 프리셋(기본 조용한 곳)으로 읽고 보냅니다.
+    expect(community.pollPresets.toSet(), {PresetKey.quiet});
+
+    // 아니요로 바꾸고, 같은 쪽을 다시 누르면 취소
+    await tester.tap(find.text('아니요 20%'));
+    await tester.pumpAndSettle();
+    expect(find.text('아니요 40%'), findsOneWidget);
+    await tester.tap(find.text('아니요 40%'));
+    await tester.pumpAndSettle();
+    expect(community.votes, [PollChoice.yes, PollChoice.no, null]);
+    expect(find.text('그래요 75%'), findsOneWidget);
+    expect(find.text('4명 참여 · 지표 검증에 반영돼요'), findsOneWidget);
+  });
+
+  group('도움돼요', () {
+    testWidgets('누르면 숫자가 오르고 다시 누르면 취소된다', (tester) async {
+      final community = FakeCommunityRepository();
+      await open(tester, community: community, loggedIn: true);
+      await tester.ensureVisible(find.text('도움돼요 12'));
+      await tester.tap(find.text('도움돼요 12'));
+      await tester.pumpAndSettle();
+      expect(community.helpfulCalls, [('t1', true)]);
+      expect(find.text('도움돼요 13'), findsOneWidget);
+
+      await tester.tap(find.text('도움돼요 13'));
+      await tester.pumpAndSettle();
+      expect(community.helpfulCalls, [('t1', true), ('t1', false)]);
+      expect(find.text('도움돼요 12'), findsOneWidget);
+    });
+
+    testWidgets('실패하면 숫자를 되돌리고 안내한다', (tester) async {
+      final community = FakeCommunityRepository()..failHelpful = true;
+      await open(tester, community: community, loggedIn: true);
+      await tester.ensureVisible(find.text('도움돼요 5'));
+      await tester.tap(find.text('도움돼요 5'));
+      await tester.pumpAndSettle();
+      expect(find.text('도움돼요 5'), findsOneWidget);
+      expect(find.text('도움돼요를 반영하지 못했어요'), findsOneWidget);
+    });
+  });
+
+  group('답글', () {
+    testWidgets('답글을 누르면 시트에 목록이 뜨고, 쓰면 팁 카드의 수가 오른다', (tester) async {
+      final community = FakeCommunityRepository();
+      await open(tester, community: community, loggedIn: true);
+      await tester.ensureVisible(find.text('답글 2'));
+      await tester.tap(find.text('답글 2'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('저도 가 봤는데 좋았어요.'), findsOneWidget);
+      expect(find.text('주차는 어디에 하셨나요?'), findsOneWidget);
+      // 내 답글에만 [삭제]
+      expect(find.widgetWithText(TextButton, '삭제'), findsOneWidget);
+
+      await tester.enterText(find.byType(TextField), '  평일 오전 추천해요 ');
+      await tester.pump();
+      await tester.tap(find.byTooltip('답글 등록'));
+      await tester.pumpAndSettle();
+      expect(community.postedReplies, ['평일 오전 추천해요']);
+      expect(find.text('평일 오전 추천해요'), findsOneWidget);
+      expect(find.text('답글 3'), findsNWidgets(2)); // 시트 제목 + 팁 카드
+    });
+
+    testWidgets('내 답글을 지우면 목록과 수에서 빠진다', (tester) async {
+      final community = FakeCommunityRepository();
+      await open(tester, community: community, loggedIn: true);
+      await tester.ensureVisible(find.text('답글 2'));
+      await tester.tap(find.text('답글 2'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.widgetWithText(TextButton, '삭제'));
+      await tester.pumpAndSettle();
+      // 확인 대화상자의 [삭제]
+      await tester.tap(find.widgetWithText(TextButton, '삭제').last);
+      await tester.pumpAndSettle();
+      expect(community.deletedReplies, ['r2']);
+      expect(find.text('주차는 어디에 하셨나요?'), findsNothing);
+      expect(find.text('답글 1'), findsNWidgets(2));
+    });
+
+    testWidgets('너무 빠르게 올리면(429) 시트 안에 안내가 뜨고 글은 남는다', (tester) async {
+      final community = FakeCommunityRepository()..replyFailStatus = 429;
+      await open(tester, community: community, loggedIn: true);
+      await tester.ensureVisible(find.text('답글 2'));
+      await tester.tap(find.text('답글 2'));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.byType(TextField), '답글');
+      await tester.pump();
+      await tester.tap(find.byTooltip('답글 등록'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('너무 빠르게'), findsOneWidget);
+      expect(find.widgetWithText(TextField, '답글'), findsOneWidget);
+      expect(find.text('답글 2'), findsNWidgets(2));
+    });
   });
 
   group('팁 다음 쪽', () {
@@ -240,7 +339,7 @@ void main() {
               child: InfoTab(
                 detail: detail,
                 rank: rank,
-                presetLabel: '조용한 곳',
+                preset: PresetKey.quiet,
                 onLinkTap: (l) => tapped.add(l.title),
               ),
             ),

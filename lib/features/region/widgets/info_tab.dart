@@ -7,6 +7,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../data/models/community.dart';
 import '../../../data/models/region_detail.dart';
 import '../../../shared/widgets/metric_card.dart';
+import '../../community/community_providers.dart';
 import '../../community/widgets/photos_section.dart';
 import '../../community/widgets/poll_section.dart';
 import '../../community/widgets/section_header.dart';
@@ -20,13 +21,13 @@ class InfoTab extends StatelessWidget {
     super.key,
     required this.detail,
     required this.rank,
-    required this.presetLabel,
+    required this.preset,
     this.onLinkTap,
   });
 
   final RegionDetail detail;
   final RegionRank rank;
-  final String presetLabel;
+  final PresetKey preset;
 
   /// 외부 링크를 눌렀을 때. 브라우저로 여는 일은 아직 없어서 화면이 안내만 합니다.
   final ValueChanged<RegionLink>? onLinkTap;
@@ -40,7 +41,7 @@ class InfoTab extends StatelessWidget {
     final target = CommunityTarget.region(d.id);
     final reason = buildReason(
       monthLabel: monthLabel,
-      presetLabel: presetLabel,
+      presetLabel: preset.label,
       composite: rank.score.round(),
       rank: rank.rank,
       total: rank.total,
@@ -99,12 +100,11 @@ class InfoTab extends StatelessWidget {
           PollSection(
             target: target,
             month: d.month,
-            question:
-                '${Months.label(d.month == Months.annual ? Months.defaultMonth : d.month)} '
-                '${d.name}, 실제로 조용했나요?',
+            preset: preset,
+            question: regionPollQuestion(d.month, d.name, preset),
             participationLabel: '지표 검증에 반영돼요',
           ),
-          PhotosSection(target: target, month: d.month),
+          PhotosSection(target: target, month: d.month, preset: preset),
         ],
       ),
     );
