@@ -143,6 +143,9 @@ class FakeMeRepository implements MeRepository {
   /// 팁을 읽을 때 받은 커서(순서대로, 첫 쪽은 null)
   final tipCursors = <String?>[];
 
+  /// 요약을 읽은 횟수
+  var summaryReads = 0;
+
   static const _nextCursor = '20';
 
   @override
@@ -152,7 +155,12 @@ class FakeMeRepository implements MeRepository {
   }
 
   @override
-  Future<MeSummary> summary() async => MeSummary(
+  Future<MeSummary> summary() async {
+    summaryReads++;
+    return _summary();
+  }
+
+  MeSummary _summary() => MeSummary(
     stays: [
       StayCount(regionName: '강릉', count: 2),
       StayCount(regionName: '고성', count: 1),

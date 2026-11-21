@@ -7,6 +7,8 @@ import 'package:workation_mobile/data/repositories/community_repository.dart';
 /// 첫 팁(t1)에는 답글 2개(둘째가 내 답글)가 달려 있습니다.
 /// [fail] 이면 모든 호출이 연결 실패를 던집니다. 위젯 테스트에서는 에셋 읽기가 끝나지 않아 씁니다.
 ///
+/// [mineTipIds] 의 팁은 로그인한 사용자가 쓴 것으로 칩니다(`mine`). 등록한 팁도 내 팁입니다.
+///
 /// [moreTips] 를 주면 첫 쪽이 `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를
 /// 줍니다([failMoreTips] 면 실패).
 class FakeCommunityRepository implements CommunityRepository {
@@ -15,6 +17,7 @@ class FakeCommunityRepository implements CommunityRepository {
     bool withPhotos = false,
     this.moreTips,
     this.failMoreTips = false,
+    Set<String> mineTipIds = const {},
   }) : _poll = PollResponse(
          yes: 3,
          no: 1,
@@ -23,7 +26,11 @@ class FakeCommunityRepository implements CommunityRepository {
            if (withPhotos)
              const UserPhoto(url: 'assets/none.jpg', author: '바다러버'),
          ],
-       );
+       ) {
+    for (final id in mineTipIds) {
+      _changeTip(id, (t) => t.copyWith(mine: true));
+    }
+  }
 
   bool fail;
   List<Tip>? moreTips;
@@ -44,6 +51,13 @@ class FakeCommunityRepository implements CommunityRepository {
 
   /// 투표를 읽거나 보낼 때 받은 프리셋(순서대로)
   final pollPresets = <PresetKey?>[];
+
+  /// 고친 팁(id · 새 본문) · 지운 팁 id(순서대로)
+  final editedTips = <(String, String)>[];
+  final deletedTips = <String>[];
+
+  /// 팁 고치기 · 지우기가 연결 실패를 던집니다.
+  bool failOwnerActions = false;
 
   /// 도움돼요 호출(팁 id · 켜기 여부, 순서대로)
   final helpfulCalls = <(String, bool)>[];
@@ -138,12 +152,39 @@ class FakeCommunityRepository implements CommunityRepository {
       createdAt: DateTime.now().toIso8601String(),
       visitMonth: visitMonth,
       body: body,
+      mine: true,
     );
     _tips = _tips.copyWith(
       total: _tips.total + 1,
       items: [tip, ..._tips.items],
     );
     return tip;
+  }
+
+  @override
+  Future<Tip> updateTip(String tipId, {required String body}) async {
+    if (fail || failOwnerActions) {
+      throw NetworkException('/api/me/tips/$tipId');
+    }
+    editedTips.add((tipId, body));
+    _changeTip(tipId, (t) => t.copyWith(body: body));
+    return _tips.items.firstWhere((t) => t.id == tipId);
+  }
+
+  @override
+  Future<void> deleteTip(String tipId) async {
+    if (fail || failOwnerActions) {
+      throw NetworkException('/api/me/tips/$tipId');
+    }
+    deletedTips.add(tipId);
+    final left = [
+      for (final t in _tips.items)
+        if (t.id != tipId) t,
+    ];
+    _tips = _tips.copyWith(
+      total: _tips.total - (_tips.items.length - left.length),
+      items: left,
+    );
   }
 
   void _changeTip(String id, Tip Function(Tip) change) {

@@ -23,6 +23,14 @@ abstract class CommunityRepository {
     String? visitMonth,
   });
 
+  /// `PATCH /api/me/tips/{id}` — 본문 `{body}`. 내 팁의 본문만 고치고, 고친 팁을 돌려줍니다
+  /// (사진 · 방문 월은 그대로). 내 팁이 아니면 404.
+  Future<Tip> updateTip(String tipId, {required String body});
+
+  /// `DELETE /api/me/tips/{id}` — 내 팁을 지웁니다(MY 의 삭제와 같은 경로). 붙인 사진 ·
+  /// 답글도 함께 지워집니다. 내 팁이 아니면 404.
+  Future<void> deleteTip(String tipId);
+
   /// `PUT`([on]) · `DELETE /api/tips/{id}/helpful` — 바뀐 수와 내 상태를 돌려줍니다.
   /// 여러 번 불러도 결과가 같습니다. 내 팁이면 400 `OWN_TIP`.
   Future<HelpfulResult> setHelpful(String tipId, {required bool on});
@@ -91,6 +99,18 @@ class ApiCommunityRepository implements CommunityRepository {
     );
     return Tip.fromJson(json as Map<String, dynamic>);
   }
+
+  @override
+  Future<Tip> updateTip(String tipId, {required String body}) async {
+    final json = await _client.patch(
+      '/api/me/tips/$tipId',
+      body: {'body': body},
+    );
+    return Tip.fromJson(json as Map<String, dynamic>);
+  }
+
+  @override
+  Future<void> deleteTip(String tipId) => _client.delete('/api/me/tips/$tipId');
 
   @override
   Future<HelpfulResult> setHelpful(String tipId, {required bool on}) async {
@@ -164,7 +184,7 @@ class ApiCommunityRepository implements CommunityRepository {
   }
 }
 
-/// 팁 · 도움돼요 · 답글 · 투표를 메모리에 씁니다(앱을 다시 켜면 처음으로 돌아갑니다).
+/// 팁(쓰기 · 고치기 · 지우기) · 도움돼요 · 답글 · 투표를 메모리에 씁니다(앱을 다시 켜면 처음으로 돌아갑니다).
 /// 샘플은 `assets/mock/community/` 의 지역 51820 · 동 5182025300 · 5115025000 뿐이고
 /// 그 밖의 대상은 팁 · 투표가 비어 있다가 사용자가 쓰는 만큼 채워집니다.
 /// 답글 샘플은 파일이 없어, 팁의 답글 수만큼 [_sampleReplies] 에서 돌려 씁니다.
@@ -254,6 +274,39 @@ class MockCommunityRepository implements CommunityRepository {
       items: [tip, ...current.items],
     );
     return tip;
+  }
+
+  /// 내 팁이면 돌려주고, 없거나 남의 팁이면 서버처럼 404 를 던집니다.
+  Tip _mine(String tipId) {
+    final tip = _find(tipId);
+    if (tip == null || !tip.mine) {
+      throw NotFoundException('/api/me/tips/$tipId');
+    }
+    return tip;
+  }
+
+  @override
+  Future<Tip> updateTip(String tipId, {required String body}) async {
+    final updated = _mine(tipId).copyWith(body: body);
+    _update(tipId, (_) => updated);
+    return updated;
+  }
+
+  @override
+  Future<void> deleteTip(String tipId) async {
+    _mine(tipId);
+    for (final entry in _tips.entries.toList()) {
+      final left = [
+        for (final tip in entry.value.items)
+          if (tip.id != tipId) tip,
+      ];
+      if (left.length == entry.value.items.length) continue;
+      _tips[entry.key] = entry.value.copyWith(
+        total: entry.value.total - 1,
+        items: left,
+      );
+    }
+    _replies.remove(tipId);
   }
 
   @override

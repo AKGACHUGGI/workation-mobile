@@ -45,6 +45,13 @@ class _RecordingClient extends ApiClient {
   }
 
   @override
+  Future<dynamic> patch(String path, {Object? body}) async {
+    calls.add('PATCH $path');
+    lastBody = body;
+    return reply;
+  }
+
+  @override
   Future<dynamic> delete(String path) async {
     calls.add('DELETE $path');
     return reply;
@@ -110,6 +117,41 @@ void main() {
       expect(tips.items, hasLength(3));
       // 다른 대상은 영향이 없다
       expect((await repo.tips(region)).total, 23);
+    });
+
+    test('내 팁은 고치고 지울 수 있고, 남의 팁은 404 다', () async {
+      final repo = MockCommunityRepository(assets);
+      final mine = await repo.postTip(region, body: '처음 본문', authorName: '두이');
+      final before = await repo.tips(region);
+
+      final updated = await repo.updateTip(mine.id, body: '고친 본문');
+      expect(updated.body, '고친 본문');
+      expect(updated.id, mine.id);
+      expect((await repo.tips(region)).items.first.body, '고친 본문');
+      expect((await repo.tips(region)).total, before.total);
+
+      // 샘플 팁(n1)은 남의 팁이다.
+      await expectLater(
+        repo.updateTip('n1', body: '남의 팁'),
+        throwsA(isA<NotFoundException>()),
+      );
+      await expectLater(
+        repo.deleteTip('n1'),
+        throwsA(isA<NotFoundException>()),
+      );
+      await expectLater(
+        repo.deleteTip('없는팁'),
+        throwsA(isA<NotFoundException>()),
+      );
+
+      await repo.deleteTip(mine.id);
+      final after = await repo.tips(region);
+      expect(after.total, before.total - 1);
+      expect(after.items.any((t) => t.id == mine.id), isFalse);
+      await expectLater(
+        repo.deleteTip(mine.id),
+        throwsA(isA<NotFoundException>()),
+      );
     });
 
     test('투표하면 결과가 바뀌고 다시 누르면 선택이 옮겨 간다', () async {
@@ -314,6 +356,28 @@ void main() {
 
       await repo.deleteReply('7', '11');
       expect(client.calls.last, 'DELETE /api/me/replies/11');
+    });
+
+    test('내 팁 고치기 · 지우기 경로는 서버 me.py 의 MyTipView 와 같다', () async {
+      final client = _RecordingClient({
+        'id': '7',
+        'author': {'nickname': '두이', 'initial': '두'},
+        'createdAt': '2026-11-20T00:00:00Z',
+        'body': '고친 본문',
+        'helpful': 2,
+        'replies': 1,
+        'photos': <Object>[],
+        'mine': true,
+      });
+      final repo = ApiCommunityRepository(client);
+
+      final tip = await repo.updateTip('7', body: '고친 본문');
+      expect(client.calls, ['PATCH /api/me/tips/7']);
+      expect(client.lastBody, {'body': '고친 본문'});
+      expect((tip.body, tip.mine), ('고친 본문', true));
+
+      await repo.deleteTip('7');
+      expect(client.calls.last, 'DELETE /api/me/tips/7');
     });
 
     test('팁 응답의 mine · myHelpful 을 읽고, 없으면 false 다', () {

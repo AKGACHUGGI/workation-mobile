@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data/models/me.dart';
+import '../../community/widgets/tip_delete_dialog.dart';
 import '../my_providers.dart';
 
 /// 내 팁 삭제: 확인 대화상자 → 삭제 → 결과 안내.
@@ -12,27 +13,7 @@ Future<void> confirmDeleteMyTip(
   MyTip tip,
 ) async {
   final messenger = ScaffoldMessenger.of(context);
-  final ok = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('이 팁을 삭제할까요?'),
-      content: const Text('삭제한 팁은 되돌릴 수 없어요.'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('취소'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).colorScheme.error,
-          ),
-          child: const Text('삭제'),
-        ),
-      ],
-    ),
-  );
-  if (ok != true) return;
+  if (!await confirmTipDelete(context)) return;
   final deleted = await ref.read(myTipsProvider.notifier).deleteTip(tip);
   messenger
     ..hideCurrentSnackBar()

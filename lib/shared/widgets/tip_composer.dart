@@ -6,8 +6,8 @@ import '../../core/theme/app_theme.dart';
 import 'app_chip.dart';
 import 'avatar.dart';
 
-/// 팁 한 줄의 최대 글자 수.
-const tipMaxLength = 100;
+/// 팁 한 줄의 최대 글자 수(서버 `TIP_MAX_LEN` · 웹 `NOTE_MAX_LEN` 과 같음).
+const tipMaxLength = 300;
 
 /// 팁 입력 시트에서 쓴 내용.
 @immutable
@@ -140,12 +140,16 @@ class _FakeButton extends StatelessWidget {
 ///
 /// 빈 값(공백만 포함)은 등록할 수 없고, 글자 수는 [maxLength] 로 막습니다.
 /// 방문 월은 [initialVisitMonth](화면의 달, 연간이면 null)에서 시작해 바꿀 수 있습니다.
+///
+/// [editingBody] 를 주면 내 팁 고치기입니다. 본문을 채운 채 열고 [저장] 은 본문이 바뀌었을
+/// 때만 켜집니다. 서버가 본문만 고치므로 방문 월은 고르지 않습니다.
 Future<bool> showTipComposerSheet(
   BuildContext context, {
   required TipSubmit onSubmit,
   String hint = '이 지역에서 알게 된 팁을 남겨보세요',
   int maxLength = tipMaxLength,
   String? initialVisitMonth,
+  String? editingBody,
 }) async {
   final done = await showModalBottomSheet<bool>(
     context: context,
@@ -155,6 +159,7 @@ Future<bool> showTipComposerSheet(
       hint: hint,
       maxLength: maxLength,
       initialVisitMonth: initialVisitMonth,
+      editingBody: editingBody,
       onSubmit: onSubmit,
     ),
   );
@@ -169,6 +174,7 @@ class TipComposerSheet extends StatefulWidget {
     required this.onSubmit,
     this.maxLength = tipMaxLength,
     this.initialVisitMonth,
+    this.editingBody,
   });
 
   final String hint;
@@ -176,16 +182,27 @@ class TipComposerSheet extends StatefulWidget {
   final int maxLength;
   final String? initialVisitMonth;
 
+  /// 고치는 팁의 지금 본문. null 이면 새 팁입니다.
+  final String? editingBody;
+
   @override
   State<TipComposerSheet> createState() => _TipComposerSheetState();
 }
 
 class _TipComposerSheetState extends State<TipComposerSheet> {
-  final _controller = TextEditingController();
+  late final _controller = TextEditingController(text: widget.editingBody);
   final _selectedMonthKey = GlobalKey();
   late String? _visitMonth = widget.initialVisitMonth;
   var _sending = false;
   String? _error;
+
+  bool get _editing => widget.editingBody != null;
+
+  /// 보낼 수 있는 본문인지: 비어 있지 않고, 고칠 때는 지금 본문과 달라야 합니다.
+  bool _canSubmit(String text) {
+    final trimmed = text.trim();
+    return trimmed.isNotEmpty && trimmed != widget.editingBody?.trim();
+  }
 
   @override
   void initState() {
@@ -207,13 +224,13 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
 
   Future<void> _submit() async {
     final text = _controller.text.trim();
-    if (text.isEmpty || _sending) return;
+    if (!_canSubmit(text) || _sending) return;
     setState(() {
       _sending = true;
       _error = null;
     });
     final error = await widget.onSubmit(
-      TipDraft(body: text, visitMonth: _visitMonth),
+      TipDraft(body: text, visitMonth: _editing ? null : _visitMonth),
     );
     if (!mounted) return;
     if (error == null) {
@@ -248,7 +265,10 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: AppSpacing.s3,
           children: [
-            Text('한 줄 팁 남기기', style: AppTextStyles.headingLg),
+            Text(
+              _editing ? '팁 수정' : '한 줄 팁 남기기',
+              style: AppTextStyles.headingLg,
+            ),
             TextField(
               controller: _controller,
               autofocus: true,
@@ -264,13 +284,14 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
                 counterStyle: AppTextStyles.captionXs.copyWith(color: tertiary),
               ),
             ),
-            _VisitMonthPicker(
-              value: _visitMonth,
-              selectedKey: _selectedMonthKey,
-              onChanged: _sending
-                  ? null
-                  : (month) => setState(() => _visitMonth = month),
-            ),
+            if (!_editing)
+              _VisitMonthPicker(
+                value: _visitMonth,
+                selectedKey: _selectedMonthKey,
+                onChanged: _sending
+                    ? null
+                    : (month) => setState(() => _visitMonth = month),
+              ),
             if (_error != null)
               Text(
                 _error!,
@@ -279,10 +300,13 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
             ValueListenableBuilder<TextEditingValue>(
               valueListenable: _controller,
               builder: (context, value, _) => FilledButton(
-                onPressed: value.text.trim().isEmpty || _sending
-                    ? null
-                    : _submit,
-                child: Text(_sending ? '올리는 중…' : '등록'),
+                onPressed: !_canSubmit(value.text) || _sending ? null : _submit,
+                child: Text(switch ((_editing, _sending)) {
+                  (false, false) => '등록',
+                  (false, true) => '올리는 중…',
+                  (true, false) => '저장',
+                  (true, true) => '저장하는 중…',
+                }),
               ),
             ),
           ],
@@ -339,9 +363,7 @@ class _VisitMonthPicker extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   spacing: AppSpacing.s2,
-                  children: [
-                    for (var m = 1; m <= 12; m++) chip(Months.of(m)),
-                  ],
+                  children: [for (var m = 1; m <= 12; m++) chip(Months.of(m))],
                 ),
               ),
             ),
