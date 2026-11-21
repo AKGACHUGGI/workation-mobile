@@ -292,7 +292,9 @@ mixin _$Tip {
  String get id; TipAuthor get author;/// ISO 8601
  String get createdAt; String? get dongName;/// 예: `2주 체류`
  String? get stayLabel;/// `2025-10`
- String? get visitMonth; String get body; int get helpful; int get replies;
+ String? get visitMonth; String get body; int get helpful; int get replies;/// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
+ bool get mine;/// 로그인한 사용자가 도움돼요를 눌렀으면 true
+ bool get myHelpful;
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -306,20 +308,20 @@ $TipCopyWith<Tip> get copyWith => _$TipCopyWithImpl<Tip>(this as Tip, _$identity
 @override
 bool operator ==(Object other) {
   final _this = this as Tip;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&(identical(other.mine, _this.mine) || other.mine == _this.mine)&&(identical(other.myHelpful, _this.myHelpful) || other.myHelpful == _this.myHelpful));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Tip;
-  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies);
+  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies,_this.mine,_this.myHelpful);
 }
 
 @override
 String toString() {
   final _this = this as Tip;
-  return 'Tip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies})';
+  return 'Tip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies}, mine: ${_this.mine}, myHelpful: ${_this.myHelpful})';
 }
 
 
@@ -330,7 +332,7 @@ abstract mixin class $TipCopyWith<$Res>  {
   factory $TipCopyWith(Tip value, $Res Function(Tip) _then) = _$TipCopyWithImpl;
 @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, bool mine, bool myHelpful
 });
 
 
@@ -347,7 +349,7 @@ class _$TipCopyWithImpl<$Res>
 
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? mine = null,Object? myHelpful = null,}) {
   return _then(Tip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -358,7 +360,9 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,
+as int,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as bool,myHelpful: null == myHelpful ? _self.myHelpful : myHelpful // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of Tip
@@ -452,10 +456,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Tip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
   return orElse();
 
 }
@@ -473,10 +477,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)  $default,) {final _that = this;
 switch (_that) {
 case _Tip():
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -493,10 +497,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)?  $default,) {final _that = this;
 switch (_that) {
 case _Tip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
   return null;
 
 }
@@ -508,7 +512,7 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 @JsonSerializable()
 
 class _Tip implements Tip {
-  const _Tip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, this.helpful = 0, this.replies = 0});
+  const _Tip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, this.helpful = 0, this.replies = 0, this.mine = false, this.myHelpful = false});
   factory _Tip.fromJson(Map<String, dynamic> json) => _$TipFromJson(json);
 
 @override final  String id;
@@ -523,6 +527,10 @@ class _Tip implements Tip {
 @override final  String body;
 @override@JsonKey() final  int helpful;
 @override@JsonKey() final  int replies;
+/// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
+@override@JsonKey() final  bool mine;
+/// 로그인한 사용자가 도움돼요를 눌렀으면 true
+@override@JsonKey() final  bool myHelpful;
 
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
@@ -537,18 +545,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.mine, mine) || other.mine == mine)&&(identical(other.myHelpful, myHelpful) || other.myHelpful == myHelpful));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies);
+    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies,mine,myHelpful);
 }
 
 @override
 String toString() {
-    return 'Tip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies)';
+    return 'Tip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies, mine: $mine, myHelpful: $myHelpful)';
 }
 
 
@@ -559,7 +567,7 @@ abstract mixin class _$TipCopyWith<$Res> implements $TipCopyWith<$Res> {
   factory _$TipCopyWith(_Tip value, $Res Function(_Tip) _then) = __$TipCopyWithImpl;
 @override @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, bool mine, bool myHelpful
 });
 
 
@@ -576,7 +584,7 @@ class __$TipCopyWithImpl<$Res>
 
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? mine = null,Object? myHelpful = null,}) {
   return _then(_Tip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -587,7 +595,9 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,
+as int,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as bool,myHelpful: null == myHelpful ? _self.myHelpful : myHelpful // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -883,6 +893,310 @@ as String?,
 }
 
 
+}
+
+
+/// @nodoc
+mixin _$Reply {
+
+ String get id; TipAuthor get author;/// ISO 8601
+ String get createdAt; String get body;/// 로그인한 사용자가 쓴 답글이면 true (지울 수 있습니다)
+ bool get mine;
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ReplyCopyWith<Reply> get copyWith => _$ReplyCopyWithImpl<Reply>(this as Reply, _$identity);
+
+  /// Serializes this Reply to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as Reply;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Reply&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.mine, _this.mine) || other.mine == _this.mine));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as Reply;
+  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.body,_this.mine);
+}
+
+@override
+String toString() {
+  final _this = this as Reply;
+  return 'Reply(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, body: ${_this.body}, mine: ${_this.mine})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ReplyCopyWith<$Res>  {
+  factory $ReplyCopyWith(Reply value, $Res Function(Reply) _then) = _$ReplyCopyWithImpl;
+@useResult
+$Res call({
+ String id, TipAuthor author, String createdAt, String body, bool mine
+});
+
+
+$TipAuthorCopyWith<$Res> get author;
+
+}
+/// @nodoc
+class _$ReplyCopyWithImpl<$Res>
+    implements $ReplyCopyWith<$Res> {
+  _$ReplyCopyWithImpl(this._self, this._then);
+
+  final Reply _self;
+  final $Res Function(Reply) _then;
+
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? body = null,Object? mine = null,}) {
+  return _then(Reply(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
+as TipAuthor,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as String,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TipAuthorCopyWith<$Res> get author {
+  
+  return $TipAuthorCopyWith<$Res>(_self.author, (value) {
+    return _then(_self.copyWith(author: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [Reply].
+extension ReplyPatterns on Reply {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Reply value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Reply() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Reply value)  $default,){
+final _that = this;
+switch (_that) {
+case _Reply():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Reply value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Reply() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String body,  bool mine)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Reply() when $default != null:
+return $default(_that.id,_that.author,_that.createdAt,_that.body,_that.mine);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String body,  bool mine)  $default,) {final _that = this;
+switch (_that) {
+case _Reply():
+return $default(_that.id,_that.author,_that.createdAt,_that.body,_that.mine);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String body,  bool mine)?  $default,) {final _that = this;
+switch (_that) {
+case _Reply() when $default != null:
+return $default(_that.id,_that.author,_that.createdAt,_that.body,_that.mine);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Reply implements Reply {
+  const _Reply({required this.id, required this.author, required this.createdAt, required this.body, this.mine = false});
+  factory _Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
+
+@override final  String id;
+@override final  TipAuthor author;
+/// ISO 8601
+@override final  String createdAt;
+@override final  String body;
+/// 로그인한 사용자가 쓴 답글이면 true (지울 수 있습니다)
+@override@JsonKey() final  bool mine;
+
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ReplyCopyWith<_Reply> get copyWith => __$ReplyCopyWithImpl<_Reply>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ReplyToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Reply&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.body, body) || other.body == body)&&(identical(other.mine, mine) || other.mine == mine));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,author,createdAt,body,mine);
+}
+
+@override
+String toString() {
+    return 'Reply(id: $id, author: $author, createdAt: $createdAt, body: $body, mine: $mine)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ReplyCopyWith<$Res> implements $ReplyCopyWith<$Res> {
+  factory _$ReplyCopyWith(_Reply value, $Res Function(_Reply) _then) = __$ReplyCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, TipAuthor author, String createdAt, String body, bool mine
+});
+
+
+@override $TipAuthorCopyWith<$Res> get author;
+
+}
+/// @nodoc
+class __$ReplyCopyWithImpl<$Res>
+    implements _$ReplyCopyWith<$Res> {
+  __$ReplyCopyWithImpl(this._self, this._then);
+
+  final _Reply _self;
+  final $Res Function(_Reply) _then;
+
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? body = null,Object? mine = null,}) {
+  return _then(_Reply(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
+as TipAuthor,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
+as String,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+/// Create a copy of Reply
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TipAuthorCopyWith<$Res> get author {
+  
+  return $TipAuthorCopyWith<$Res>(_self.author, (value) {
+    return _then(_self.copyWith(author: value));
+  });
+}
 }
 
 

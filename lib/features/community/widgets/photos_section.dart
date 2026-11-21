@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/metric/metric.dart';
 import '../../../core/metric/month.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/community.dart';
@@ -13,10 +14,18 @@ import 'section_header.dart';
 /// 이달의 사진: 사용자 사진 최대 3장 + 올리기 타일. 올리기는 로그인 뒤 "준비 중" 안내까지입니다
 /// (사진 선택 플러그인은 다음 단계).
 class PhotosSection extends ConsumerWidget {
-  const PhotosSection({super.key, required this.target, required this.month});
+  const PhotosSection({
+    super.key,
+    required this.target,
+    required this.month,
+    this.preset,
+  });
 
   final CommunityTarget target;
   final String month;
+
+  /// 같은 화면의 체감 투표와 같은 값을 줘야 응답을 한 번만 읽습니다. 동네는 null
+  final PresetKey? preset;
 
   Future<void> _upload(BuildContext context, WidgetRef ref) async {
     if (!await ensureLoggedIn(context, ref)) return;
@@ -28,7 +37,9 @@ class PhotosSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final poll = ref.watch(pollProvider((target: target, month: month)));
+    final poll = ref.watch(
+      pollProvider((target: target, month: month, preset: preset)),
+    );
     final photos = (poll.value?.photos ?? const <UserPhoto>[]).take(3);
 
     return Column(

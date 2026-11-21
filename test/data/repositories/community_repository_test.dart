@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/network/api_client.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/data/models/community.dart';
@@ -40,6 +41,12 @@ class _RecordingClient extends ApiClient {
   Future<dynamic> put(String path, {Object? body}) async {
     calls.add('PUT $path');
     lastBody = body;
+    return reply;
+  }
+
+  @override
+  Future<dynamic> delete(String path) async {
+    calls.add('DELETE $path');
     return reply;
   }
 }
@@ -108,7 +115,7 @@ void main() {
       expect((poll.yes, poll.no, poll.total), (48, 11, 59));
       expect(poll.myVote, PollChoice.yes);
 
-      // 같은 쪽을 다시 누르면 그대로
+      // 같은 쪽을 다시 보내면 그대로
       poll = await repo.vote(jumunjin, '2025-10', PollChoice.yes);
       expect((poll.yes, poll.no, poll.total), (48, 11, 59));
 
@@ -118,11 +125,91 @@ void main() {
       expect((await repo.poll(jumunjin, '2025-10')).myVote, PollChoice.no);
       // 달이 다르면 별개의 투표
       expect((await repo.poll(jumunjin, '2025-11')).myVote, isNull);
+
+      // null 이면 취소
+      poll = await repo.vote(jumunjin, '2025-10', null);
+      expect((poll.yes, poll.no, poll.total), (47, 11, 58));
+      expect(poll.myVote, isNull);
+    });
+
+    test('지역 투표는 프리셋마다 따로 센다', () async {
+      final repo = MockCommunityRepository(assets);
+
+      final quiet = await repo.vote(
+        region,
+        '2025-10',
+        PollChoice.yes,
+        preset: PresetKey.quiet,
+      );
+      expect(quiet.myVote, PollChoice.yes);
+      final lively = await repo.poll(
+        region,
+        '2025-10',
+        preset: PresetKey.lively,
+      );
+      expect(lively.myVote, isNull);
+      expect(lively.total, quiet.total - 1);
+    });
+
+    test('도움돼요를 켜고 끄면 수가 바뀌고 팁 목록에도 반영된다', () async {
+      final repo = MockCommunityRepository(assets);
+      final first = (await repo.tips(region)).items.first;
+
+      var res = await repo.setHelpful(first.id, on: true);
+      expect(res, (helpful: first.helpful + 1, myHelpful: true));
+      // 여러 번 켜도 한 번만 센다
+      res = await repo.setHelpful(first.id, on: true);
+      expect(res.helpful, first.helpful + 1);
+      expect((await repo.tips(region)).items.first.myHelpful, isTrue);
+
+      res = await repo.setHelpful(first.id, on: false);
+      expect(res, (helpful: first.helpful, myHelpful: false));
+
+      // 내가 쓴 팁에는 누를 수 없다
+      final mine = await repo.postTip(region, body: '내 팁', authorName: '두이');
+      expect(mine.mine, isTrue);
+      await expectLater(
+        repo.setHelpful(mine.id, on: true),
+        throwsA(isA<ServerException>()),
+      );
+    });
+
+    test('답글은 팁의 답글 수만큼 있고, 쓰고 지우면 수가 따라간다', () async {
+      final repo = MockCommunityRepository(assets);
+      final first = (await repo.tips(region)).items.first;
+      expect(first.replies, greaterThan(0));
+
+      var list = await repo.replies(first.id);
+      expect(list, hasLength(first.replies));
+      // 오래된 순
+      expect(
+        list.first.createdAt.compareTo(list.last.createdAt),
+        lessThanOrEqualTo(0),
+      );
+
+      final reply = await repo.postReply(
+        first.id,
+        body: '답글',
+        authorName: '두이',
+      );
+      expect(reply.mine, isTrue);
+      list = await repo.replies(first.id);
+      expect(list.last.body, '답글');
+      expect((await repo.tips(region)).items.first.replies, first.replies + 1);
+
+      // 남의 답글은 지울 수 없다
+      await expectLater(
+        repo.deleteReply(first.id, list.first.id),
+        throwsA(isA<NotFoundException>()),
+      );
+      await repo.deleteReply(first.id, reply.id);
+      expect(await repo.replies(first.id), hasLength(first.replies));
+      expect((await repo.tips(region)).items.first.replies, first.replies);
     });
   });
 
   group('ApiCommunityRepository', () {
-    test('읽기 경로는 웹과 같고 쓰기 경로는 notes · poll/vote 이다', () async {
+    test('팁 · 투표 경로와 본문은 웹과 같다', () async {
       final tipJson = {
         'id': 'x',
         'author': {'nickname': '두이', 'initial': '두'},
@@ -153,11 +240,89 @@ void main() {
       repo = ApiCommunityRepository(client);
       expect((await repo.poll(jumunjin, '2025-10')).total, 1);
       expect(client.calls, ['GET /api/dongs/5115025000/poll']);
+      // 동네는 프리셋을 보내지 않는다
       expect(client.lastQuery, {'month': '2025-10'});
 
       await repo.vote(jumunjin, '2025-10', PollChoice.no);
-      expect(client.calls.last, 'PUT /api/dongs/5115025000/poll/vote');
+      expect(client.calls.last, 'POST /api/dongs/5115025000/poll/vote');
       expect(client.lastBody, {'month': '2025-10', 'choice': 'no'});
+
+      // 지역은 프리셋을 보내고(없으면 조용한 곳), 취소는 choice 를 null 로 보낸다
+      await repo.poll(region, '2025-10', preset: PresetKey.lively);
+      expect(client.calls.last, 'GET /api/regions/51820/poll');
+      expect(client.lastQuery, {'month': '2025-10', 'preset': 'lively'});
+      await repo.poll(region, '2025-10');
+      expect(client.lastQuery, {'month': '2025-10', 'preset': 'quiet'});
+
+      await repo.vote(region, '2025-10', null, preset: PresetKey.custom);
+      expect(client.calls.last, 'POST /api/regions/51820/poll/vote');
+      expect(client.lastBody, {
+        'month': '2025-10',
+        'preset': 'custom',
+        'choice': null,
+      });
+    });
+
+    test('도움돼요 · 답글 경로는 서버 tips.py 와 같다', () async {
+      var client = _RecordingClient({'helpful': 4, 'myHelpful': true});
+      var repo = ApiCommunityRepository(client);
+      expect(await repo.setHelpful('7', on: true), (
+        helpful: 4,
+        myHelpful: true,
+      ));
+      expect(client.calls, ['PUT /api/tips/7/helpful']);
+
+      client = _RecordingClient({'helpful': 3, 'myHelpful': false});
+      repo = ApiCommunityRepository(client);
+      expect(await repo.setHelpful('7', on: false), (
+        helpful: 3,
+        myHelpful: false,
+      ));
+      expect(client.calls, ['DELETE /api/tips/7/helpful']);
+
+      final replyJson = {
+        'id': '11',
+        'author': {'nickname': '두이', 'initial': '두'},
+        'createdAt': '2026-11-20T00:00:00Z',
+        'body': '답글',
+        'mine': true,
+      };
+      client = _RecordingClient({
+        'items': [replyJson],
+      });
+      repo = ApiCommunityRepository(client);
+      final list = await repo.replies('7');
+      expect(list.single.body, '답글');
+      expect(list.single.mine, isTrue);
+      expect(client.calls, ['GET /api/tips/7/replies']);
+
+      client = _RecordingClient(replyJson);
+      repo = ApiCommunityRepository(client);
+      expect(
+        (await repo.postReply('7', body: '답글', authorName: '두이')).id,
+        '11',
+      );
+      expect(client.calls, ['POST /api/tips/7/replies']);
+      expect(client.lastBody, {'body': '답글'});
+
+      await repo.deleteReply('7', '11');
+      expect(client.calls.last, 'DELETE /api/me/replies/11');
+    });
+
+    test('팁 응답의 mine · myHelpful 을 읽고, 없으면 false 다', () {
+      final base = {
+        'id': '1',
+        'author': {'nickname': '두이', 'initial': '두'},
+        'createdAt': '2026-11-20T00:00:00Z',
+        'body': '본문',
+        'helpful': 2,
+        'replies': 1,
+        'photos': <Object>[],
+      };
+      expect(Tip.fromJson(base).mine, isFalse);
+      expect(Tip.fromJson(base).myHelpful, isFalse);
+      final mine = Tip.fromJson({...base, 'mine': true, 'myHelpful': true});
+      expect((mine.mine, mine.myHelpful), (true, true));
     });
   });
 

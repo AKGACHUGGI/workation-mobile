@@ -27,6 +27,8 @@ _Tip _$TipFromJson(Map<String, dynamic> json) => _Tip(
   body: json['body'] as String,
   helpful: (json['helpful'] as num?)?.toInt() ?? 0,
   replies: (json['replies'] as num?)?.toInt() ?? 0,
+  mine: json['mine'] as bool? ?? false,
+  myHelpful: json['myHelpful'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$TipToJson(_Tip instance) => <String, dynamic>{
@@ -39,6 +41,8 @@ Map<String, dynamic> _$TipToJson(_Tip instance) => <String, dynamic>{
   'body': instance.body,
   'helpful': instance.helpful,
   'replies': instance.replies,
+  'mine': instance.mine,
+  'myHelpful': instance.myHelpful,
 };
 
 _TipsResponse _$TipsResponseFromJson(Map<String, dynamic> json) =>
@@ -58,6 +62,22 @@ Map<String, dynamic> _$TipsResponseToJson(_TipsResponse instance) =>
       'items': instance.items,
       'nextCursor': instance.nextCursor,
     };
+
+_Reply _$ReplyFromJson(Map<String, dynamic> json) => _Reply(
+  id: json['id'] as String,
+  author: TipAuthor.fromJson(json['author'] as Map<String, dynamic>),
+  createdAt: json['createdAt'] as String,
+  body: json['body'] as String,
+  mine: json['mine'] as bool? ?? false,
+);
+
+Map<String, dynamic> _$ReplyToJson(_Reply instance) => <String, dynamic>{
+  'id': instance.id,
+  'author': instance.author,
+  'createdAt': instance.createdAt,
+  'body': instance.body,
+  'mine': instance.mine,
+};
 
 _UserPhoto _$UserPhotoFromJson(Map<String, dynamic> json) =>
     _UserPhoto(url: json['url'] as String, author: json['author'] as String);

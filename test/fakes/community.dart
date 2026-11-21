@@ -1,8 +1,10 @@
+import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/data/models/community.dart';
 import 'package:workation_mobile/data/repositories/community_repository.dart';
 
 /// 팁 2개 · 투표(그래요 3 · 아니요 1)로 시작하는 메모리 가짜. 등록 · 투표가 결과에 반영됩니다.
+/// 첫 팁(t1)에는 답글 2개(둘째가 내 답글)가 달려 있습니다.
 /// [fail] 이면 모든 호출이 연결 실패를 던집니다. 위젯 테스트에서는 에셋 읽기가 끝나지 않아 씁니다.
 ///
 /// [moreTips] 를 주면 첫 쪽이 `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를
@@ -33,8 +35,40 @@ class FakeCommunityRepository implements CommunityRepository {
   /// 등록한 팁 본문(순서대로)
   final posted = <String>[];
 
-  /// 투표한 선택(순서대로)
-  final votes = <PollChoice>[];
+  /// 투표한 선택(순서대로, 취소는 null)
+  final votes = <PollChoice?>[];
+
+  /// 투표를 읽거나 보낼 때 받은 프리셋(순서대로)
+  final pollPresets = <PresetKey?>[];
+
+  /// 도움돼요 호출(팁 id · 켜기 여부, 순서대로)
+  final helpfulCalls = <(String, bool)>[];
+  bool failHelpful = false;
+
+  /// 등록한 답글 본문 · 지운 답글 id(순서대로)
+  final postedReplies = <String>[];
+  final deletedReplies = <String>[];
+
+  /// 답글 쓰기 · 지우기가 이 상태 코드로 실패합니다(null 이면 성공).
+  int? replyFailStatus;
+
+  final _replies = <String, List<Reply>>{
+    't1': [
+      const Reply(
+        id: 'r1',
+        author: TipAuthor(nickname: '느린오후', initial: '느'),
+        createdAt: '2026-11-12T09:00:00+09:00',
+        body: '저도 가 봤는데 좋았어요.',
+      ),
+      const Reply(
+        id: 'r2',
+        author: TipAuthor(nickname: '두이', initial: '두'),
+        createdAt: '2026-11-13T09:00:00+09:00',
+        body: '주차는 어디에 하셨나요?',
+        mine: true,
+      ),
+    ],
+  };
 
   var _tips = const TipsResponse(
     total: 2,
@@ -105,9 +139,72 @@ class FakeCommunityRepository implements CommunityRepository {
     return tip;
   }
 
+  void _changeTip(String id, Tip Function(Tip) change) {
+    _tips = _tips.copyWith(
+      items: [for (final t in _tips.items) t.id == id ? change(t) : t],
+    );
+  }
+
   @override
-  Future<PollResponse> poll(CommunityTarget target, String month) async {
+  Future<HelpfulResult> setHelpful(String tipId, {required bool on}) async {
+    helpfulCalls.add((tipId, on));
+    if (fail || failHelpful) {
+      throw NetworkException('/api/tips/$tipId/helpful');
+    }
+    final tip = _tips.items.firstWhere((t) => t.id == tipId);
+    final helpful = tip.myHelpful == on
+        ? tip.helpful
+        : tip.helpful + (on ? 1 : -1);
+    _changeTip(tipId, (t) => t.copyWith(helpful: helpful, myHelpful: on));
+    return (helpful: helpful, myHelpful: on);
+  }
+
+  @override
+  Future<List<Reply>> replies(String tipId) async {
+    if (fail) throw NetworkException('/api/tips/$tipId/replies');
+    return List.of(_replies[tipId] ?? const []);
+  }
+
+  @override
+  Future<Reply> postReply(
+    String tipId, {
+    required String body,
+    required String authorName,
+  }) async {
+    final status = replyFailStatus;
+    if (status != null) {
+      throw ServerException('/api/tips/$tipId/replies', status);
+    }
+    postedReplies.add(body);
+    final reply = Reply(
+      id: 'new${postedReplies.length}',
+      author: TipAuthor(nickname: authorName, initial: authorName[0]),
+      createdAt: DateTime.now().toIso8601String(),
+      body: body,
+      mine: true,
+    );
+    (_replies[tipId] ??= []).add(reply);
+    return reply;
+  }
+
+  @override
+  Future<void> deleteReply(String tipId, String replyId) async {
+    final status = replyFailStatus;
+    if (status != null) {
+      throw ServerException('/api/me/replies/$replyId', status);
+    }
+    deletedReplies.add(replyId);
+    _replies[tipId]?.removeWhere((r) => r.id == replyId);
+  }
+
+  @override
+  Future<PollResponse> poll(
+    CommunityTarget target,
+    String month, {
+    PresetKey? preset,
+  }) async {
     _check(target);
+    pollPresets.add(preset);
     return _poll;
   }
 
@@ -115,19 +212,24 @@ class FakeCommunityRepository implements CommunityRepository {
   Future<PollResponse> vote(
     CommunityTarget target,
     String month,
-    PollChoice choice,
-  ) async {
+    PollChoice? choice, {
+    PresetKey? preset,
+  }) async {
     _check(target);
     votes.add(choice);
+    pollPresets.add(preset);
     var yes = _poll.yes;
     var no = _poll.no;
     if (_poll.myVote == PollChoice.yes) yes--;
     if (_poll.myVote == PollChoice.no) no--;
-    choice == PollChoice.yes ? yes++ : no++;
-    return _poll = _poll.copyWith(
+    if (choice == PollChoice.yes) yes++;
+    if (choice == PollChoice.no) no++;
+    return _poll = PollResponse(
+      question: _poll.question,
       yes: yes,
       no: no,
       total: yes + no,
+      photos: _poll.photos,
       myVote: choice,
     );
   }
