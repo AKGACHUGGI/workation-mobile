@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'community.dart' show TipPhoto;
 import 'popular_region.dart';
 import 'region_detail.dart';
 
@@ -180,6 +181,9 @@ abstract class MyTip with _$MyTip {
     required String body,
     required int helpful,
     required int replies,
+
+    /// 붙인 사진(0~3장, 올린 순서)
+    @Default(<TipPhoto>[]) List<TipPhoto> photos,
     required MyTipTarget target,
   }) = _MyTip;
 

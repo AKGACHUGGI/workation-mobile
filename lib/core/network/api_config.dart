@@ -41,4 +41,7 @@ abstract final class ApiConfig {
 
   /// 자연어 검색(LLM)은 응답에 수 초가 걸려 여유를 둡니다.
   static const receiveTimeout = Duration(seconds: 30);
+
+  /// 사진 올리기는 서버가 WebP 로 바꿔 저장소에 올린 뒤에 답하므로 더 기다립니다.
+  static const uploadTimeout = Duration(seconds: 90);
 }

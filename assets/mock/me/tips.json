@@ -17,7 +17,17 @@
         "kind": "region",
         "id": "51820",
         "name": "고성군"
-      }
+      },
+      "photos": [
+        {
+          "id": "mp1",
+          "url": "assets/mock-photos/51820.jpg"
+        },
+        {
+          "id": "mp2",
+          "url": "assets/mock-photos/51830.jpg"
+        }
+      ]
     },
     {
       "id": "tip-2",

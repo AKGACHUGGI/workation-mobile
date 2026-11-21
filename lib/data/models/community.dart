@@ -35,6 +35,15 @@ abstract class TipAuthor with _$TipAuthor {
       _$TipAuthorFromJson(json);
 }
 
+/// 팁에 붙은 사진 한 장. [url] 은 R2 의 WebP 주소입니다.
+@freezed
+abstract class TipPhoto with _$TipPhoto {
+  const factory TipPhoto({required String id, required String url}) = _TipPhoto;
+
+  factory TipPhoto.fromJson(Map<String, dynamic> json) =>
+      _$TipPhotoFromJson(json);
+}
+
 /// 한 줄 팁(워케이션 노트). 웹 `region/types.ts` 의 `Note` 와 같은 모양입니다.
 @freezed
 abstract class Tip with _$Tip {
@@ -54,6 +63,9 @@ abstract class Tip with _$Tip {
     required String body,
     @Default(0) int helpful,
     @Default(0) int replies,
+
+    /// 붙인 사진(0~3장, 올린 순서)
+    @Default(<TipPhoto>[]) List<TipPhoto> photos,
 
     /// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
     @Default(false) bool mine,

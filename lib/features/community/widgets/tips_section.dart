@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../core/photo/photo_picker.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/community.dart';
 import '../../../data/repositories/community_repository.dart';
@@ -10,13 +11,19 @@ import '../../../shared/widgets/tip_card.dart';
 import '../../../shared/widgets/tip_composer.dart';
 import '../../auth/auth_providers.dart';
 import '../../auth/login_gate.dart';
+import '../../my/my_providers.dart';
 import '../community_providers.dart';
+import '../upload_errors.dart';
 import 'replies_sheet.dart';
 import 'section_header.dart';
+import 'tip_delete_dialog.dart';
 
 /// 워케이션 노트: 머리 · 입력 바 · 팁 카드 목록. 지역(M-03c)과 동네(M-04)가 같이 씁니다.
 /// 입력 바를 누르면 로그인을 확인하고(비로그인이면 로그인 화면) 입력 시트를 엽니다.
+/// 방문 월 · 붙일 사진(0~3장)은 시트에서 고르고, 등록에 실패하면 쓴 내용을 둔 채 시트 안에서
+/// 알립니다.
 /// 카드의 도움돼요는 로그인 뒤 켜고 끄고, 답글은 답글 시트를 엽니다(읽기는 로그인 없이).
+/// 내 팁은 카드의 ⋯ 메뉴로 고치고 지웁니다.
 class TipsSection extends ConsumerWidget {
   const TipsSection({
     super.key,
@@ -29,32 +36,93 @@ class TipsSection extends ConsumerWidget {
   final CommunityTarget target;
   final String title;
 
-  /// 등록하는 팁에 붙일 방문 월(`2025-10`). 연간이면 null
+  /// 입력 시트의 방문 월 처음 값(`2025-10`, 화면의 달). 연간이면 null
   final String? visitMonth;
   final String hint;
 
   Future<void> _compose(BuildContext context, WidgetRef ref) async {
     if (!await ensureLoggedIn(context, ref)) return;
-    if (!context.mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    final body = await showTipComposerSheet(context, hint: hint);
     final user = ref.read(sessionProvider);
-    if (body == null || user == null) return;
-    try {
-      await ref
-          .read(communityRepositoryProvider)
-          .postTip(
-            target,
-            body: body,
-            authorName: user.nickname,
-            visitMonth: visitMonth,
+    if (!context.mounted || user == null) return;
+    final messenger = ScaffoldMessenger.of(context);
+    final posted = await showTipComposerSheet(
+      context,
+      hint: hint,
+      initialVisitMonth: visitMonth,
+      onPickPhotos: (max) => ref.read(photoPickerProvider).pick(max: max),
+      onSubmit: (draft) async {
+        try {
+          await ref
+              .read(communityRepositoryProvider)
+              .postTip(
+                target,
+                body: draft.body,
+                authorName: user.nickname,
+                visitMonth: draft.visitMonth,
+                photos: draft.photos,
+              );
+        } on ApiException catch (e) {
+          return uploadErrorMessage(
+            e,
+            fallback: '팁을 등록하지 못했어요',
+            photos: draft.photos.isNotEmpty,
           );
-      ref.invalidate(tipsProvider(target));
-    } on ApiException {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('팁을 등록하지 못했어요')));
+        }
+        ref.invalidate(tipsProvider(target));
+        // MY 의 팁 수 · 내 팁 목록에도 보이게 합니다.
+        ref.invalidate(meSummaryProvider);
+        ref.invalidate(myTipsProvider);
+        return null;
+      },
+    );
+    if (!posted) return;
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('팁을 남겼어요')));
+  }
+
+  /// 내 팁 고치기: 본문을 채운 입력 시트 → 저장하면 그 카드만 바꿉니다.
+  Future<void> _edit(BuildContext context, WidgetRef ref, Tip tip) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final saved = await showTipComposerSheet(
+      context,
+      hint: hint,
+      editingBody: tip.body,
+      onSubmit: (draft) async {
+        try {
+          await ref
+              .read(tipsProvider(target).notifier)
+              .editTip(tip, draft.body);
+        } on ApiException {
+          return '팁을 고치지 못했어요';
+        }
+        // MY 의 내 팁 목록에도 고친 본문이 보이게 합니다.
+        ref.invalidate(myTipsProvider);
+        return null;
+      },
+    );
+    if (!saved) return;
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('팁을 고쳤어요')));
+  }
+
+  /// 내 팁 지우기: 확인 → 삭제 → 목록 · 개수에서 빼고 MY(요약 · 내 팁)도 다시 읽게 합니다.
+  Future<void> _delete(BuildContext context, WidgetRef ref, Tip tip) async {
+    final messenger = ScaffoldMessenger.of(context);
+    if (!await confirmTipDelete(context)) return;
+    final deleted = await ref
+        .read(tipsProvider(target).notifier)
+        .deleteTip(tip);
+    if (deleted) {
+      ref.invalidate(meSummaryProvider);
+      ref.invalidate(myTipsProvider);
     }
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(deleted ? '팁을 삭제했어요' : '팁을 삭제하지 못했어요')),
+      );
   }
 
   Future<void> _helpful(BuildContext context, WidgetRef ref, Tip tip) async {
@@ -117,6 +185,8 @@ class TipsSection extends ConsumerWidget {
               onHelpful: () => _helpful(context, ref, tip),
               onReplies: () =>
                   showRepliesSheet(context, target: target, tip: tip),
+              onEdit: () => _edit(context, ref, tip),
+              onDelete: () => _delete(context, ref, tip),
             ),
           if (data.items.isEmpty) const SectionNotice('아직 팁이 없어요. 첫 팁을 남겨보세요'),
           // 서버는 한 쪽에 20개씩 줍니다.
