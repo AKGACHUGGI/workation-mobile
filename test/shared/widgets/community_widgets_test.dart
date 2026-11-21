@@ -4,6 +4,7 @@ import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/core/time/relative_time.dart';
 import 'package:workation_mobile/data/models/community.dart';
+import 'package:workation_mobile/shared/widgets/app_chip.dart';
 import 'package:workation_mobile/shared/widgets/avatar.dart';
 import 'package:workation_mobile/shared/widgets/metric_card.dart';
 import 'package:workation_mobile/shared/widgets/photo_gallery.dart';
@@ -202,15 +203,32 @@ void main() {
     expect(find.text('두'), findsOneWidget);
   });
 
-  testWidgets('팁 입력 시트는 빈 값을 막고 글자 수를 제한하고 공백을 다듬어 돌려준다', (tester) async {
-    String? result;
+  /// [열기] 를 누르면 팁 입력 시트를 띄우는 화면. 받은 내용은 [drafts] 에 쌓입니다.
+  Future<void> pumpComposer(
+    WidgetTester tester, {
+    required List<TipDraft> drafts,
+    List<bool>? results,
+    String? Function(TipDraft draft)? reply,
+    int maxLength = tipMaxLength,
+    String? initialVisitMonth,
+  }) async {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light,
         home: Builder(
           builder: (context) => TextButton(
-            onPressed: () async =>
-                result = await showTipComposerSheet(context, maxLength: 10),
+            onPressed: () async {
+              final done = await showTipComposerSheet(
+                context,
+                maxLength: maxLength,
+                initialVisitMonth: initialVisitMonth,
+                onSubmit: (draft) async {
+                  drafts.add(draft);
+                  return reply?.call(draft);
+                },
+              );
+              results?.add(done);
+            },
             child: const Text('열기'),
           ),
         ),
@@ -218,14 +236,24 @@ void main() {
     );
     await tester.tap(find.text('열기'));
     await tester.pumpAndSettle();
+  }
 
-    FilledButton submit() =>
-        tester.widget<FilledButton>(find.widgetWithText(FilledButton, '등록'));
-    expect(submit().onPressed, isNull);
+  FilledButton submitButton(WidgetTester tester) =>
+      tester.widget<FilledButton>(find.byType(FilledButton));
+
+  bool chipSelected(WidgetTester tester, String label) =>
+      tester.widget<AppChip>(find.widgetWithText(AppChip, label)).selected;
+
+  testWidgets('팁 입력 시트는 빈 값을 막고 글자 수를 제한하고 공백을 다듬어 넘긴다', (tester) async {
+    final drafts = <TipDraft>[];
+    final closed = <bool>[];
+    await pumpComposer(tester, drafts: drafts, results: closed, maxLength: 10);
+
+    expect(submitButton(tester).onPressed, isNull);
 
     await tester.enterText(find.byType(TextField), '   ');
     await tester.pump();
-    expect(submit().onPressed, isNull);
+    expect(submitButton(tester).onPressed, isNull);
 
     await tester.enterText(find.byType(TextField), '12345678901234');
     await tester.pump();
@@ -233,10 +261,109 @@ void main() {
 
     await tester.enterText(find.byType(TextField), '  좋아요  ');
     await tester.pump();
-    expect(submit().onPressed, isNotNull);
+    expect(submitButton(tester).onPressed, isNotNull);
     await tester.tap(find.widgetWithText(FilledButton, '등록'));
     await tester.pumpAndSettle();
-    expect(result, '좋아요');
+    expect(drafts.single.body, '좋아요');
+    expect(drafts.single.visitMonth, isNull);
+    expect(closed, [true]);
+    expect(find.text('한 줄 팁 남기기'), findsNothing);
+  });
+
+  testWidgets('팁 입력 시트를 그냥 닫으면 아무것도 넘기지 않는다', (tester) async {
+    final drafts = <TipDraft>[];
+    final closed = <bool>[];
+    await pumpComposer(tester, drafts: drafts, results: closed);
+
+    await tester.enterText(find.byType(TextField), '쓰다 만 팁');
+    await tester.tapAt(const Offset(10, 10));
+    await tester.pumpAndSettle();
+    expect(drafts, isEmpty);
+    expect(closed, [false]);
+  });
+
+  testWidgets('방문 월: 처음 값은 화면의 달이고, 연간이면 없음이다', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final drafts = <TipDraft>[];
+    await pumpComposer(tester, drafts: drafts, initialVisitMonth: '2025-12');
+    expect(find.text('방문 월'), findsOneWidget);
+    expect(chipSelected(tester, '12월'), isTrue);
+    expect(chipSelected(tester, '없음'), isFalse);
+    // 맨 끝 달도 처음부터 보이는 곳에 있습니다.
+    final chip = tester.getRect(find.widgetWithText(AppChip, '12월'));
+    expect(chip.left, greaterThanOrEqualTo(0));
+    expect(chip.right, lessThanOrEqualTo(390));
+
+    await tester.enterText(find.byType(TextField), '겨울 바다');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(drafts.single.visitMonth, '2025-12');
+
+    drafts.clear();
+    await pumpComposer(tester, drafts: drafts);
+    expect(chipSelected(tester, '없음'), isTrue);
+    for (var m = 1; m <= 12; m++) {
+      expect(chipSelected(tester, '$m월'), isFalse);
+    }
+  });
+
+  testWidgets('방문 월: 다른 달로 바꾸거나 없음으로 뺄 수 있다', (tester) async {
+    final drafts = <TipDraft>[];
+    await pumpComposer(tester, drafts: drafts, initialVisitMonth: '2025-02');
+
+    await tester.tap(find.widgetWithText(AppChip, '3월'));
+    await tester.pump();
+    expect(chipSelected(tester, '3월'), isTrue);
+    expect(chipSelected(tester, '2월'), isFalse);
+    await tester.enterText(find.byType(TextField), '봄');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(drafts.single.visitMonth, '2025-03');
+
+    drafts.clear();
+    await pumpComposer(tester, drafts: drafts, initialVisitMonth: '2025-12');
+    // 끝 달을 골라 둬도 없음은 늘 보이는 자리에 있습니다.
+    await tester.tap(find.widgetWithText(AppChip, '없음'));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField), '언제든');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(drafts.single.visitMonth, isNull);
+  });
+
+  testWidgets('등록에 실패하면 쓴 내용 · 방문 월을 둔 채 시트 안에서 알리고, 다시 누르면 보낸다', (
+    tester,
+  ) async {
+    final drafts = <TipDraft>[];
+    final closed = <bool>[];
+    await pumpComposer(
+      tester,
+      drafts: drafts,
+      results: closed,
+      initialVisitMonth: '2025-05',
+      reply: (_) => drafts.length == 1 ? '팁을 등록하지 못했어요' : null,
+    );
+
+    await tester.enterText(find.byType(TextField), '다시 보낼 팁');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(find.text('팁을 등록하지 못했어요'), findsOneWidget);
+    expect(find.text('다시 보낼 팁'), findsOneWidget);
+    expect(chipSelected(tester, '5월'), isTrue);
+    expect(closed, isEmpty);
+
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(drafts, hasLength(2));
+    expect(drafts.last.body, '다시 보낼 팁');
+    expect(drafts.last.visitMonth, '2025-05');
+    expect(closed, [true]);
   });
 
   testWidgets('ReactionPoll 은 비율 · 참여 수를 보여주고 고른 쪽을 표시하며 누르면 알린다', (

@@ -239,6 +239,9 @@ void main() {
       );
       expect(client.calls, ['POST /api/dongs/5115025000/notes']);
       expect(client.lastBody, {'body': '본문', 'visitMonth': '2025-10'});
+      // 방문 월이 없으면 키를 뺀다(null 을 보내지 않는다)
+      await repo.postTip(jumunjin, body: '본문', authorName: '두이');
+      expect(client.lastBody, {'body': '본문'});
 
       client = _RecordingClient({'yes': 1, 'no': 0, 'total': 1});
       repo = ApiCommunityRepository(client);

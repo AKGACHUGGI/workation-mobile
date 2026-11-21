@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../core/metric/month.dart';
 import '../../core/theme/app_theme.dart';
+import 'app_chip.dart';
 import 'avatar.dart';
 
 /// 팁 한 줄의 최대 글자 수.
 const tipMaxLength = 100;
+
+/// 팁 입력 시트에서 쓴 내용.
+@immutable
+class TipDraft {
+  const TipDraft({required this.body, this.visitMonth});
+
+  /// 앞뒤 공백을 뗀 본문
+  final String body;
+
+  /// 방문 월(`2025-10`). 고르지 않았으면 null
+  final String? visitMonth;
+}
+
+/// 시트의 [등록] 을 눌렀을 때 부르는 함수. 성공하면 null, 실패하면 시트 안에 보여 줄
+/// 안내 문구를 돌려줍니다(스낵바는 시트 뒤에 가려집니다).
+typedef TipSubmit = Future<String?> Function(TipDraft draft);
 
 /// 팁 작성 입력 바 (Figma TipComposer). 누르면 입력 시트로 이어집니다.
 /// 로그인하지 않았으면 로그인을 권하는 문구와 [로그인] 버튼을 보여줍니다.
@@ -116,19 +134,31 @@ class _FakeButton extends StatelessWidget {
   }
 }
 
-/// 팁 입력 바텀시트를 띄우고, 등록한 본문(앞뒤 공백 제거)을 돌려줍니다. 닫으면 null.
+/// 팁 입력 바텀시트를 띄웁니다. [등록] 을 누르면 [onSubmit] 을 부르고, 끝날 때까지
+/// "올리는 중…" 으로 기다립니다. 성공하면 닫고 true, 실패하면 입력을 그대로 둔 채 안내를
+/// 보여 줍니다. 그냥 닫으면 false.
+///
 /// 빈 값(공백만 포함)은 등록할 수 없고, 글자 수는 [maxLength] 로 막습니다.
-Future<String?> showTipComposerSheet(
+/// 방문 월은 [initialVisitMonth](화면의 달, 연간이면 null)에서 시작해 바꿀 수 있습니다.
+Future<bool> showTipComposerSheet(
   BuildContext context, {
+  required TipSubmit onSubmit,
   String hint = '이 지역에서 알게 된 팁을 남겨보세요',
   int maxLength = tipMaxLength,
-}) {
-  return showModalBottomSheet<String>(
+  String? initialVisitMonth,
+}) async {
+  final done = await showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
-    builder: (_) => TipComposerSheet(hint: hint, maxLength: maxLength),
+    builder: (_) => TipComposerSheet(
+      hint: hint,
+      maxLength: maxLength,
+      initialVisitMonth: initialVisitMonth,
+      onSubmit: onSubmit,
+    ),
   );
+  return done ?? false;
 }
 
 /// [showTipComposerSheet] 의 내용.
@@ -136,11 +166,15 @@ class TipComposerSheet extends StatefulWidget {
   const TipComposerSheet({
     super.key,
     required this.hint,
+    required this.onSubmit,
     this.maxLength = tipMaxLength,
+    this.initialVisitMonth,
   });
 
   final String hint;
+  final TipSubmit onSubmit;
   final int maxLength;
+  final String? initialVisitMonth;
 
   @override
   State<TipComposerSheet> createState() => _TipComposerSheetState();
@@ -148,6 +182,17 @@ class TipComposerSheet extends StatefulWidget {
 
 class _TipComposerSheetState extends State<TipComposerSheet> {
   final _controller = TextEditingController();
+  final _selectedMonthKey = GlobalKey();
+  late String? _visitMonth = widget.initialVisitMonth;
+  var _sending = false;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    // 고른 달(예: 12월)이 줄 밖에 있으면 보이는 곳으로 옮깁니다.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _revealMonth());
+  }
 
   @override
   void dispose() {
@@ -155,54 +200,154 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
     super.dispose();
   }
 
-  void _submit() {
+  void _revealMonth() {
+    final ctx = _selectedMonthKey.currentContext;
+    if (ctx != null) Scrollable.ensureVisible(ctx, alignment: 0.5);
+  }
+
+  Future<void> _submit() async {
     final text = _controller.text.trim();
-    if (text.isEmpty) return;
-    Navigator.of(context).pop(text);
+    if (text.isEmpty || _sending) return;
+    setState(() {
+      _sending = true;
+      _error = null;
+    });
+    final error = await widget.onSubmit(
+      TipDraft(body: text, visitMonth: _visitMonth),
+    );
+    if (!mounted) return;
+    if (error == null) {
+      Navigator.of(context).pop(true);
+    } else {
+      setState(() {
+        _sending = false;
+        _error = error;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final tertiary = Theme.of(context)
         .extension<AppSemanticColors>()!
         .textTertiary;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        AppSpacing.s4,
-        AppSpacing.s4,
-        AppSpacing.s4,
-        AppSpacing.s4 + MediaQuery.viewInsetsOf(context).bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: AppSpacing.s3,
-        children: [
-          Text('한 줄 팁 남기기', style: AppTextStyles.headingLg),
-          TextField(
-            controller: _controller,
-            autofocus: true,
-            maxLength: widget.maxLength,
-            maxLines: 3,
-            minLines: 2,
-            textInputAction: TextInputAction.newline,
-            style: AppTextStyles.bodySm,
-            decoration: InputDecoration(
-              hintText: widget.hint,
-              hintStyle: AppTextStyles.bodySm.copyWith(color: tertiary),
-              counterStyle: AppTextStyles.captionXs.copyWith(color: tertiary),
+    // 보내는 동안에는 바깥을 눌러도 닫히지 않습니다.
+    return PopScope(
+      canPop: !_sending,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(
+          AppSpacing.s4,
+          AppSpacing.s4,
+          AppSpacing.s4,
+          AppSpacing.s4 + MediaQuery.viewInsetsOf(context).bottom,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: AppSpacing.s3,
+          children: [
+            Text('한 줄 팁 남기기', style: AppTextStyles.headingLg),
+            TextField(
+              controller: _controller,
+              autofocus: true,
+              enabled: !_sending,
+              maxLength: widget.maxLength,
+              maxLines: 5,
+              minLines: 2,
+              textInputAction: TextInputAction.newline,
+              style: AppTextStyles.bodySm,
+              decoration: InputDecoration(
+                hintText: widget.hint,
+                hintStyle: AppTextStyles.bodySm.copyWith(color: tertiary),
+                counterStyle: AppTextStyles.captionXs.copyWith(color: tertiary),
+              ),
             ),
-          ),
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: _controller,
-            builder: (context, value, _) => FilledButton(
-              onPressed: value.text.trim().isEmpty ? null : _submit,
-              child: const Text('등록'),
+            _VisitMonthPicker(
+              value: _visitMonth,
+              selectedKey: _selectedMonthKey,
+              onChanged: _sending
+                  ? null
+                  : (month) => setState(() => _visitMonth = month),
             ),
-          ),
-        ],
+            if (_error != null)
+              Text(
+                _error!,
+                style: AppTextStyles.captionXs.copyWith(color: scheme.error),
+              ),
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: _controller,
+              builder: (context, value, _) => FilledButton(
+                onPressed: value.text.trim().isEmpty || _sending
+                    ? null
+                    : _submit,
+                child: Text(_sending ? '올리는 중…' : '등록'),
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+/// 방문 월 고르기: `없음` + 1~12월 가운데 하나. `없음` 은 늘 보이고 달은 옆으로 넘깁니다.
+class _VisitMonthPicker extends StatelessWidget {
+  const _VisitMonthPicker({
+    required this.value,
+    required this.selectedKey,
+    required this.onChanged,
+  });
+
+  /// `2025-10`. 고르지 않았으면 null
+  final String? value;
+
+  /// 지금 고른 달의 칩에 붙이는 키(보이는 곳으로 옮길 때 씁니다)
+  final Key selectedKey;
+
+  /// null 이면 누를 수 없습니다.
+  final ValueChanged<String?>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final onChanged = this.onChanged;
+
+    Widget chip(String? month) => AppChip(
+      key: month != null && month == value ? selectedKey : null,
+      label: month == null ? '없음' : Months.label(month),
+      selected: month == value,
+      onTap: onChanged == null ? null : () => onChanged(month),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.s2,
+      children: [
+        Text(
+          '방문 월',
+          style: AppTextStyles.captionXsMedium.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+        Row(
+          spacing: AppSpacing.s2,
+          children: [
+            chip(null),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  spacing: AppSpacing.s2,
+                  children: [
+                    for (var m = 1; m <= 12; m++) chip(Months.of(m)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

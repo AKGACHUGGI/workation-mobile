@@ -16,6 +16,7 @@ import 'section_header.dart';
 
 /// 워케이션 노트: 머리 · 입력 바 · 팁 카드 목록. 지역(M-03c)과 동네(M-04)가 같이 씁니다.
 /// 입력 바를 누르면 로그인을 확인하고(비로그인이면 로그인 화면) 입력 시트를 엽니다.
+/// 방문 월은 시트에서 고르고, 등록에 실패하면 쓴 내용을 둔 채 시트 안에서 알립니다.
 /// 카드의 도움돼요는 로그인 뒤 켜고 끄고, 답글은 답글 시트를 엽니다(읽기는 로그인 없이).
 class TipsSection extends ConsumerWidget {
   const TipsSection({
@@ -29,32 +30,42 @@ class TipsSection extends ConsumerWidget {
   final CommunityTarget target;
   final String title;
 
-  /// 등록하는 팁에 붙일 방문 월(`2025-10`). 연간이면 null
+  /// 입력 시트의 방문 월 처음 값(`2025-10`, 화면의 달). 연간이면 null
   final String? visitMonth;
   final String hint;
 
   Future<void> _compose(BuildContext context, WidgetRef ref) async {
     if (!await ensureLoggedIn(context, ref)) return;
-    if (!context.mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    final body = await showTipComposerSheet(context, hint: hint);
     final user = ref.read(sessionProvider);
-    if (body == null || user == null) return;
-    try {
-      await ref
-          .read(communityRepositoryProvider)
-          .postTip(
-            target,
-            body: body,
-            authorName: user.nickname,
-            visitMonth: visitMonth,
-          );
-      ref.invalidate(tipsProvider(target));
-    } on ApiException {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('팁을 등록하지 못했어요')));
-    }
+    if (!context.mounted || user == null) return;
+    final messenger = ScaffoldMessenger.of(context);
+    final posted = await showTipComposerSheet(
+      context,
+      hint: hint,
+      initialVisitMonth: visitMonth,
+      onSubmit: (draft) async {
+        try {
+          await ref
+              .read(communityRepositoryProvider)
+              .postTip(
+                target,
+                body: draft.body,
+                authorName: user.nickname,
+                visitMonth: draft.visitMonth,
+              );
+        } on ApiException catch (e) {
+          return e is ServerException && e.statusCode == 429
+              ? '팁을 너무 빠르게 올리고 있어요. 잠시 후 다시 시도해 주세요'
+              : '팁을 등록하지 못했어요';
+        }
+        ref.invalidate(tipsProvider(target));
+        return null;
+      },
+    );
+    if (!posted) return;
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('팁을 남겼어요')));
   }
 
   Future<void> _helpful(BuildContext context, WidgetRef ref, Tip tip) async {

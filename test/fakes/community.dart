@@ -32,8 +32,12 @@ class FakeCommunityRepository implements CommunityRepository {
   /// 팁을 읽을 때 받은 커서(순서대로, 첫 쪽은 null)
   final tipCursors = <String?>[];
 
-  /// 등록한 팁 본문(순서대로)
+  /// 등록한 팁 본문 · 방문 월(순서대로)
   final posted = <String>[];
+  final postedMonths = <String?>[];
+
+  /// 팁 등록이 이 상태 코드로 실패합니다(null 이면 성공).
+  int? postFailStatus;
 
   /// 투표한 선택(순서대로, 취소는 null)
   final votes = <PollChoice?>[];
@@ -124,7 +128,10 @@ class FakeCommunityRepository implements CommunityRepository {
     String? visitMonth,
   }) async {
     _check(target);
+    final status = postFailStatus;
+    if (status != null) throw ServerException('${target.path}/notes', status);
     posted.add(body);
+    postedMonths.add(visitMonth);
     final tip = Tip(
       id: 'mine${posted.length}',
       author: TipAuthor(nickname: authorName, initial: authorName[0]),

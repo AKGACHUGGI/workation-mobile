@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/router.dart';
 import 'package:workation_mobile/data/models/community.dart';
+import 'package:workation_mobile/shared/widgets/app_chip.dart';
 import 'package:workation_mobile/shared/widgets/mobile_sticky_bar.dart';
 import 'package:workation_mobile/shared/widgets/segmented_tabs.dart';
 import 'package:workation_mobile/shared/widgets/tip_card.dart';
+import 'package:workation_mobile/shared/widgets/tip_composer.dart';
 import 'package:workation_mobile/shared/widgets/type_bar.dart';
 
 import '../../fakes/community.dart';
@@ -181,6 +183,71 @@ void main() {
     expect(cards.first.tip.body, '새벽 산책이 좋아요');
     expect(cards.first.tip.author.nickname, '두이');
     expect(cards.first.tip.visitMonth, '2025-12');
+    expect(find.text('팁을 남겼어요'), findsOneWidget);
+  });
+
+  testWidgets('팁을 쓸 때 방문 월을 바꾸거나 빼서 보낼 수 있다', (tester) async {
+    final community = FakeCommunityRepository();
+    await open(tester, community: community);
+    await tester.ensureVisible(find.textContaining('로그인하면 팁을 남기고'));
+    await tester.tap(find.textContaining('로그인하면 팁을 남기고'));
+    await tester.pumpAndSettle();
+    await signIn(tester);
+
+    // 처음 값은 화면의 달(12월)
+    expect(
+      tester.widget<AppChip>(find.widgetWithText(AppChip, '12월')).selected,
+      isTrue,
+    );
+    await tester.tap(find.widgetWithText(AppChip, '11월'));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField), '11월에 갔어요');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byType(TipComposer));
+    await tester.tap(find.byType(TipComposer));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(AppChip, '없음'));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField), '언제 가도 좋아요');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+
+    expect(community.postedMonths, ['2025-11', null]);
+    final cards = tester.widgetList<TipCard>(find.byType(TipCard)).toList();
+    expect(cards[0].tip.visitMonth, isNull);
+    expect(cards[1].tip.visitMonth, '2025-11');
+  });
+
+  testWidgets('팁 등록에 실패하면 시트 안에서 알리고 쓴 내용을 둔다', (tester) async {
+    final community = FakeCommunityRepository()..postFailStatus = 429;
+    await open(tester, community: community);
+    await tester.ensureVisible(find.textContaining('로그인하면 팁을 남기고'));
+    await tester.tap(find.textContaining('로그인하면 팁을 남기고'));
+    await tester.pumpAndSettle();
+    await signIn(tester);
+
+    await tester.enterText(find.byType(TextField), '너무 빨리 쓴 팁');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('너무 빠르게 올리고 있어요'), findsOneWidget);
+    expect(find.text('한 줄 팁 남기기'), findsOneWidget);
+    expect(find.text('너무 빨리 쓴 팁'), findsOneWidget);
+
+    community.postFailStatus = 500;
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(find.text('팁을 등록하지 못했어요'), findsOneWidget);
+
+    community.postFailStatus = null;
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+    expect(find.text('한 줄 팁 남기기'), findsNothing);
+    expect(community.posted, ['너무 빨리 쓴 팁']);
   });
 
   testWidgets('투표는 로그인 뒤에 되고 다시 눌러 바꿀 수 있다', (tester) async {
