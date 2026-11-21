@@ -13,7 +13,21 @@
       "visitMonth": "2025-10",
       "body": "거진항 근처 '파도소리' 카페는 와이파이가 빠르고 평일 오전엔 거의 비어 있어요. 콘센트 자리도 넉넉합니다.",
       "helpful": 12,
-      "replies": 2
+      "replies": 2,
+      "photos": [
+        {
+          "id": "p1",
+          "url": "assets/mock-photos/51820.jpg"
+        },
+        {
+          "id": "p2",
+          "url": "assets/mock-photos/51830.jpg"
+        },
+        {
+          "id": "p3",
+          "url": "assets/mock-photos/51150.jpg"
+        }
+      ]
     },
     {
       "id": "n2",
@@ -41,7 +55,13 @@
       "visitMonth": "2025-08",
       "body": "8월 성수기엔 간성읍도 붐빕니다. 군청 근처 도서관은 와이파이가 안정적이라 급할 때 대안으로 괜찮았어요.",
       "helpful": 5,
-      "replies": 0
+      "replies": 0,
+      "photos": [
+        {
+          "id": "p4",
+          "url": "assets/mock-photos/51820.jpg"
+        }
+      ]
     }
   ]
 }

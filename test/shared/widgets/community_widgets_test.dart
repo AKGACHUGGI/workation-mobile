@@ -6,6 +6,7 @@ import 'package:workation_mobile/core/time/relative_time.dart';
 import 'package:workation_mobile/data/models/community.dart';
 import 'package:workation_mobile/shared/widgets/avatar.dart';
 import 'package:workation_mobile/shared/widgets/metric_card.dart';
+import 'package:workation_mobile/shared/widgets/photo_gallery.dart';
 import 'package:workation_mobile/shared/widgets/photo_upload_tile.dart';
 import 'package:workation_mobile/shared/widgets/reaction_poll.dart';
 import 'package:workation_mobile/shared/widgets/tip_card.dart';
@@ -94,6 +95,82 @@ void main() {
     expect(find.text('카페는 평일 오전이 한산해요.'), findsOneWidget);
     expect(find.text('도움돼요 12'), findsOneWidget);
     expect(find.text('답글 2'), findsOneWidget);
+  });
+
+  testWidgets('TipCard 는 붙인 사진을 본문 아래에 보여주고, 누르면 그 사진부터 크게 본다', (tester) async {
+    const tip = Tip(
+      id: 't',
+      author: TipAuthor(nickname: '바다러버', initial: '바'),
+      createdAt: '2026-11-11T09:00:00+09:00',
+      body: '본문',
+      photos: [
+        TipPhoto(id: 'p1', url: 'assets/none-1.jpg'),
+        TipPhoto(id: 'p2', url: 'assets/none-2.jpg'),
+        TipPhoto(id: 'p3', url: 'assets/none-3.jpg'),
+      ],
+    );
+    await pumpInTheme(tester, const SizedBox(width: 358, child: TipCard(tip)));
+
+    final thumbs = find.descendant(
+      of: find.byType(PhotoThumbRow),
+      matching: find.byType(GestureDetector),
+    );
+    expect(thumbs, findsNWidgets(3));
+    expect(find.bySemanticsLabel('바다러버 님의 사진 2'), findsOneWidget);
+    expect(
+      tester.getTopLeft(find.byType(PhotoThumbRow)).dy,
+      greaterThan(tester.getTopLeft(find.text('본문')).dy),
+    );
+    expect(tester.getSize(thumbs.first), const Size(96, 96));
+
+    await tester.tap(thumbs.at(1));
+    await tester.pumpAndSettle();
+    expect(find.byType(PhotoGallery), findsOneWidget);
+    expect(find.text('2 / 3'), findsOneWidget);
+
+    await tester.drag(find.byType(PageView), const Offset(-600, 0));
+    await tester.pumpAndSettle();
+    expect(find.text('3 / 3'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('닫기'));
+    await tester.pumpAndSettle();
+    expect(find.byType(PhotoGallery), findsNothing);
+  });
+
+  testWidgets('TipCard 는 사진이 없으면 사진 줄을 그리지 않고, 좁으면 썸네일이 줄어든다', (tester) async {
+    Tip tip(List<TipPhoto> photos) => Tip(
+      id: 't',
+      author: const TipAuthor(nickname: '바다러버', initial: '바'),
+      createdAt: '2026-11-11T09:00:00+09:00',
+      body: '본문',
+      photos: photos,
+    );
+    await pumpInTheme(tester, SizedBox(width: 358, child: TipCard(tip([]))));
+    expect(find.byType(PhotoThumbRow), findsNothing);
+
+    await pumpInTheme(
+      tester,
+      SizedBox(
+        width: 300,
+        child: TipCard(
+          tip([
+            for (var i = 0; i < 3; i++)
+              TipPhoto(id: 'p$i', url: 'assets/none-$i.jpg'),
+          ]),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+    final thumb = tester.getSize(
+      find
+          .descendant(
+            of: find.byType(PhotoThumbRow),
+            matching: find.byType(GestureDetector),
+          )
+          .first,
+    );
+    expect(thumb.width, lessThan(96));
+    expect(thumb.width, thumb.height);
   });
 
   test('relativeTime 은 구간별로 쓴다', () {

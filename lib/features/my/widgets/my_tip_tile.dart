@@ -4,9 +4,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/metric/month.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/me.dart';
+import '../../../shared/widgets/photo_gallery.dart';
 import '../../../shared/widgets/tag.dart';
 
-/// 내가 쓴 팁 한 장. 어느 지역 · 동네에 남겼는지, 본문, 반응 수.
+/// 내가 쓴 팁 한 장. 어느 지역 · 동네에 남겼는지, 본문, 붙인 사진, 반응 수.
 ///
 /// MY 전용입니다. 지역 · 동네 상세의 공용 `TipCard` 는 따로 만들어집니다.
 /// Figma M-07 v2 에는 팁 탭 화면이 없어 웹 `MyTips` 를 따라 모바일 폭에 맞췄습니다.
@@ -89,6 +90,12 @@ class MyTipTile extends StatelessWidget {
                 ],
               ),
               Text(tip.body, style: AppTextStyles.bodySm),
+              if (tip.photos.isNotEmpty)
+                PhotoThumbRow(
+                  urls: [for (final p in tip.photos) p.url],
+                  semanticLabel: '내 팁의 사진',
+                  size: 72,
+                ),
               Text(
                 '도움돼요 ${tip.helpful} · 답글 ${tip.replies}'
                 ' · ${dateLabel(tip.createdAt)}',

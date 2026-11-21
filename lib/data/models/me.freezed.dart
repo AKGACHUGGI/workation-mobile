@@ -2621,7 +2621,8 @@ as String,
 mixin _$MyTip {
 
  String get id; TipAuthor get author; String get createdAt; String? get dongName;/// 예: `2주 체류`
- String? get stayLabel; String? get visitMonth; String get body; int get helpful; int get replies; MyTipTarget get target;
+ String? get stayLabel; String? get visitMonth; String get body; int get helpful; int get replies;/// 붙인 사진(0~3장, 올린 순서)
+ List<TipPhoto> get photos; MyTipTarget get target;
 /// Create a copy of MyTip
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2635,20 +2636,20 @@ $MyTipCopyWith<MyTip> get copyWith => _$MyTipCopyWithImpl<MyTip>(this as MyTip, 
 @override
 bool operator ==(Object other) {
   final _this = this as MyTip;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyTip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&(identical(other.target, _this.target) || other.target == _this.target));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MyTip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&const DeepCollectionEquality().equals(other.photos, _this.photos)&&(identical(other.target, _this.target) || other.target == _this.target));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as MyTip;
-  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies,_this.target);
+  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies,const DeepCollectionEquality().hash(_this.photos),_this.target);
 }
 
 @override
 String toString() {
   final _this = this as MyTip;
-  return 'MyTip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies}, target: ${_this.target})';
+  return 'MyTip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies}, photos: ${_this.photos}, target: ${_this.target})';
 }
 
 
@@ -2659,7 +2660,7 @@ abstract mixin class $MyTipCopyWith<$Res>  {
   factory $MyTipCopyWith(MyTip value, $Res Function(MyTip) _then) = _$MyTipCopyWithImpl;
 @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, MyTipTarget target
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, List<TipPhoto> photos, MyTipTarget target
 });
 
 
@@ -2676,7 +2677,7 @@ class _$MyTipCopyWithImpl<$Res>
 
 /// Create a copy of MyTip
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? target = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? photos = null,Object? target = null,}) {
   return _then(MyTip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -2687,7 +2688,8 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,target: null == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
+as int,photos: null == photos ? _self.photos : photos // ignore: cast_nullable_to_non_nullable
+as List<TipPhoto>,target: null == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as MyTipTarget,
   ));
 }
@@ -2791,10 +2793,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  MyTipTarget target)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  MyTipTarget target)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MyTip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.target);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.target);case _:
   return orElse();
 
 }
@@ -2812,10 +2814,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  MyTipTarget target)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  MyTipTarget target)  $default,) {final _that = this;
 switch (_that) {
 case _MyTip():
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.target);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.target);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2832,10 +2834,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  MyTipTarget target)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  MyTipTarget target)?  $default,) {final _that = this;
 switch (_that) {
 case _MyTip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.target);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.target);case _:
   return null;
 
 }
@@ -2847,7 +2849,7 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 @JsonSerializable()
 
 class _MyTip implements MyTip {
-  const _MyTip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, required this.helpful, required this.replies, required this.target});
+  const _MyTip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, required this.helpful, required this.replies,  List<TipPhoto> photos = const <TipPhoto>[], required this.target}): _photos = photos;
   factory _MyTip.fromJson(Map<String, dynamic> json) => _$MyTipFromJson(json);
 
 @override final  String id;
@@ -2860,6 +2862,15 @@ class _MyTip implements MyTip {
 @override final  String body;
 @override final  int helpful;
 @override final  int replies;
+/// 붙인 사진(0~3장, 올린 순서)
+ final  List<TipPhoto> _photos;
+/// 붙인 사진(0~3장, 올린 순서)
+@override@JsonKey() List<TipPhoto> get photos {
+  if (_photos is EqualUnmodifiableListView) return _photos;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_photos);
+}
+
 @override final  MyTipTarget target;
 
 /// Create a copy of MyTip
@@ -2875,18 +2886,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyTip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.target, target) || other.target == target));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MyTip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies)&&const DeepCollectionEquality().equals(other.photos, _photos)&&(identical(other.target, target) || other.target == target));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies,target);
+    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies,const DeepCollectionEquality().hash(_photos),target);
 }
 
 @override
 String toString() {
-    return 'MyTip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies, target: $target)';
+    return 'MyTip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies, photos: $photos, target: $target)';
 }
 
 
@@ -2897,7 +2908,7 @@ abstract mixin class _$MyTipCopyWith<$Res> implements $MyTipCopyWith<$Res> {
   factory _$MyTipCopyWith(_MyTip value, $Res Function(_MyTip) _then) = __$MyTipCopyWithImpl;
 @override @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, MyTipTarget target
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, List<TipPhoto> photos, MyTipTarget target
 });
 
 
@@ -2914,7 +2925,7 @@ class __$MyTipCopyWithImpl<$Res>
 
 /// Create a copy of MyTip
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? target = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? photos = null,Object? target = null,}) {
   return _then(_MyTip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -2925,7 +2936,8 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,target: null == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
+as int,photos: null == photos ? _self._photos : photos // ignore: cast_nullable_to_non_nullable
+as List<TipPhoto>,target: null == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as MyTipTarget,
   ));
 }

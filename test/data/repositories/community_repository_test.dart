@@ -74,6 +74,10 @@ void main() {
       expect(poll.yesPercent, 73);
       expect(poll.noPercent, 27);
       expect(poll.photos, hasLength(3));
+      // 사진을 붙인 샘플 팁이 있다(최대 3장).
+      final withPhotos = tips.items.where((t) => t.photos.isNotEmpty);
+      expect(withPhotos, isNotEmpty);
+      expect(withPhotos.every((t) => t.photos.length <= 3), isTrue);
       expect(poll.myVote, isNull);
     });
 
@@ -323,6 +327,25 @@ void main() {
       expect(Tip.fromJson(base).myHelpful, isFalse);
       final mine = Tip.fromJson({...base, 'mine': true, 'myHelpful': true});
       expect((mine.mine, mine.myHelpful), (true, true));
+    });
+
+    test('팁 응답의 photos 를 순서대로 읽고, 키가 없으면 빈 목록이다', () {
+      final base = {
+        'id': '1',
+        'author': {'nickname': '두이', 'initial': '두'},
+        'createdAt': '2026-11-20T00:00:00Z',
+        'body': '본문',
+      };
+      expect(Tip.fromJson(base).photos, isEmpty);
+      final tip = Tip.fromJson({
+        ...base,
+        'photos': [
+          {'id': '31', 'url': 'https://r2.example/uploads/tip/a.webp'},
+          {'id': '32', 'url': 'https://r2.example/uploads/tip/b.webp'},
+        ],
+      });
+      expect([for (final p in tip.photos) p.id], ['31', '32']);
+      expect(tip.photos.first.url, 'https://r2.example/uploads/tip/a.webp');
     });
   });
 

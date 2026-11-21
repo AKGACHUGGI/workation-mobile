@@ -6,9 +6,11 @@ import '../../core/theme/app_theme.dart';
 import '../../core/time/relative_time.dart';
 import '../../data/models/community.dart';
 import 'avatar.dart';
+import 'photo_gallery.dart';
 import 'tag.dart';
 
 /// 한 줄 팁 카드 (Figma TipCard, 워케이션 노트 1건).
+/// 붙인 사진은 본문 아래 한 줄로 보이고, 누르면 크게 봅니다.
 /// 도움돼요는 내가 눌렀으면 강조됩니다. [onHelpful] · [onReplies] 가 null 이면 숫자만 보입니다.
 /// 신고는 모양만 있고 아직 누를 수 없습니다.
 class TipCard extends StatelessWidget {
@@ -79,6 +81,11 @@ class TipCard extends StatelessWidget {
             ],
           ),
           Text(tip.body, style: AppTextStyles.bodySm),
+          if (tip.photos.isNotEmpty)
+            PhotoThumbRow(
+              urls: [for (final p in tip.photos) p.url],
+              semanticLabel: '${tip.author.nickname} 님의 사진',
+            ),
           Row(
             spacing: AppSpacing.s4,
             children: [

@@ -287,12 +287,286 @@ as String,
 
 
 /// @nodoc
+mixin _$TipPhoto {
+
+ String get id; String get url;
+/// Create a copy of TipPhoto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TipPhotoCopyWith<TipPhoto> get copyWith => _$TipPhotoCopyWithImpl<TipPhoto>(this as TipPhoto, _$identity);
+
+  /// Serializes this TipPhoto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as TipPhoto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TipPhoto&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.url, _this.url) || other.url == _this.url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as TipPhoto;
+  return Object.hash(runtimeType,_this.id,_this.url);
+}
+
+@override
+String toString() {
+  final _this = this as TipPhoto;
+  return 'TipPhoto(id: ${_this.id}, url: ${_this.url})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TipPhotoCopyWith<$Res>  {
+  factory $TipPhotoCopyWith(TipPhoto value, $Res Function(TipPhoto) _then) = _$TipPhotoCopyWithImpl;
+@useResult
+$Res call({
+ String id, String url
+});
+
+
+
+
+}
+/// @nodoc
+class _$TipPhotoCopyWithImpl<$Res>
+    implements $TipPhotoCopyWith<$Res> {
+  _$TipPhotoCopyWithImpl(this._self, this._then);
+
+  final TipPhoto _self;
+  final $Res Function(TipPhoto) _then;
+
+/// Create a copy of TipPhoto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? url = null,}) {
+  return _then(TipPhoto(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TipPhoto].
+extension TipPhotoPatterns on TipPhoto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TipPhoto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TipPhoto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TipPhoto value)  $default,){
+final _that = this;
+switch (_that) {
+case _TipPhoto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TipPhoto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TipPhoto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TipPhoto() when $default != null:
+return $default(_that.id,_that.url);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String url)  $default,) {final _that = this;
+switch (_that) {
+case _TipPhoto():
+return $default(_that.id,_that.url);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String url)?  $default,) {final _that = this;
+switch (_that) {
+case _TipPhoto() when $default != null:
+return $default(_that.id,_that.url);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _TipPhoto implements TipPhoto {
+  const _TipPhoto({required this.id, required this.url});
+  factory _TipPhoto.fromJson(Map<String, dynamic> json) => _$TipPhotoFromJson(json);
+
+@override final  String id;
+@override final  String url;
+
+/// Create a copy of TipPhoto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TipPhotoCopyWith<_TipPhoto> get copyWith => __$TipPhotoCopyWithImpl<_TipPhoto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TipPhotoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TipPhoto&&(identical(other.id, id) || other.id == id)&&(identical(other.url, url) || other.url == url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,url);
+}
+
+@override
+String toString() {
+    return 'TipPhoto(id: $id, url: $url)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TipPhotoCopyWith<$Res> implements $TipPhotoCopyWith<$Res> {
+  factory _$TipPhotoCopyWith(_TipPhoto value, $Res Function(_TipPhoto) _then) = __$TipPhotoCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String url
+});
+
+
+
+
+}
+/// @nodoc
+class __$TipPhotoCopyWithImpl<$Res>
+    implements _$TipPhotoCopyWith<$Res> {
+  __$TipPhotoCopyWithImpl(this._self, this._then);
+
+  final _TipPhoto _self;
+  final $Res Function(_TipPhoto) _then;
+
+/// Create a copy of TipPhoto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? url = null,}) {
+  return _then(_TipPhoto(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Tip {
 
  String get id; TipAuthor get author;/// ISO 8601
  String get createdAt; String? get dongName;/// 예: `2주 체류`
  String? get stayLabel;/// `2025-10`
- String? get visitMonth; String get body; int get helpful; int get replies;/// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
+ String? get visitMonth; String get body; int get helpful; int get replies;/// 붙인 사진(0~3장, 올린 순서)
+ List<TipPhoto> get photos;/// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
  bool get mine;/// 로그인한 사용자가 도움돼요를 눌렀으면 true
  bool get myHelpful;
 /// Create a copy of Tip
@@ -308,20 +582,20 @@ $TipCopyWith<Tip> get copyWith => _$TipCopyWithImpl<Tip>(this as Tip, _$identity
 @override
 bool operator ==(Object other) {
   final _this = this as Tip;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&(identical(other.mine, _this.mine) || other.mine == _this.mine)&&(identical(other.myHelpful, _this.myHelpful) || other.myHelpful == _this.myHelpful));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tip&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.dongName, _this.dongName) || other.dongName == _this.dongName)&&(identical(other.stayLabel, _this.stayLabel) || other.stayLabel == _this.stayLabel)&&(identical(other.visitMonth, _this.visitMonth) || other.visitMonth == _this.visitMonth)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.helpful, _this.helpful) || other.helpful == _this.helpful)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&const DeepCollectionEquality().equals(other.photos, _this.photos)&&(identical(other.mine, _this.mine) || other.mine == _this.mine)&&(identical(other.myHelpful, _this.myHelpful) || other.myHelpful == _this.myHelpful));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Tip;
-  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies,_this.mine,_this.myHelpful);
+  return Object.hash(runtimeType,_this.id,_this.author,_this.createdAt,_this.dongName,_this.stayLabel,_this.visitMonth,_this.body,_this.helpful,_this.replies,const DeepCollectionEquality().hash(_this.photos),_this.mine,_this.myHelpful);
 }
 
 @override
 String toString() {
   final _this = this as Tip;
-  return 'Tip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies}, mine: ${_this.mine}, myHelpful: ${_this.myHelpful})';
+  return 'Tip(id: ${_this.id}, author: ${_this.author}, createdAt: ${_this.createdAt}, dongName: ${_this.dongName}, stayLabel: ${_this.stayLabel}, visitMonth: ${_this.visitMonth}, body: ${_this.body}, helpful: ${_this.helpful}, replies: ${_this.replies}, photos: ${_this.photos}, mine: ${_this.mine}, myHelpful: ${_this.myHelpful})';
 }
 
 
@@ -332,7 +606,7 @@ abstract mixin class $TipCopyWith<$Res>  {
   factory $TipCopyWith(Tip value, $Res Function(Tip) _then) = _$TipCopyWithImpl;
 @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, bool mine, bool myHelpful
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, List<TipPhoto> photos, bool mine, bool myHelpful
 });
 
 
@@ -349,7 +623,7 @@ class _$TipCopyWithImpl<$Res>
 
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? mine = null,Object? myHelpful = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? photos = null,Object? mine = null,Object? myHelpful = null,}) {
   return _then(Tip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -360,7 +634,8 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as int,photos: null == photos ? _self.photos : photos // ignore: cast_nullable_to_non_nullable
+as List<TipPhoto>,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
 as bool,myHelpful: null == myHelpful ? _self.myHelpful : myHelpful // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -456,10 +731,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  bool mine,  bool myHelpful)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Tip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.mine,_that.myHelpful);case _:
   return orElse();
 
 }
@@ -477,10 +752,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  bool mine,  bool myHelpful)  $default,) {final _that = this;
 switch (_that) {
 case _Tip():
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.mine,_that.myHelpful);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -497,10 +772,10 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  bool mine,  bool myHelpful)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  TipAuthor author,  String createdAt,  String? dongName,  String? stayLabel,  String? visitMonth,  String body,  int helpful,  int replies,  List<TipPhoto> photos,  bool mine,  bool myHelpful)?  $default,) {final _that = this;
 switch (_that) {
 case _Tip() when $default != null:
-return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.mine,_that.myHelpful);case _:
+return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayLabel,_that.visitMonth,_that.body,_that.helpful,_that.replies,_that.photos,_that.mine,_that.myHelpful);case _:
   return null;
 
 }
@@ -512,7 +787,7 @@ return $default(_that.id,_that.author,_that.createdAt,_that.dongName,_that.stayL
 @JsonSerializable()
 
 class _Tip implements Tip {
-  const _Tip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, this.helpful = 0, this.replies = 0, this.mine = false, this.myHelpful = false});
+  const _Tip({required this.id, required this.author, required this.createdAt, this.dongName, this.stayLabel, this.visitMonth, required this.body, this.helpful = 0, this.replies = 0,  List<TipPhoto> photos = const <TipPhoto>[], this.mine = false, this.myHelpful = false}): _photos = photos;
   factory _Tip.fromJson(Map<String, dynamic> json) => _$TipFromJson(json);
 
 @override final  String id;
@@ -527,6 +802,15 @@ class _Tip implements Tip {
 @override final  String body;
 @override@JsonKey() final  int helpful;
 @override@JsonKey() final  int replies;
+/// 붙인 사진(0~3장, 올린 순서)
+ final  List<TipPhoto> _photos;
+/// 붙인 사진(0~3장, 올린 순서)
+@override@JsonKey() List<TipPhoto> get photos {
+  if (_photos is EqualUnmodifiableListView) return _photos;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_photos);
+}
+
 /// 로그인한 사용자가 쓴 팁이면 true (도움돼요를 누를 수 없습니다)
 @override@JsonKey() final  bool mine;
 /// 로그인한 사용자가 도움돼요를 눌렀으면 true
@@ -545,18 +829,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.mine, mine) || other.mine == mine)&&(identical(other.myHelpful, myHelpful) || other.myHelpful == myHelpful));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tip&&(identical(other.id, id) || other.id == id)&&(identical(other.author, author) || other.author == author)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.dongName, dongName) || other.dongName == dongName)&&(identical(other.stayLabel, stayLabel) || other.stayLabel == stayLabel)&&(identical(other.visitMonth, visitMonth) || other.visitMonth == visitMonth)&&(identical(other.body, body) || other.body == body)&&(identical(other.helpful, helpful) || other.helpful == helpful)&&(identical(other.replies, replies) || other.replies == replies)&&const DeepCollectionEquality().equals(other.photos, _photos)&&(identical(other.mine, mine) || other.mine == mine)&&(identical(other.myHelpful, myHelpful) || other.myHelpful == myHelpful));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies,mine,myHelpful);
+    return Object.hash(runtimeType,id,author,createdAt,dongName,stayLabel,visitMonth,body,helpful,replies,const DeepCollectionEquality().hash(_photos),mine,myHelpful);
 }
 
 @override
 String toString() {
-    return 'Tip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies, mine: $mine, myHelpful: $myHelpful)';
+    return 'Tip(id: $id, author: $author, createdAt: $createdAt, dongName: $dongName, stayLabel: $stayLabel, visitMonth: $visitMonth, body: $body, helpful: $helpful, replies: $replies, photos: $photos, mine: $mine, myHelpful: $myHelpful)';
 }
 
 
@@ -567,7 +851,7 @@ abstract mixin class _$TipCopyWith<$Res> implements $TipCopyWith<$Res> {
   factory _$TipCopyWith(_Tip value, $Res Function(_Tip) _then) = __$TipCopyWithImpl;
 @override @useResult
 $Res call({
- String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, bool mine, bool myHelpful
+ String id, TipAuthor author, String createdAt, String? dongName, String? stayLabel, String? visitMonth, String body, int helpful, int replies, List<TipPhoto> photos, bool mine, bool myHelpful
 });
 
 
@@ -584,7 +868,7 @@ class __$TipCopyWithImpl<$Res>
 
 /// Create a copy of Tip
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? mine = null,Object? myHelpful = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? author = null,Object? createdAt = null,Object? dongName = freezed,Object? stayLabel = freezed,Object? visitMonth = freezed,Object? body = null,Object? helpful = null,Object? replies = null,Object? photos = null,Object? mine = null,Object? myHelpful = null,}) {
   return _then(_Tip(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
@@ -595,7 +879,8 @@ as String?,visitMonth: freezed == visitMonth ? _self.visitMonth : visitMonth // 
 as String?,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
 as String,helpful: null == helpful ? _self.helpful : helpful // ignore: cast_nullable_to_non_nullable
 as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as int,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
+as int,photos: null == photos ? _self._photos : photos // ignore: cast_nullable_to_non_nullable
+as List<TipPhoto>,mine: null == mine ? _self.mine : mine // ignore: cast_nullable_to_non_nullable
 as bool,myHelpful: null == myHelpful ? _self.myHelpful : myHelpful // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
