@@ -123,7 +123,7 @@ class FakeFavoritesRepository implements FavoritesRepository {
   }
 }
 
-/// MY 에 쓰는 가짜. 팁 2개 · 사진 3장(검수 대기 1).
+/// MY 에 쓰는 가짜. 팁 2개 · 사진 3장(신고로 가려진 것 1).
 ///
 /// [moreTips] 를 주면 첫 쪽이 `nextCursor` 를 달고 오고, 그 커서로 부르면 [moreTips] 를 줍니다([failMoreTips] 면 실패).
 class FakeMeRepository implements MeRepository {
@@ -146,6 +146,10 @@ class FakeMeRepository implements MeRepository {
   /// 요약을 읽은 횟수
   var summaryReads = 0;
 
+  /// 지운 사진 id(순서대로). 지운 뒤에는 사진 목록 · 요약에서 빠집니다.
+  final deletedPhotos = <String>[];
+  bool failDeletePhoto = false;
+
   static const _nextCursor = '20';
 
   @override
@@ -166,7 +170,7 @@ class FakeMeRepository implements MeRepository {
       StayCount(regionName: '고성', count: 1),
     ],
     tipCount: 2 - deletedTips.length,
-    photoCount: 3,
+    photoCount: 3 - deletedPhotos.length,
     favoriteCount: 6,
     voteCount: 3,
     createdAt: '2025-03-14T09:00:00+09:00',
@@ -226,7 +230,20 @@ class FakeMeRepository implements MeRepository {
   );
 
   @override
-  Future<MyPhotosResponse> photos() async => const MyPhotosResponse(
+  Future<void> deletePhoto(String id) async {
+    if (failDeletePhoto) throw const NetworkException('/api/me/photos');
+    deletedPhotos.add(id);
+  }
+
+  @override
+  Future<MyPhotosResponse> photos() async => MyPhotosResponse(
+    items: [
+      for (final p in _photos.items)
+        if (!deletedPhotos.contains(p.id)) p,
+    ],
+  );
+
+  static const _photos = MyPhotosResponse(
     items: [
       MyPhoto(
         id: 'ph-1',

@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/data/models/me.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
 import 'package:workation_mobile/data/repositories/favorites_repository.dart';
@@ -91,6 +92,26 @@ void main() {
       expect(
         photos.items.where((p) => p.status == PhotoStatus.pending),
         hasLength(2),
+      );
+      // 사진을 붙인 내 팁이 있다.
+      expect(tips.items.first.photos, isNotEmpty);
+    });
+
+    test('사진을 지우면 목록 · 사진 수에서 빠지고, 없는 사진은 404 다', () async {
+      final repo = MockMeRepository(assets);
+
+      await repo.deletePhoto('ph-1');
+      final photos = await repo.photos();
+      expect(photos.items.map((p) => p.id), ['ph-2', 'ph-3', 'ph-4']);
+      expect((await repo.summary()).photoCount, 3);
+
+      await expectLater(
+        repo.deletePhoto('ph-1'),
+        throwsA(isA<NotFoundException>()),
+      );
+      await expectLater(
+        repo.deletePhoto('없는사진'),
+        throwsA(isA<NotFoundException>()),
       );
     });
   });

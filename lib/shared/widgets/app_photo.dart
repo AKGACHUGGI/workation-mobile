@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-/// 사진 한 장. [url] 이 `http` 로 시작하면 네트워크, 아니면 번들 에셋 경로로 읽습니다.
+/// 사진 한 장. [url] 이 `http` 로 시작하면 네트워크, `/` 로 시작하면 기기 안의 파일(방금 고른
+/// 사진), 아니면 번들 에셋 경로로 읽습니다.
 /// 없거나 읽지 못하면 회색 상자로 대신 그립니다(mock 사진은 커밋하지 않기 때문).
 class AppPhoto extends StatelessWidget {
   const AppPhoto(this.url, {super.key, this.fit = BoxFit.cover});
@@ -19,9 +22,13 @@ class AppPhoto extends StatelessWidget {
     Widget onError(BuildContext context, Object error, StackTrace? stack) =>
         fallback;
 
-    return src.startsWith('http')
-        ? Image.network(src, fit: fit, errorBuilder: onError)
-        : Image.asset(src, fit: fit, errorBuilder: onError);
+    if (src.startsWith('http')) {
+      return Image.network(src, fit: fit, errorBuilder: onError);
+    }
+    if (src.startsWith('/')) {
+      return Image.file(File(src), fit: fit, errorBuilder: onError);
+    }
+    return Image.asset(src, fit: fit, errorBuilder: onError);
   }
 }
 

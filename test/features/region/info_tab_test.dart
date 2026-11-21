@@ -8,6 +8,7 @@ import 'package:workation_mobile/data/models/community.dart';
 import 'package:workation_mobile/data/models/popular_region.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
 import 'package:workation_mobile/data/repositories/community_repository.dart';
+import 'package:workation_mobile/features/community/widgets/photo_upload_sheet.dart';
 import 'package:workation_mobile/features/region/region_providers.dart';
 import 'package:workation_mobile/features/region/region_reason.dart';
 import 'package:workation_mobile/features/region/widgets/info_tab.dart';
@@ -53,7 +54,7 @@ void main() {
     expect(find.text('12월 고성군, 실제로 조용했나요?'), findsOneWidget);
     expect(find.text('그래요 75%'), findsOneWidget);
     expect(find.text('이달의 사진'), findsOneWidget);
-    expect(find.text('12월 · 사용자 제공 · 검수 후 게시'), findsOneWidget);
+    expect(find.text('12월 · 사용자 제공'), findsOneWidget);
     expect(find.byType(UserPhotoTile), findsOneWidget);
     expect(find.text('이달의 사진 올리기'), findsOneWidget);
     // 가짜 응답에는 외부 링크가 없어 카드를 그리지 않습니다.
@@ -81,20 +82,31 @@ void main() {
     expect(community.posted, isEmpty);
     expect(community.votes, isEmpty);
     expect(community.helpfulCalls, isEmpty);
-    expect(find.text('사진 올리기 기능은 준비 중이에요'), findsNothing);
+    expect(community.uploads, isEmpty);
+    expect(find.text('올리기'), findsNothing);
   });
 
-  testWidgets('로그인하면 팁 등록 · 투표가 되고 사진 올리기는 준비 중 안내가 뜬다', (tester) async {
+  testWidgets('로그인하면 사진 올리기 시트가 열리고 팁 등록 · 투표가 된다', (tester) async {
     final community = FakeCommunityRepository(withPhotos: true);
     await open(tester, community: community);
 
-    // 사진 올리기: 로그인 → 준비 중
+    // 사진 올리기: 로그인 → 올리기 시트(고른 사진이 없으면 올릴 수 없음)
     await tester.ensureVisible(find.text('이달의 사진 올리기'));
     await tester.tap(find.text('이달의 사진 올리기'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('카카오로 시작하기'));
     await tester.pumpAndSettle();
-    expect(find.text('사진 올리기 기능은 준비 중이에요'), findsOneWidget);
+    expect(find.byType(PhotoUploadSheet), findsOneWidget);
+    expect(
+      tester
+          .widget<FilledButton>(find.widgetWithText(FilledButton, '올리기'))
+          .onPressed,
+      isNull,
+    );
+    await tester.tapAt(const Offset(10, 10));
+    await tester.pumpAndSettle();
+    expect(find.byType(PhotoUploadSheet), findsNothing);
+    expect(community.uploads, isEmpty);
 
     // 이제 로그인 상태: 팁
     await tester.ensureVisible(find.text('이 지역에서 알게 된 팁을 남겨보세요'));

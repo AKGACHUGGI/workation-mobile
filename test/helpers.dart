@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/app.dart';
 import 'package:workation_mobile/app/router.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
+import 'package:workation_mobile/core/photo/photo_picker.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/data/models/popular_region.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
@@ -27,6 +28,7 @@ import 'fakes/dong.dart';
 
 import 'fakes/explore.dart';
 import 'fakes/geo.dart';
+import 'fakes/photos.dart';
 import 'fakes/share.dart';
 
 /// 위젯 하나를 앱 테마 안에서 띄웁니다.
@@ -54,6 +56,7 @@ Future<void> pumpApp(
   MeRepository? me,
   AuthRepository? auth,
   FakeShareService? share,
+  PhotoPicker? photos,
   String webBaseUrl = '',
   bool loggedIn = false,
   bool settle = true,
@@ -89,6 +92,7 @@ Future<void> pumpApp(
         if (loggedIn) sessionProvider.overrideWith(SignedInSession.new),
         geoRepositoryProvider.overrideWithValue(FakeGeoRepository()),
         shareServiceProvider.overrideWithValue(share ?? FakeShareService()),
+        photoPickerProvider.overrideWithValue(photos ?? FakePhotoPicker()),
         webBaseUrlProvider.overrideWithValue(webBaseUrl),
       ],
       child: const WorkationApp(),

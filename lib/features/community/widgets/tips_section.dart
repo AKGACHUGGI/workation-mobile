@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/api_exception.dart';
+import '../../../core/photo/photo_picker.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/community.dart';
 import '../../../data/repositories/community_repository.dart';
@@ -12,13 +13,15 @@ import '../../auth/auth_providers.dart';
 import '../../auth/login_gate.dart';
 import '../../my/my_providers.dart';
 import '../community_providers.dart';
+import '../upload_errors.dart';
 import 'replies_sheet.dart';
 import 'section_header.dart';
 import 'tip_delete_dialog.dart';
 
 /// 워케이션 노트: 머리 · 입력 바 · 팁 카드 목록. 지역(M-03c)과 동네(M-04)가 같이 씁니다.
 /// 입력 바를 누르면 로그인을 확인하고(비로그인이면 로그인 화면) 입력 시트를 엽니다.
-/// 방문 월은 시트에서 고르고, 등록에 실패하면 쓴 내용을 둔 채 시트 안에서 알립니다.
+/// 방문 월 · 붙일 사진(0~3장)은 시트에서 고르고, 등록에 실패하면 쓴 내용을 둔 채 시트 안에서
+/// 알립니다.
 /// 카드의 도움돼요는 로그인 뒤 켜고 끄고, 답글은 답글 시트를 엽니다(읽기는 로그인 없이).
 /// 내 팁은 카드의 ⋯ 메뉴로 고치고 지웁니다.
 class TipsSection extends ConsumerWidget {
@@ -46,6 +49,7 @@ class TipsSection extends ConsumerWidget {
       context,
       hint: hint,
       initialVisitMonth: visitMonth,
+      onPickPhotos: (max) => ref.read(photoPickerProvider).pick(max: max),
       onSubmit: (draft) async {
         try {
           await ref
@@ -55,11 +59,14 @@ class TipsSection extends ConsumerWidget {
                 body: draft.body,
                 authorName: user.nickname,
                 visitMonth: draft.visitMonth,
+                photos: draft.photos,
               );
         } on ApiException catch (e) {
-          return e is ServerException && e.statusCode == 429
-              ? '팁을 너무 빠르게 올리고 있어요. 잠시 후 다시 시도해 주세요'
-              : '팁을 등록하지 못했어요';
+          return uploadErrorMessage(
+            e,
+            fallback: '팁을 등록하지 못했어요',
+            photos: draft.photos.isNotEmpty,
+          );
         }
         ref.invalidate(tipsProvider(target));
         // MY 의 팁 수 · 내 팁 목록에도 보이게 합니다.

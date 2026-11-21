@@ -1,5 +1,6 @@
 import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
+import 'package:workation_mobile/core/photo/photo_picker.dart';
 import 'package:workation_mobile/data/models/community.dart';
 import 'package:workation_mobile/data/repositories/community_repository.dart';
 
@@ -45,6 +46,15 @@ class FakeCommunityRepository implements CommunityRepository {
 
   /// 팁 등록이 이 상태 코드로 실패합니다(null 이면 성공).
   int? postFailStatus;
+
+  /// 등록한 팁에 붙인 사진 이름(팁마다, 순서대로)
+  final postedPhotos = <List<String>>[];
+
+  /// 올린 이달의 사진(달 · 사진 이름, 올린 순서대로)
+  final uploads = <(String, List<String>)>[];
+
+  /// 이달의 사진 올리기가 이 에러로 실패합니다(null 이면 성공).
+  ServerException? uploadError;
 
   /// 투표한 선택(순서대로, 취소는 null)
   final votes = <PollChoice?>[];
@@ -140,18 +150,23 @@ class FakeCommunityRepository implements CommunityRepository {
     required String body,
     required String authorName,
     String? visitMonth,
+    List<PickedPhoto> photos = const [],
   }) async {
     _check(target);
     final status = postFailStatus;
     if (status != null) throw ServerException('${target.path}/notes', status);
     posted.add(body);
     postedMonths.add(visitMonth);
+    postedPhotos.add([for (final p in photos) p.name]);
     final tip = Tip(
       id: 'mine${posted.length}',
       author: TipAuthor(nickname: authorName, initial: authorName[0]),
       createdAt: DateTime.now().toIso8601String(),
       visitMonth: visitMonth,
       body: body,
+      photos: [
+        for (final p in photos) TipPhoto(id: 'tp-${p.name}', url: p.path),
+      ],
       mine: true,
     );
     _tips = _tips.copyWith(
@@ -159,6 +174,25 @@ class FakeCommunityRepository implements CommunityRepository {
       items: [tip, ..._tips.items],
     );
     return tip;
+  }
+
+  @override
+  Future<void> uploadMonthPhotos(
+    CommunityTarget target,
+    String month, {
+    required List<PickedPhoto> photos,
+    required String authorName,
+  }) async {
+    _check(target);
+    final error = uploadError;
+    if (error != null) throw error;
+    uploads.add((month, [for (final p in photos) p.name]));
+    _poll = _poll.copyWith(
+      photos: [
+        for (final p in photos) UserPhoto(url: p.path, author: authorName),
+        ..._poll.photos,
+      ],
+    );
   }
 
   @override

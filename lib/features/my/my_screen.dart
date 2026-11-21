@@ -16,6 +16,7 @@ import '../auth/widgets/login_prompt.dart';
 import '../favorites/favorites_providers.dart';
 import 'my_providers.dart';
 import 'widgets/delete_account.dart';
+import 'widgets/delete_my_photo.dart';
 import 'widgets/delete_my_tip.dart';
 import 'widgets/my_photo_tile.dart';
 import 'widgets/my_tip_tile.dart';
@@ -194,7 +195,7 @@ class _LoggedInState extends ConsumerState<_LoggedIn> {
                 _MyTab.tips => _TipsTab(user: user),
                 _MyTab.photos => _PhotosTab(
                   user: user,
-                  onUpload: () => _snack('사진 올리기는 준비 중이에요'),
+                  onUpload: () => _snack("지역 화면의 '이달의 사진'에서 올릴 수 있어요"),
                 ),
               },
               const SizedBox(height: AppSpacing.s4),
@@ -415,7 +416,7 @@ class _PhotosTab extends ConsumerWidget {
           children: [
             _TabHeader(
               title: '내가 올린 사진 ${data.items.length}장',
-              aside: '검수 완료 $approved · 대기 $pending',
+              aside: '공개 $approved · 가려짐 $pending',
             ),
             // 칸 폭 171 · 높이 128, 가로 간격 16 · 세로 간격 12 (Figma PhotoGrid)
             GridView.count(
@@ -431,6 +432,7 @@ class _PhotosTab extends ConsumerWidget {
                     key: ValueKey(p.id),
                     photo: p,
                     initial: user.initial,
+                    onDelete: () => confirmDeleteMyPhoto(context, ref, p),
                   ),
                 MyPhotoUploadTile(onTap: onUpload),
               ],

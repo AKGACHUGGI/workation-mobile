@@ -5,6 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
 import 'api_config.dart';
 import 'api_exception.dart';
 
+/// multipart 로 보낼 파일 한 개(기기 안의 경로 · 서버에 알릴 파일 이름).
+typedef UploadFile = ({String path, String filename});
+
 /// 백엔드 호출 창구. 리포지토리는 Dio 를 직접 쓰지 않고 이 클래스를 씁니다.
 ///
 /// - 경로는 웹과 같이 `/api/...` 로 시작합니다. 예: `get('/api/regions/popular')`
@@ -20,6 +23,31 @@ class ApiClient {
 
   Future<dynamic> post(String path, {Object? body}) =>
       _send(path, () => _dio.post<dynamic>(path, data: body));
+
+  /// `multipart/form-data` 로 보냅니다. [fields] 는 글자 칸, [files] 는 모두 [fileField]
+  /// 라는 같은 이름으로 붙입니다(서버가 `getlist` 로 여러 장을 받습니다).
+  /// 서버가 사진을 바꿔 저장소에 올리는 동안 기다리도록 응답 제한 시간을 늘립니다.
+  Future<dynamic> postMultipart(
+    String path, {
+    Map<String, String> fields = const {},
+    required String fileField,
+    required List<UploadFile> files,
+  }) => _send(path, () async {
+    final form = FormData.fromMap(fields);
+    for (final file in files) {
+      form.files.add(
+        MapEntry(
+          fileField,
+          await MultipartFile.fromFile(file.path, filename: file.filename),
+        ),
+      );
+    }
+    return _dio.post<dynamic>(
+      path,
+      data: form,
+      options: Options(receiveTimeout: ApiConfig.uploadTimeout),
+    );
+  });
 
   Future<dynamic> put(String path, {Object? body}) =>
       _send(path, () => _dio.put<dynamic>(path, data: body));

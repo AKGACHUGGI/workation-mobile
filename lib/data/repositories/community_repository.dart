@@ -4,23 +4,37 @@ import '../../core/metric/metric.dart';
 import '../../core/network/api_client.dart';
 import '../../core/network/api_config.dart';
 import '../../core/network/api_exception.dart';
+import '../../core/photo/photo_picker.dart';
 import '../models/community.dart';
 import 'mock_assets.dart';
 
 /// 커뮤니티: 한 줄 팁 · 도움돼요 · 답글 · 체감 투표 · 이달의 사진(투표 응답에 함께 옵니다).
-/// 경로와 본문은 웹 · 서버(`webapi/tips.py` · `webapi/poll.py`)와 같습니다.
+/// 경로와 본문은 웹 · 서버(`webapi/tips.py` · `webapi/poll.py` · `webapi/uploads.py`)와 같습니다.
 abstract class CommunityRepository {
   /// `GET {target}/notes?sort=helpful` — 한 쪽에 20개. [cursor] 는 앞 응답의
   /// `nextCursor` 를 그대로 넘깁니다(없으면 첫 쪽).
   Future<TipsResponse> tips(CommunityTarget target, {String? cursor});
 
   /// `POST {target}/notes` — 본문 `{body, visitMonth?}`. 만든 팁을 돌려줍니다.
+  /// [photos](0~3장)가 있으면 multipart 로 `photos` 칸에 함께 보냅니다.
   /// [authorName] 은 mock 이 작성자 표시에 씁니다(실제 API 는 세션으로 압니다).
+  /// 1분에 3개를 넘으면 429 `TIP_RATE_LIMIT`, 사진이 규칙에 안 맞으면 400 `INVALID_PHOTO`.
   Future<Tip> postTip(
     CommunityTarget target, {
     required String body,
     required String authorName,
     String? visitMonth,
+    List<PickedPhoto> photos = const [],
+  });
+
+  /// `POST {target}/photos` — multipart `month` · `photos`(1~3장). 이달의 사진을 올립니다.
+  /// 올리면 바로 공개되고, 그 달의 투표 응답 `photos` 에 보입니다.
+  /// 1시간에 30장을 넘으면 429 `PHOTO_RATE_LIMIT`, 사진이 규칙에 안 맞으면 400 `INVALID_PHOTO`.
+  Future<void> uploadMonthPhotos(
+    CommunityTarget target,
+    String month, {
+    required List<PickedPhoto> photos,
+    required String authorName,
   });
 
   /// `PATCH /api/me/tips/{id}` — 본문 `{body}`. 내 팁의 본문만 고치고, 고친 팁을 돌려줍니다
@@ -72,6 +86,10 @@ abstract class CommunityRepository {
 String? _presetOf(CommunityTarget target, PresetKey? preset) =>
     target.isDong ? null : (preset ?? PresetKey.quiet).name;
 
+List<UploadFile> _files(List<PickedPhoto> photos) => [
+  for (final p in photos) (path: p.path, filename: p.name),
+];
+
 class ApiCommunityRepository implements CommunityRepository {
   const ApiCommunityRepository(this._client);
 
@@ -92,13 +110,34 @@ class ApiCommunityRepository implements CommunityRepository {
     required String body,
     required String authorName,
     String? visitMonth,
+    List<PickedPhoto> photos = const [],
   }) async {
-    final json = await _client.post(
-      '${target.path}/notes',
-      body: {'body': body, 'visitMonth': ?visitMonth},
-    );
+    final path = '${target.path}/notes';
+    final fields = {'body': body, 'visitMonth': ?visitMonth};
+    // 사진이 없으면 지금처럼 JSON, 있으면 multipart(웹 `createNote` 와 같음)
+    final json = photos.isEmpty
+        ? await _client.post(path, body: fields)
+        : await _client.postMultipart(
+            path,
+            fields: fields,
+            fileField: 'photos',
+            files: _files(photos),
+          );
     return Tip.fromJson(json as Map<String, dynamic>);
   }
+
+  @override
+  Future<void> uploadMonthPhotos(
+    CommunityTarget target,
+    String month, {
+    required List<PickedPhoto> photos,
+    required String authorName,
+  }) => _client.postMultipart(
+    '${target.path}/photos',
+    fields: {'month': month},
+    fileField: 'photos',
+    files: _files(photos),
+  );
 
   @override
   Future<Tip> updateTip(String tipId, {required String body}) async {
@@ -184,7 +223,7 @@ class ApiCommunityRepository implements CommunityRepository {
   }
 }
 
-/// 팁(쓰기 · 고치기 · 지우기) · 도움돼요 · 답글 · 투표를 메모리에 씁니다(앱을 다시 켜면 처음으로 돌아갑니다).
+/// 팁(쓰기 · 고치기 · 지우기) · 도움돼요 · 답글 · 투표 · 올린 사진을 메모리에 씁니다(앱을 다시 켜면 처음으로 돌아갑니다).
 /// 샘플은 `assets/mock/community/` 의 지역 51820 · 동 5182025300 · 5115025000 뿐이고
 /// 그 밖의 대상은 팁 · 투표가 비어 있다가 사용자가 쓰는 만큼 채워집니다.
 /// 답글 샘플은 파일이 없어, 팁의 답글 수만큼 [_sampleReplies] 에서 돌려 씁니다.
@@ -196,6 +235,9 @@ class MockCommunityRepository implements CommunityRepository {
   final _tips = <CommunityTarget, TipsResponse>{};
   final _replies = <String, List<Reply>>{};
   final _polls = <(CommunityTarget, String, String?), PollResponse>{};
+
+  /// 올린 이달의 사진(대상 · 달마다, 최근 것부터). 프리셋과 상관없이 보입니다.
+  final _uploaded = <(CommunityTarget, String), List<UserPhoto>>{};
   var _nextId = 1;
 
   static const _sampleReplies = [
@@ -259,6 +301,7 @@ class MockCommunityRepository implements CommunityRepository {
     required String body,
     required String authorName,
     String? visitMonth,
+    List<PickedPhoto> photos = const [],
   }) async {
     final current = await tips(target);
     final tip = Tip(
@@ -267,6 +310,10 @@ class MockCommunityRepository implements CommunityRepository {
       createdAt: DateTime.now().toIso8601String(),
       visitMonth: visitMonth,
       body: body,
+      // 기기 안의 파일을 그대로 보여 줍니다(앱을 켜 둔 동안만).
+      photos: [
+        for (final p in photos) TipPhoto(id: 'tp_${_nextId++}', url: p.path),
+      ],
       mine: true,
     );
     _tips[target] = current.copyWith(
@@ -382,7 +429,48 @@ class MockCommunityRepository implements CommunityRepository {
   }
 
   @override
+  Future<void> uploadMonthPhotos(
+    CommunityTarget target,
+    String month, {
+    required List<PickedPhoto> photos,
+    required String authorName,
+  }) async {
+    if (photos.isEmpty || photos.length > photoMaxCount) {
+      throw ServerException(
+        '${target.path}/photos',
+        400,
+        code: 'INVALID_PHOTO',
+      );
+    }
+    (_uploaded[(target, month)] ??= []).insertAll(0, [
+      for (final p in photos) UserPhoto(url: p.path, author: authorName),
+    ]);
+  }
+
+  /// 올린 사진을 샘플 앞에 붙입니다(서버처럼 최근 것부터).
+  PollResponse _withUploaded(
+    CommunityTarget target,
+    String month,
+    PollResponse poll,
+  ) {
+    final uploaded = _uploaded[(target, month)];
+    if (uploaded == null) return poll;
+    return poll.copyWith(photos: [...uploaded, ...poll.photos]);
+  }
+
+  @override
   Future<PollResponse> poll(
+    CommunityTarget target,
+    String month, {
+    PresetKey? preset,
+  }) async => _withUploaded(
+    target,
+    month,
+    await _samplePoll(target, month, preset: preset),
+  );
+
+  /// 샘플 투표(올린 사진을 붙이기 전). 투표는 여기에 반영됩니다.
+  Future<PollResponse> _samplePoll(
     CommunityTarget target,
     String month, {
     PresetKey? preset,
@@ -410,8 +498,8 @@ class MockCommunityRepository implements CommunityRepository {
     PollChoice? choice, {
     PresetKey? preset,
   }) async {
-    final current = await poll(target, month, preset: preset);
-    if (current.myVote == choice) return current;
+    final current = await _samplePoll(target, month, preset: preset);
+    if (current.myVote == choice) return _withUploaded(target, month, current);
     var yes = current.yes;
     var no = current.no;
     switch (current.myVote) {
@@ -431,14 +519,16 @@ class MockCommunityRepository implements CommunityRepository {
         break;
     }
     // copyWith 로는 myVote 를 null 로 되돌릴 수 없어 새로 만듭니다.
-    return _polls[(target, month, _presetOf(target, preset))] = PollResponse(
-      question: current.question,
-      yes: yes,
-      no: no,
-      total: yes + no,
-      photos: current.photos,
-      myVote: choice,
-    );
+    final next = _polls[(target, month, _presetOf(target, preset))] =
+        PollResponse(
+          question: current.question,
+          yes: yes,
+          no: no,
+          total: yes + no,
+          photos: current.photos,
+          myVote: choice,
+        );
+    return _withUploaded(target, month, next);
   }
 }
 

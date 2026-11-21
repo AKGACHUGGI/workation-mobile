@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/network/api_client.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
+import 'package:workation_mobile/core/photo/photo_picker.dart';
 import 'package:workation_mobile/data/models/community.dart';
 import 'package:workation_mobile/data/models/dong_detail.dart';
 import 'package:workation_mobile/data/models/region_detail.dart';
@@ -22,6 +23,25 @@ class _RecordingClient extends ApiClient {
   final calls = <String>[];
   Object? lastBody;
   Map<String, Object?>? lastQuery;
+
+  /// 마지막 multipart 요청의 글자 칸 · 파일 칸 이름 · 파일 이름
+  Map<String, String>? lastFields;
+  String? lastFileField;
+  List<String>? lastFiles;
+
+  @override
+  Future<dynamic> postMultipart(
+    String path, {
+    Map<String, String> fields = const {},
+    required String fileField,
+    required List<UploadFile> files,
+  }) async {
+    calls.add('MULTIPART $path');
+    lastFields = fields;
+    lastFileField = fileField;
+    lastFiles = [for (final f in files) f.filename];
+    return reply;
+  }
 
   @override
   Future<dynamic> get(String path, {Map<String, Object?>? query}) async {
@@ -117,6 +137,74 @@ void main() {
       expect(tips.items, hasLength(3));
       // 다른 대상은 영향이 없다
       expect((await repo.tips(region)).total, 23);
+    });
+
+    test('올린 이달의 사진은 그 달 투표 응답 맨 앞에 보이고 프리셋 · 투표와 상관없다', () async {
+      final repo = MockCommunityRepository(assets);
+      const picked = [
+        PickedPhoto(path: '/tmp/a.jpg', name: 'a.jpg', bytes: 1),
+        PickedPhoto(path: '/tmp/b.jpg', name: 'b.jpg', bytes: 1),
+      ];
+      final before = await repo.poll(region, '2025-10');
+
+      await repo.uploadMonthPhotos(
+        region,
+        '2025-10',
+        photos: picked,
+        authorName: '두이',
+      );
+      final after = await repo.poll(region, '2025-10');
+      expect(after.photos, hasLength(before.photos.length + 2));
+      expect(after.photos.take(2).map((p) => p.url), [
+        '/tmp/a.jpg',
+        '/tmp/b.jpg',
+      ]);
+      expect(after.photos.first.author, '두이');
+      expect(
+        (await repo.poll(region, '2025-10', preset: PresetKey.lively)).photos,
+        hasLength(before.photos.length + 2),
+      );
+      // 다른 달 · 다른 대상에는 보이지 않는다.
+      expect((await repo.poll(region, '2025-09')).photos, before.photos);
+      expect(
+        (await repo.poll(
+          jumunjin,
+          '2025-10',
+        )).photos.any((p) => p.author == '두이'),
+        isFalse,
+      );
+
+      // 투표해도 올린 사진이 그대로 따라온다.
+      final voted = await repo.vote(region, '2025-10', PollChoice.yes);
+      expect(voted.photos, hasLength(before.photos.length + 2));
+      expect(voted.yes, before.yes + 1);
+
+      // 1~3장만 받는다.
+      await expectLater(
+        repo.uploadMonthPhotos(
+          region,
+          '2025-10',
+          photos: const [],
+          authorName: '두이',
+        ),
+        throwsA(isA<ServerException>()),
+      );
+    });
+
+    test('사진을 붙여 등록한 팁은 그 사진을 순서대로 갖는다', () async {
+      final repo = MockCommunityRepository(assets);
+      final tip = await repo.postTip(
+        region,
+        body: '사진 팁',
+        authorName: '두이',
+        photos: const [
+          PickedPhoto(path: '/tmp/a.jpg', name: 'a.jpg', bytes: 1),
+          PickedPhoto(path: '/tmp/b.jpg', name: 'b.jpg', bytes: 1),
+        ],
+      );
+      expect(tip.photos.map((p) => p.url), ['/tmp/a.jpg', '/tmp/b.jpg']);
+      expect(tip.photos.map((p) => p.id).toSet(), hasLength(2));
+      expect((await repo.tips(region)).items.first.photos, hasLength(2));
     });
 
     test('내 팁은 고치고 지울 수 있고, 남의 팁은 404 다', () async {
@@ -356,6 +444,63 @@ void main() {
 
       await repo.deleteReply('7', '11');
       expect(client.calls.last, 'DELETE /api/me/replies/11');
+    });
+
+    test('사진이 있으면 팁을 multipart 로, 없으면 JSON 으로 보낸다', () async {
+      final client = _RecordingClient({
+        'id': '7',
+        'author': {'nickname': '두이', 'initial': '두'},
+        'createdAt': '2026-11-20T00:00:00Z',
+        'body': '본문',
+        'photos': [
+          {'id': '31', 'url': 'https://r2.example/uploads/tip/a.webp'},
+        ],
+        'mine': true,
+      });
+      final repo = ApiCommunityRepository(client);
+      const photos = [
+        PickedPhoto(path: '/tmp/a.jpg', name: 'a.jpg', bytes: 10),
+        PickedPhoto(path: '/tmp/b.png', name: 'b.png', bytes: 20),
+      ];
+
+      final tip = await repo.postTip(
+        region,
+        body: '본문',
+        authorName: '두이',
+        visitMonth: '2025-10',
+        photos: photos,
+      );
+      expect(client.calls, ['MULTIPART /api/regions/51820/notes']);
+      expect(client.lastFields, {'body': '본문', 'visitMonth': '2025-10'});
+      expect(client.lastFileField, 'photos');
+      expect(client.lastFiles, ['a.jpg', 'b.png']);
+      expect(tip.photos.single.id, '31');
+
+      // 방문 월이 없으면 칸을 뺀다
+      await repo.postTip(region, body: '본문', authorName: '두이', photos: photos);
+      expect(client.lastFields, {'body': '본문'});
+
+      await repo.postTip(region, body: '본문', authorName: '두이');
+      expect(client.calls.last, 'POST /api/regions/51820/notes');
+      expect(client.lastBody, {'body': '본문'});
+    });
+
+    test('이달의 사진은 month 와 photos 를 multipart 로 보낸다', () async {
+      final client = _RecordingClient({'items': <Object>[]});
+      final repo = ApiCommunityRepository(client);
+
+      await repo.uploadMonthPhotos(
+        jumunjin,
+        '2025-12',
+        photos: const [
+          PickedPhoto(path: '/tmp/a.jpg', name: 'a.jpg', bytes: 1),
+        ],
+        authorName: '두이',
+      );
+      expect(client.calls, ['MULTIPART /api/dongs/5115025000/photos']);
+      expect(client.lastFields, {'month': '2025-12'});
+      expect(client.lastFileField, 'photos');
+      expect(client.lastFiles, ['a.jpg']);
     });
 
     test('내 팁 고치기 · 지우기 경로는 서버 me.py 의 MyTipView 와 같다', () async {
