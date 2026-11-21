@@ -270,13 +270,19 @@ class _TipComposerSheetState extends State<TipComposerSheet> {
       _sending = true;
       _error = null;
     });
-    final error = await widget.onSubmit(
-      TipDraft(
-        body: text,
-        visitMonth: _editing ? null : _visitMonth,
-        photos: List.unmodifiable(_photos),
-      ),
-    );
+    String? error;
+    try {
+      error = await widget.onSubmit(
+        TipDraft(
+          body: text,
+          visitMonth: _editing ? null : _visitMonth,
+          photos: List.unmodifiable(_photos),
+        ),
+      );
+    } catch (_) {
+      // 보내는 중인 채로 시트가 닫히지 않는 일이 없게, 예상 못 한 실패도 여기서 알립니다.
+      error = '보내지 못했어요. 잠시 후 다시 시도해 주세요';
+    }
     if (!mounted) return;
     if (error == null) {
       Navigator.of(context).pop(true);

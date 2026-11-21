@@ -366,6 +366,24 @@ void main() {
     expect(closed, [true]);
   });
 
+  testWidgets('등록 중 예상 못 한 오류가 나도 시트가 멈추지 않고 알린다', (tester) async {
+    final drafts = <TipDraft>[];
+    await pumpComposer(
+      tester,
+      drafts: drafts,
+      reply: (_) => throw StateError('예상 못 한 오류'),
+    );
+
+    await tester.enterText(find.byType(TextField), '팁');
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilledButton, '등록'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('보내지 못했어요'), findsOneWidget);
+    expect(submitButton(tester).onPressed, isNotNull);
+    expect(find.text('한 줄 팁 남기기'), findsOneWidget);
+  });
+
   testWidgets('ReactionPoll 은 비율 · 참여 수를 보여주고 고른 쪽을 표시하며 누르면 알린다', (
     tester,
   ) async {

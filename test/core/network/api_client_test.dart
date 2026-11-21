@@ -124,6 +124,20 @@ void main() {
     expect(body, contains('name="photos"; filename="b.png"'));
   });
 
+  test('postMultipart 는 파일을 읽지 못해도 ApiException 으로 던진다', () async {
+    setUpWith((_) async => _json(201, {}));
+    await expectLater(
+      client.postMultipart(
+        '/api/regions/51820/photos',
+        fields: {'month': '2025-10'},
+        fileField: 'photos',
+        files: [(path: '/없는/폴더/a.jpg', filename: 'a.jpg')],
+      ),
+      throwsA(isA<ApiException>()),
+    );
+    expect(adapter.lastRequest, isNull);
+  });
+
   test('서버 에러 본문의 code · message 를 ServerException 에 담는다', () async {
     setUpWith(
       (_) async => _json(400, {

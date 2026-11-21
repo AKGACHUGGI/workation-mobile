@@ -1,3 +1,5 @@
+import 'dart:io' show FileSystemException;
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
@@ -27,6 +29,7 @@ class ApiClient {
   /// `multipart/form-data` 로 보냅니다. [fields] 는 글자 칸, [files] 는 모두 [fileField]
   /// 라는 같은 이름으로 붙입니다(서버가 `getlist` 로 여러 장을 받습니다).
   /// 서버가 사진을 바꿔 저장소에 올리는 동안 기다리도록 응답 제한 시간을 늘립니다.
+  /// 파일을 읽지 못해도(고른 뒤 지워진 임시 파일 등) [ApiException] 으로 던집니다.
   Future<dynamic> postMultipart(
     String path, {
     Map<String, String> fields = const {},
@@ -67,6 +70,8 @@ class ApiClient {
       return response.data;
     } on DioException catch (e) {
       throw ApiException.fromDio(e, path);
+    } on FileSystemException catch (e) {
+      throw UnknownApiException(path, e.message);
     }
   }
 }
