@@ -17,6 +17,14 @@ Map<String, dynamic> _$TipAuthorToJson(_TipAuthor instance) =>
       'initial': instance.initial,
     };
 
+_TipPhoto _$TipPhotoFromJson(Map<String, dynamic> json) =>
+    _TipPhoto(id: json['id'] as String, url: json['url'] as String);
+
+Map<String, dynamic> _$TipPhotoToJson(_TipPhoto instance) => <String, dynamic>{
+  'id': instance.id,
+  'url': instance.url,
+};
+
 _Tip _$TipFromJson(Map<String, dynamic> json) => _Tip(
   id: json['id'] as String,
   author: TipAuthor.fromJson(json['author'] as Map<String, dynamic>),
@@ -27,6 +35,11 @@ _Tip _$TipFromJson(Map<String, dynamic> json) => _Tip(
   body: json['body'] as String,
   helpful: (json['helpful'] as num?)?.toInt() ?? 0,
   replies: (json['replies'] as num?)?.toInt() ?? 0,
+  photos:
+      (json['photos'] as List<dynamic>?)
+          ?.map((e) => TipPhoto.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <TipPhoto>[],
   mine: json['mine'] as bool? ?? false,
   myHelpful: json['myHelpful'] as bool? ?? false,
 );
@@ -41,6 +54,7 @@ Map<String, dynamic> _$TipToJson(_Tip instance) => <String, dynamic>{
   'body': instance.body,
   'helpful': instance.helpful,
   'replies': instance.replies,
+  'photos': instance.photos,
   'mine': instance.mine,
   'myHelpful': instance.myHelpful,
 };

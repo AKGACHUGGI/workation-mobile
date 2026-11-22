@@ -42,21 +42,74 @@ void main() {
     expect(find.text('즐겨찾기'), findsWidgets);
   });
 
-  testWidgets('사진 탭(기본): 사진 3장 · 검수 상태 · 올리기 칸', (tester) async {
+  testWidgets('사진 탭(기본): 사진 3장 · 공개 상태 · 올리기 칸', (tester) async {
     await pumpApp(tester, location: AppRoutes.my, loggedIn: true);
 
     expect(find.text('내가 올린 사진 3장'), findsOneWidget);
-    expect(find.text('검수 완료 2 · 대기 1'), findsOneWidget);
+    expect(find.text('공개 2 · 가려짐 1'), findsOneWidget);
     expect(find.byType(MyPhotoTile), findsNWidgets(3));
     expect(find.text('10월 · 고성군'), findsOneWidget);
     expect(find.text('7월 · 강릉시'), findsOneWidget);
-    expect(find.text('검수 대기'), findsOneWidget);
+    expect(find.text('신고로 가려짐'), findsOneWidget);
     expect(find.text('이달의 사진 올리기'), findsOneWidget);
 
     await tester.ensureVisible(find.text('이달의 사진 올리기'));
     await tester.tap(find.text('이달의 사진 올리기'));
     await tester.pump();
-    expect(find.text('사진 올리기는 준비 중이에요'), findsOneWidget);
+    // 이달의 사진은 지역 화면에서 올립니다.
+    expect(find.text("지역 화면의 '이달의 사진'에서 올릴 수 있어요"), findsOneWidget);
+  });
+
+  group('내 사진 삭제', () {
+    Future<void> tapDelete(WidgetTester tester) async {
+      await tester.ensureVisible(find.bySemanticsLabel('사진 삭제').first);
+      await tester.tap(find.bySemanticsLabel('사진 삭제').first);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('확인하면 목록 · 사진 수에서 빠진다', (tester) async {
+      final me = FakeMeRepository();
+      await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+      expect(find.bySemanticsLabel('사진 삭제'), findsNWidgets(3));
+
+      await tapDelete(tester);
+      expect(find.text('이 사진을 삭제할까요?'), findsOneWidget);
+      await tester.tap(find.widgetWithText(TextButton, '삭제'));
+      await tester.pumpAndSettle();
+
+      expect(me.deletedPhotos, ['ph-1']);
+      expect(find.text('사진을 삭제했어요'), findsOneWidget);
+      expect(find.byType(MyPhotoTile), findsNWidgets(2));
+      expect(find.text('내가 올린 사진 2장'), findsOneWidget);
+      expect(find.text('10월 · 고성군'), findsNothing);
+      // 프로필의 사진 수도 다시 읽습니다(3 → 2).
+      expect(me.summaryReads, 2);
+    });
+
+    testWidgets('취소하면 지우지 않는다', (tester) async {
+      final me = FakeMeRepository();
+      await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+
+      await tapDelete(tester);
+      await tester.tap(find.widgetWithText(TextButton, '취소'));
+      await tester.pumpAndSettle();
+
+      expect(me.deletedPhotos, isEmpty);
+      expect(find.byType(MyPhotoTile), findsNWidgets(3));
+    });
+
+    testWidgets('실패하면 안내하고 목록은 그대로 둔다', (tester) async {
+      final me = FakeMeRepository()..failDeletePhoto = true;
+      await pumpApp(tester, location: AppRoutes.my, loggedIn: true, me: me);
+
+      await tapDelete(tester);
+      await tester.tap(find.widgetWithText(TextButton, '삭제'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('사진을 삭제하지 못했어요'), findsOneWidget);
+      expect(find.byType(MyPhotoTile), findsNWidgets(3));
+      expect(find.text('내가 올린 사진 3장'), findsOneWidget);
+    });
   });
 
   testWidgets('팁 탭: 내가 쓴 팁과 도움돼요 합계', (tester) async {

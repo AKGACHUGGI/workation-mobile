@@ -174,6 +174,11 @@ _MyTip _$MyTipFromJson(Map<String, dynamic> json) => _MyTip(
   body: json['body'] as String,
   helpful: (json['helpful'] as num).toInt(),
   replies: (json['replies'] as num).toInt(),
+  photos:
+      (json['photos'] as List<dynamic>?)
+          ?.map((e) => TipPhoto.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <TipPhoto>[],
   target: MyTipTarget.fromJson(json['target'] as Map<String, dynamic>),
 );
 
@@ -187,6 +192,7 @@ Map<String, dynamic> _$MyTipToJson(_MyTip instance) => <String, dynamic>{
   'body': instance.body,
   'helpful': instance.helpful,
   'replies': instance.replies,
+  'photos': instance.photos,
   'target': instance.target,
 };
 

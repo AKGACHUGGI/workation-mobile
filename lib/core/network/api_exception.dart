@@ -18,10 +18,20 @@ sealed class ApiException implements Exception {
         return NetworkException(path);
       case DioExceptionType.badResponse:
         final status = e.response?.statusCode ?? 0;
+        // 서버의 에러 본문: {"error": {"code", "message"}}
+        final body = e.response?.data;
+        final error = body is Map ? body['error'] : null;
+        final code = error is Map ? error['code'] : null;
+        final message = error is Map ? error['message'] : null;
         return switch (status) {
           401 => UnauthorizedException(path),
           404 => NotFoundException(path),
-          _ => ServerException(path, status),
+          _ => ServerException(
+            path,
+            status,
+            code: code is String ? code : null,
+            message: message is String ? message : null,
+          ),
         };
       case DioExceptionType.cancel:
       case DioExceptionType.badCertificate:
@@ -57,9 +67,15 @@ final class NotFoundException extends ApiException {
 
 /// 그 밖의 4xx · 5xx.
 final class ServerException extends ApiException {
-  const ServerException(super.path, this.statusCode);
+  const ServerException(super.path, this.statusCode, {this.code, this.message});
 
   final int statusCode;
+
+  /// 서버가 준 에러 코드. 예: `INVALID_PHOTO` · `PHOTO_RATE_LIMIT`
+  final String? code;
+
+  /// 서버가 준 안내 문구. 사용자에게 그대로 보여 줘도 되는 것은 호출부가 고릅니다.
+  final String? message;
 
   @override
   String toString() => 'ServerException($statusCode, $path)';

@@ -15,8 +15,8 @@ final _viewerProvider = Provider<String?>(
 );
 
 /// 한 줄 팁 목록(도움순). 첫 쪽을 읽고 [loadMore] 로 다음 쪽을 이어 붙입니다.
-/// 등록하면 invalidate 해서 첫 쪽부터 다시 읽습니다. 도움돼요 · 답글 수는 목록을
-/// 다시 읽지 않고 그 팁만 바꿉니다(다시 읽으면 도움순이 바뀌어 카드가 움직입니다).
+/// 등록하면 invalidate 해서 첫 쪽부터 다시 읽습니다. 도움돼요 · 답글 수 · 내 팁 고치기는
+/// 목록을 다시 읽지 않고 그 팁만 바꿉니다(다시 읽으면 도움순이 바뀌어 카드가 움직입니다).
 class TipsNotifier extends AsyncNotifier<TipsResponse> {
   TipsNotifier(this.target);
 
@@ -68,6 +68,43 @@ class TipsNotifier extends AsyncNotifier<TipsResponse> {
       }
       return false;
     }
+  }
+
+  /// 내 팁의 본문을 고치고 그 카드만 바꿉니다. 실패는 [ApiException] 으로 던집니다.
+  Future<void> editTip(Tip tip, String body) async {
+    final updated = await ref
+        .read(communityRepositoryProvider)
+        .updateTip(tip.id, body: body);
+    if (ref.mounted) _replace(tip.id, (_) => updated);
+  }
+
+  /// 내 팁을 지웁니다. 지우지 못하면 false(목록은 그대로).
+  ///
+  /// 다 읽은 목록이면 그 팁만 빼고 개수를 줄입니다. 다음 쪽이 남아 있으면 서버의 `cursor`
+  /// 가 읽은 개수라 한 칸이 밀려 빠지는 팁이 생기므로, 첫 쪽부터 다시 읽습니다.
+  Future<bool> deleteTip(Tip tip) async {
+    try {
+      await ref.read(communityRepositoryProvider).deleteTip(tip.id);
+    } on ApiException {
+      return false;
+    }
+    if (!ref.mounted) return true;
+    final current = state.value;
+    if (current == null || current.nextCursor != null) {
+      ref.invalidateSelf();
+      return true;
+    }
+    final left = [
+      for (final t in current.items)
+        if (t.id != tip.id) t,
+    ];
+    state = AsyncData(
+      current.copyWith(
+        total: current.total - (current.items.length - left.length),
+        items: left,
+      ),
+    );
+    return true;
   }
 
   /// 답글을 쓰거나 지운 뒤 카드의 답글 수를 맞춥니다.

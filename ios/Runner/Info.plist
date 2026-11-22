@@ -47,6 +47,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>팁에 붙이거나 이달의 사진으로 올릴 사진을 고를 때 사진 보관함을 사용합니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
