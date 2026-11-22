@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:workation_mobile/core/metric/default_month.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/data/repositories/region_repository.dart';
 import 'package:workation_mobile/features/home/home_screen.dart';
@@ -15,7 +16,10 @@ void main() {
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [regionRepositoryProvider.overrideWithValue(repo)],
+        overrides: [
+          regionRepositoryProvider.overrideWithValue(repo),
+          todayProvider.overrideWithValue(testToday),
+        ],
         child: MaterialApp(theme: AppTheme.light, home: const HomeScreen()),
       ),
     );

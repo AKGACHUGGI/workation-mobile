@@ -37,14 +37,14 @@ void main() {
   ];
 
   test('정렬 기준에 따라 순서가 바뀐다', () {
-    expect(ids(const HomeFilter()), ['b', 'c', 'a', 'd']);
-    expect(ids(const HomeFilter(sort: PopularSort.views)), [
+    expect(ids(const HomeFilter(month: '2025-12')), ['b', 'c', 'a', 'd']);
+    expect(ids(const HomeFilter(month: '2025-12', sort: PopularSort.views)), [
       'a',
       'c',
       'b',
       'd',
     ]);
-    expect(ids(const HomeFilter(sort: PopularSort.score)), [
+    expect(ids(const HomeFilter(month: '2025-12', sort: PopularSort.score)), [
       'b',
       'c',
       'd',
@@ -53,19 +53,19 @@ void main() {
   });
 
   test('상위 3곳에만 배지가 붙고, 지형으로 걸러도 순위는 전체 기준이다', () {
-    final all = buildPopularCards(items, const HomeFilter());
+    final all = buildPopularCards(items, const HomeFilter(month: '2025-12'));
     expect(all.map((c) => c.badge), ['즐겨찾기 1위', '즐겨찾기 2위', '즐겨찾기 3위', null]);
 
     final coast = buildPopularCards(
       items,
-      const HomeFilter(terrain: Terrain.coast),
+      const HomeFilter(month: '2025-12', terrain: Terrain.coast),
     );
     expect(coast.map((c) => c.region.id), ['c', 'a', 'd']);
     expect(coast.first.badge, '즐겨찾기 2위');
   });
 
   test('등급은 지표 점수의 고정 경계로 매기고 종합 점수는 프리셋 가중 평균이다', () {
-    final cards = buildPopularCards(items, const HomeFilter());
+    final cards = buildPopularCards(items, const HomeFilter(month: '2025-12'));
     final byId = {for (final c in cards) c.region.id: c};
 
     expect(byId['b']!.grades[MetricKey.quiet], Grade.s);
@@ -77,15 +77,16 @@ void main() {
 
   test('직접 설정 프리셋은 맞춘 가중치로 점수를 매긴다', () {
     const w = Weights(quiet: 0, crowd: 0, peer: 0, overnight: 0, vibe: 1);
-    final custom = const HomeFilter().copyWith(
-      preset: PresetKey.custom,
-      customWeights: w,
-    );
+    final custom = const HomeFilter(month: '2025-12')
+        .copyWith(preset: PresetKey.custom, customWeights: w);
 
     expect(custom.weights, same(w));
-    expect(const HomeFilter().weights, same(Weights.quietPreset));
     expect(
-      const HomeFilter(preset: PresetKey.lively).weights,
+      const HomeFilter(month: '2025-12').weights,
+      same(Weights.quietPreset),
+    );
+    expect(
+      const HomeFilter(month: '2025-12', preset: PresetKey.lively).weights,
       same(Weights.livelyPreset),
     );
     // 활기 점수만 보면 모두 0 점

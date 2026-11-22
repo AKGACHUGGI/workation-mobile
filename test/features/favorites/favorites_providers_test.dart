@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:workation_mobile/core/metric/default_month.dart';
 import 'package:workation_mobile/data/models/me.dart';
 import 'package:workation_mobile/data/repositories/favorites_repository.dart';
 import 'package:workation_mobile/features/auth/auth_providers.dart';
 import 'package:workation_mobile/features/favorites/favorites_providers.dart';
 
 import '../../fakes/account.dart';
+import '../../helpers.dart';
 
 void main() {
   late FakeFavoritesRepository repo;
@@ -14,7 +16,10 @@ void main() {
   setUp(() {
     repo = FakeFavoritesRepository();
     container = ProviderContainer(
-      overrides: [favoritesRepositoryProvider.overrideWithValue(repo)],
+      overrides: [
+        favoritesRepositoryProvider.overrideWithValue(repo),
+        todayProvider.overrideWithValue(testToday),
+      ],
     );
     addTearDown(container.dispose);
   });

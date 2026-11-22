@@ -5,8 +5,12 @@ abstract final class Months {
 
   static const annual = 'annual';
 
-  /// 기본 선택 월(웹과 같음).
-  static const defaultMonth = '2025-12';
+  /// 데이터의 마지막 달. 연간 화면의 체감 투표 · 이달의 사진이 붙는 달입니다
+  /// (웹의 기본 월과 같아, 웹과 같은 투표 · 사진을 봅니다).
+  static const latest = '2025-12';
+
+  /// [date] 의 달을 데이터 연도의 같은 달로 옮깁니다. 2026-11-22 → `2025-11`
+  static String ofDate(DateTime date) => of(date.month);
 
   /// 연간 + 12개월. 월 선택 순서와 같습니다.
   static final all = <String>[annual, for (var m = 1; m <= 12; m++) of(m)];

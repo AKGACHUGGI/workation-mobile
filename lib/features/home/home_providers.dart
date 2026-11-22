@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/metric/default_month.dart';
 import '../../core/metric/metric.dart';
-import '../../core/metric/month.dart';
 import '../../data/models/popular_region.dart';
 import '../../data/models/search_intent.dart';
 import '../../data/repositories/region_repository.dart';
@@ -23,13 +23,15 @@ enum PopularSort {
 /// 홈에서 고른 조건. 월 · 프리셋 · 정렬 · 지형.
 class HomeFilter {
   const HomeFilter({
-    this.month = Months.defaultMonth,
+    required this.month,
     this.preset = PresetKey.quiet,
     this.sort = PopularSort.favorites,
     this.terrain,
     this.customWeights = Weights.quietPreset,
   });
 
+  /// 보고 있는 달(`2025-11`). 처음 값은 오늘의 달([defaultMonthProvider])이고,
+  /// 자연어 검색이 달을 읽어내면 그 달로 바뀝니다.
   final String month;
   final PresetKey preset;
   final PopularSort sort;
@@ -63,7 +65,7 @@ class HomeFilter {
 
 class HomeFilterNotifier extends Notifier<HomeFilter> {
   @override
-  HomeFilter build() => const HomeFilter();
+  HomeFilter build() => HomeFilter(month: ref.watch(defaultMonthProvider));
 
   void setPreset(PresetKey preset) => state = state.copyWith(preset: preset);
 
@@ -85,8 +87,8 @@ class HomeFilterNotifier extends Notifier<HomeFilter> {
     );
   }
 
-  /// 월 · 프리셋 · 정렬 · 지형을 처음 값으로 되돌립니다.
-  void reset() => state = const HomeFilter();
+  /// 월 · 프리셋 · 정렬 · 지형을 처음 값으로 되돌립니다(월은 오늘의 달).
+  void reset() => state = HomeFilter(month: ref.read(defaultMonthProvider));
 
   /// 같은 지형을 다시 누르면 해제합니다.
   void toggleTerrain(Terrain terrain) => state = state.copyWith(

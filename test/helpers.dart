@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/app.dart';
 import 'package:workation_mobile/app/router.dart';
+import 'package:workation_mobile/core/metric/default_month.dart';
 import 'package:workation_mobile/core/network/api_exception.dart';
 import 'package:workation_mobile/core/photo/photo_picker.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
@@ -31,6 +32,9 @@ import 'fakes/geo.dart';
 import 'fakes/photos.dart';
 import 'fakes/share.dart';
 
+/// 테스트가 오늘로 치는 날. 기본 달이 12월(`2025-12`)이 됩니다.
+final testToday = DateTime(2026, 12, 14);
+
 /// 위젯 하나를 앱 테마 안에서 띄웁니다.
 Future<void> pumpInTheme(WidgetTester tester, Widget child) {
   return tester.pumpWidget(
@@ -57,6 +61,7 @@ Future<void> pumpApp(
   AuthRepository? auth,
   FakeShareService? share,
   PhotoPicker? photos,
+  DateTime? today,
   String webBaseUrl = '',
   bool loggedIn = false,
   bool settle = true,
@@ -71,6 +76,7 @@ Future<void> pumpApp(
     ProviderScope(
       overrides: [
         routerProvider.overrideWithValue(router),
+        todayProvider.overrideWithValue(today ?? testToday),
         regionRepositoryProvider.overrideWithValue(
           regions ?? FakeRegionRepository(),
         ),

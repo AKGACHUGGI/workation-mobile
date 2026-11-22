@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/metric/month.dart';
+import '../../core/metric/default_month.dart';
 import '../../core/network/retry.dart';
 import '../../data/models/explore.dart';
 import '../../data/models/geo_area.dart';
@@ -10,10 +10,10 @@ import '../../data/repositories/geo_repository.dart';
 import '../../data/repositories/region_repository.dart';
 import 'map_logic.dart';
 
-/// ⓪ ① 헤더의 월. `2025-10` 또는 `annual`.
+/// ⓪ ① 헤더의 월. `2025-10` 또는 `annual`. 처음 값은 오늘의 달입니다.
 class MapMonthNotifier extends Notifier<String> {
   @override
-  String build() => Months.defaultMonth;
+  String build() => ref.watch(defaultMonthProvider);
 
   void set(String month) => state = month;
 }
