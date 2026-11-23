@@ -189,7 +189,7 @@ final repliesProvider = AsyncNotifierProvider.autoDispose
 typedef PollArg = ({CommunityTarget target, String month, PresetKey? preset});
 
 String pollMonthOf(String month) =>
-    month == Months.annual ? Months.defaultMonth : month;
+    month == Months.annual ? Months.latest : month;
 
 /// 지역 체감 투표 질문. 서버 `webapi/poll.py` 의 `question` 과 같은 문구입니다.
 String regionPollQuestion(String month, String name, PresetKey? preset) {

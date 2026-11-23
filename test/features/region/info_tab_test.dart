@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:workation_mobile/app/router.dart';
+import 'package:workation_mobile/core/metric/default_month.dart';
 import 'package:workation_mobile/core/metric/metric.dart';
 import 'package:workation_mobile/core/theme/app_theme.dart';
 import 'package:workation_mobile/data/models/community.dart';
@@ -343,6 +344,7 @@ void main() {
           communityRepositoryProvider.overrideWithValue(
             FakeCommunityRepository(),
           ),
+          todayProvider.overrideWithValue(testToday),
         ],
         child: MaterialApp(
           theme: AppTheme.light,
