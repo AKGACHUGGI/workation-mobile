@@ -9,6 +9,7 @@ import '../../core/metric/metric.dart';
 import '../../core/metric/month.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/avatar.dart';
+import '../../shared/widgets/brand_glyph.dart';
 import '../../shared/widgets/listing_card_mobile.dart';
 import '../../shared/widgets/search_pill_mobile.dart';
 import '../auth/auth_providers.dart';
@@ -251,7 +252,7 @@ class _HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               color: scheme.primary,
               borderRadius: AppRadius.lgAll,
             ),
-            child: Icon(LucideIcons.mapPin, size: 16, color: scheme.onPrimary),
+            child: BrandGlyph(color: scheme.onPrimary),
           ),
           Text(
             '워케이션맵',
