@@ -9,6 +9,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/app_button.dart';
 import '../../shared/widgets/app_photo.dart';
+import '../../shared/widgets/brand_glyph.dart';
 import '../../shared/widgets/social_login_button.dart';
 import 'auth_providers.dart';
 import 'onboarding_screen.dart';
@@ -246,7 +247,7 @@ class _Hero extends StatelessWidget {
                       color: scheme.primary,
                       borderRadius: AppRadius.lgAll,
                     ),
-                    child: Icon(LucideIcons.mapPin, size: 16, color: onImage),
+                    child: BrandGlyph(color: onImage),
                   ),
                   Text(
                     '워케이션맵',
